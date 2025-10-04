@@ -1,3 +1,4 @@
+//Katherine Hoadley
 package application;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -54,7 +55,7 @@ public abstract class PowerUp {		//abstract because it needs a subclass to do an
 	}
 	
 	//setters
-	public void setIsActive(boolean isActive) {
+	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
 	
