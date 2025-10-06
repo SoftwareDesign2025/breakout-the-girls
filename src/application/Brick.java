@@ -2,9 +2,7 @@ import java.util.Random;
 
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 
 public class Brick {
 
@@ -48,14 +46,12 @@ public class Brick {
 		return brick;
 	}
 	
-	public void checkCollision (Circle ball) {
-		Shape intersection = Shape.intersect(brick, ball);
-		if (intersection.getBoundsInLocal().getWidth() != -1) {
-			brick.setFill(Color.TRANSPARENT);
-			brick.setStroke(Color.TRANSPARENT);
-			isDestroyed = true;
-			
-		}
+	public void collisionWithBall () {
+//		Shape intersection = Shape.intersect(brick, ball);
+//		if (intersection.getBoundsInLocal().getWidth() != -1) {
+		brick.setFill(Color.TRANSPARENT);
+		brick.setStroke(Color.TRANSPARENT);
+		isDestroyed = true;
 	}
 	
 	public int getBrickPoint () {

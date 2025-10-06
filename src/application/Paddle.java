@@ -11,7 +11,7 @@ public class Paddle {
 	public static final Paint PADDLE_COLOR = Color.DEEPPINK;
 	public static final int PADDLE_HEIGHT = 10;
 	public static final int PADDLE_WIDTH = 45;
-	public static final int PADDLE_SPEED = 5; // how do i speed up paddle
+	public static final int PADDLE_SPEED = 10; // how do i speed up paddle
 
 
 	private Rectangle paddle;
@@ -41,6 +41,7 @@ public class Paddle {
 		paddle.setY(yCoordinate);
 		
 		paddle.setFill(PADDLE_COLOR);
+		
 	}
 	
 	/* Method getPaddle
