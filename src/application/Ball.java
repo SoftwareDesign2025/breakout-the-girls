@@ -7,13 +7,12 @@ import javafx.scene.shape.Circle;
 public class Ball {
 	
 	private final double radius = 10;
-    public final int BALL_MIN_SPEED = -400;
-    public final int BALL_MAX_SPEED = 400;
+    public final double SPEED = 350;
 	
 	private Circle ball;
     private Point2D ballVelocity;
     private Random random = new Random();
-    private boolean gameLost;
+    private boolean gameLost = false;
     
 	
 	public void createBall(int windowWidth, int windowHeight) {
@@ -26,8 +25,7 @@ public class Ball {
 		ball.setRadius(radius);
 		ball.setFill(Color.BLACK);
 		
-		ballVelocity = new Point2D(getRandomInRange(BALL_MIN_SPEED, BALL_MAX_SPEED),
-                getRandomInRange(BALL_MIN_SPEED, BALL_MAX_SPEED));
+		ballVelocity = new Point2D(0,-SPEED); // how many pixels over and down it moves by
 	}
 	
 	/**
@@ -43,8 +41,7 @@ public class Ball {
     /**
      * Bounce off the walls represented by the edges of the screen.
      */
-    public boolean keepBallWithinBounds (double screenWidth, double screenHeight) {
-        // collide all bouncers against the walls
+    public void outOfBoundsCollision (double screenWidth, double screenHeight) {
         if (ball.getCenterX() < 0 || ball.getCenterX() > screenWidth - ball.getBoundsInLocal().getWidth()) {
             ballVelocity = new Point2D(-ballVelocity.getX(), ballVelocity.getY());
         }
@@ -52,27 +49,36 @@ public class Ball {
             ballVelocity = new Point2D(ballVelocity.getX(), -ballVelocity.getY());
         }
         if (ball.getCenterY() > screenHeight - ball.getBoundsInLocal().getHeight()) {
-        		return true;
+        		gameLost = true;
         }
-        return false;
     }
     
-    // Returns an "interesting", non-zero random value in the range (min, max)
-    private int getRandomInRange (int min, int max) {
-        return min + random.nextInt(max - min) + 1;
-    }
 	
 	public Circle getBall() {
 		return ball;
 	}
 	
 	public boolean checkIfGameLost() {
-		if (gameLost) {
-			return true;
-		} else {
-			return false;
-		}
+		return gameLost;
 	}
+	
+	
+	
+	// add method to change velocity of ball
+	// collision for ball with brick, ball with wall, ball with paddle and powerup with paddle
+	
+	public void collisionWithBrickOrPaddle () {
+		double newY = -ballVelocity.getY();
+		double newX = ballVelocity.getX() + getRandomVelocityChange();
+        ballVelocity = new Point2D(newX,newY);
+	}
+	
+	
+	public double getRandomVelocityChange() {
+	    return (random.nextDouble() * 0.8) - 0.4; // -0.4 to +0.4
+	}
+	
+	
 	
 	
 
