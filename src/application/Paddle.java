@@ -8,10 +8,10 @@ import javafx.scene.shape.Rectangle;
 
 public class Paddle {
 	
-	public static final Paint MOVER_COLOR = Color.DEEPPINK;
+	public static final Paint PADDLE_COLOR = Color.DEEPPINK;
 	public static final int PADDLE_HEIGHT = 10;
 	public static final int PADDLE_WIDTH = 45;
-	public static final int MOVER_SPEED = 5;
+	public static final int PADDLE_SPEED = 10; // how do i speed up paddle
 
 
 	private Rectangle paddle;
@@ -40,7 +40,8 @@ public class Paddle {
 		paddle.setX(xCoordinate);
 		paddle.setY(yCoordinate);
 		
-		paddle.setFill(MOVER_COLOR);
+		paddle.setFill(PADDLE_COLOR);
+		
 	}
 	
 	/* Method getPaddle
@@ -55,10 +56,10 @@ public class Paddle {
 	 */
 	public void movePaddleHorizontally (boolean goRight) {
 		if(goRight)
-			paddle.setX(paddle.getX() - MOVER_SPEED);
+			paddle.setX(paddle.getX() - PADDLE_SPEED);
 
 		else {
-			paddle.setX(paddle.getX() + MOVER_SPEED);
+			paddle.setX(paddle.getX() + PADDLE_SPEED);
 		}
 	}
 	
