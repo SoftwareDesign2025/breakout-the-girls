@@ -4,6 +4,7 @@ public class Score {
 	private int currentScore;
 	private int highScore;
 	// TBD if this remains
+	// ....
 	private HashMap<String, Integer> scores;
 	
 	
