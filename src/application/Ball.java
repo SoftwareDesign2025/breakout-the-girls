@@ -1,3 +1,5 @@
+// Anna Rakes
+
 import java.util.Random;
 
 import javafx.geometry.Point2D;
@@ -7,7 +9,7 @@ import javafx.scene.shape.Circle;
 public class Ball {
 	
 	private final double radius = 10;
-    public final double SPEED = 350;
+    private final double SPEED = 280;
 	
 	private Circle ball;
     private Point2D ballVelocity;
@@ -42,13 +44,13 @@ public class Ball {
      * Bounce off the walls represented by the edges of the screen.
      */
     public void outOfBoundsCollision (double screenWidth, double screenHeight) {
-        if (ball.getCenterX() < 0 || ball.getCenterX() > screenWidth - ball.getBoundsInLocal().getWidth()) {
+        if (ball.getCenterX() - radius < 0 || ball.getCenterX() - radius > screenWidth - ball.getBoundsInLocal().getWidth()) {
             ballVelocity = new Point2D(-ballVelocity.getX(), ballVelocity.getY());
         }
-        if (ball.getCenterY() < 0 ) {
+        if (ball.getCenterY() - radius < 0 ) {
             ballVelocity = new Point2D(ballVelocity.getX(), -ballVelocity.getY());
         }
-        if (ball.getCenterY() > screenHeight - ball.getBoundsInLocal().getHeight()) {
+        if (ball.getCenterY() - radius > screenHeight - ball.getBoundsInLocal().getHeight()) {
         		gameLost = true;
         }
     }
@@ -74,8 +76,8 @@ public class Ball {
 	}
 	
 	
-	public double getRandomVelocityChange() {
-	    return (random.nextDouble() * 0.8) - 0.4; // -0.4 to +0.4
+	private double getRandomVelocityChange() {
+	    return (random.nextDouble() * 200) - 100; 
 	}
 	
 	
