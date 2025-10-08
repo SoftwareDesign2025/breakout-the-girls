@@ -7,12 +7,11 @@ import java.util.Random;
 
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
 
 
 public class BrickWall {
 	
-	private ArrayList<Rectangle> brickWall = new ArrayList<>();
+	private ArrayList<Brick> brickWall = new ArrayList<>();
     private Random random = new Random();
 	private Paint[] colorList = {Color.LIGHTCORAL, Color.LAVENDERBLUSH, Color.LIGHTSTEELBLUE, Color.MOCCASIN, 
 			Color.LIGHTGOLDENRODYELLOW,Color.DARKSEAGREEN};
@@ -31,24 +30,24 @@ public class BrickWall {
 	}
 
 	
-	public void gatherAllBricks() {
+	public void createBrickWall() {
 		for (int i = 0; i<numberOfRows ; i++) {
 			for (int j = 0; j<numberOfColumns; j++) {
 				double xCoordinate = j*emptyBrick.getBrickWidth();
 				double yCoordinate = i*emptyBrick.getBrickHeight();
 				Brick brick = new Brick(generateRandomBrickColor(), xCoordinate, yCoordinate);
 				brick.createBrick();
-				brickWall.add(brick.getBrick());
+				brickWall.add(brick);
 			}
 		}
 	}
 	
-	public Paint generateRandomBrickColor () {
+	private Paint generateRandomBrickColor () {
 		Paint brickColor = colorList[random.nextInt(6)];
 		return brickColor;
 	}
 	
-	public ArrayList<Rectangle> getBrickWall () {
+	public ArrayList<Brick> getBrickWall () {
 		return brickWall;
 	}
 

@@ -1,3 +1,5 @@
+// Anna Rakes
+
 import java.util.Random;
 
 import javafx.scene.paint.Color;
@@ -6,8 +8,8 @@ import javafx.scene.shape.Rectangle;
 
 public class Brick {
 
-	public final int BRICK_HEIGHT = 30;
-	public final int BRICK_WIDTH = 100;
+	private final int BRICK_HEIGHT = 30;
+	private final int BRICK_WIDTH = 100;
 
 
 	private Rectangle brick;
@@ -17,8 +19,7 @@ public class Brick {
 	private int brickPointValue;
 	private boolean isDestroyed;
     private Random random = new Random();
-    //private ExtraLife extraLifePowerUp = new ExtraLife(10.0,20.0);
-    //private Game game = new Game();
+    //private ExtraLife extraLifePowerUp = new ExtraLife();
     
     public Brick() {}
 
@@ -46,7 +47,7 @@ public class Brick {
 		return brick;
 	}
 	
-	public void collisionWithBall () {
+	public void destroyBrick () {
 //		Shape intersection = Shape.intersect(brick, ball);
 //		if (intersection.getBoundsInLocal().getWidth() != -1) {
 		brick.setFill(Color.TRANSPARENT);
@@ -63,6 +64,10 @@ public class Brick {
 		}
 	}
 	
+	public boolean checkIfDestroyed () {
+		return isDestroyed;
+	}
+	
 	public int getBrickWidth() {
 		return BRICK_WIDTH;
 	}
@@ -73,7 +78,7 @@ public class Brick {
 	
 //	public void spawnPowerUp () {
 //		if (brickPointValue == (random.nextInt(25)+1)) {
-//			extraLifePowerUp.activatePowerUp(game);
+//			extraLifePowerUp.activatePowerUp(brickPointValue);
 //		}
 //	}
 
