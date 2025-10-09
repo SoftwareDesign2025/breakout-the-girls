@@ -96,16 +96,17 @@ public class Brick {
 	}
 	
 	 //Determine what brick point values will spawn the power up and activate the power up.
-	public void spawnPowerUp (int numberOfLives) {
-	    ExtraLife extraLifePowerUp = new ExtraLife(xCoordinate, yCoordinate);
-	    
-		ArrayList<Integer> powerUpLocations = new ArrayList<>();
-		for (int i = POWERUP_OCCURRENCES; i<MAX_BRICK_POINT_VALUE; i+=POWERUP_OCCURRENCES) {
-			powerUpLocations.add(i);
-		}
-		if (powerUpLocations.contains(brickPointValue)) {
-			extraLifePowerUp.activatePowerUp(brickPointValue);
-		}
+	public PowerUp spawnPowerUp (int numberOfLives) {
+		ArrayList<Integer> powerUpValues = new ArrayList<>();
+	    for (int i = POWERUP_OCCURRENCES; i < MAX_BRICK_POINT_VALUE; i += POWERUP_OCCURRENCES) {
+	        powerUpValues.add(i);
+	    }
+
+	    if (powerUpValues.contains(brickPointValue)) {
+	        return new ExtraLife(xCoordinate + BRICK_WIDTH / 2, yCoordinate + BRICK_HEIGHT / 2);
+	    }
+
+	    return null; // no power-up for this brick
 	}
 
 	

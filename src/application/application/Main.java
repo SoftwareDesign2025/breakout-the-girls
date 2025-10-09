@@ -21,6 +21,7 @@ public class Main extends Application {
         
         root.getChildren().add(game.getPaddle().getPaddle());
         root.getChildren().add(game.getBall().getBall());
+        root.getChildren().add(game.getText());
 
 
         // Add bricks
@@ -35,7 +36,7 @@ public class Main extends Application {
         
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.SPACE) {
-                if (!game.getIsRunning()) { // Only relaunch if game is paused
+                if (!game.getIsRunning()) { 
                     game.getBall().launchBall();
                     game.startGame();
                 }

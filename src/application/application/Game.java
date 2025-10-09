@@ -1,4 +1,5 @@
 package application;
+import java.awt.Color;
 import java.util.ArrayList;
 
 
@@ -6,21 +7,25 @@ import javafx.scene.Group;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 public class Game {
-	private final int windowHeight = 800;
-	private final int windowWidth = 600;
+	private final int windowHeight = 600;
+	private final int windowWidth = 800;
 	private Paddle paddle = new Paddle();
 	private Ball ball = new Ball(); 
 	//private ArrayList<Brick> brickList = new ArrayList<>(); 
-	//private ArrayList<PowerUp> powerUpList = new ArrayList<>();
-	private BrickWall brickWall = new BrickWall(windowHeight, windowWidth);
+	private BrickWall brickWall = new BrickWall(windowWidth, windowHeight);
 	private Score score = new Score(); 
 	private int lives = 3;
 	private boolean isRunning = false; 
 	// elapsedTime delta, should it be changed?
 	private double elapsedTime = 1.0 / 60.0;
 	private Group root;
+	private ArrayList<PowerUp> powerUpList = new ArrayList<>();
+	private Text text = new Text();
+
 	
 	
 //	private Group getRoot() {
@@ -71,17 +76,43 @@ public class Game {
 	
 	
 	public void step() {
-	    if (!isRunning) {
-	        return;
-	    }
-	    
-	    ball.move(elapsedTime);
-	    handleBallLost();
-	    checkCollisions();
-	    
-	    if (brickWall.getBrickWall().isEmpty()) {
-            endGame(true);
-        }
+		
+		if (!isRunning) {
+			return;
+		}
+		ball.move(elapsedTime);
+		handleBallLost();
+		checkCollisions();
+
+		if (brickWall.getBrickWall().isEmpty()) {
+			endGame(true);
+		}
+
+		for (int i = powerUpList.size() - 1; i >= 0; i--) {
+			PowerUp powerUp = powerUpList.get(i);
+
+			if (powerUp.isActive()) {
+				// Make the power-up fall
+				powerUp.fall();
+
+				// Check if paddle catches it
+				if (powerUp.getVisualNode().getBoundsInParent()
+						.intersects(paddle.getPaddle().getBoundsInParent())) {
+
+					lives = powerUp.activatePowerUp(lives); // Increment lives
+					root.getChildren().remove(powerUp.getVisualNode());
+					powerUpList.remove(i);
+				}
+				// Remove if it falls off the bottom of the screen
+				else if (powerUp.getY() > windowHeight) {
+					powerUp.setActive(false);
+					root.getChildren().remove(powerUp.getVisualNode());
+					powerUpList.remove(i);
+				}
+			}
+		
+
+	}
 	    
 	    
 //	    // make power ups fall 
@@ -121,8 +152,16 @@ public class Game {
 			Shape intersection = Shape.intersect(ballShape, brick.getBrick());
 			if (intersection.getBoundsInLocal().getWidth() != -1) {
 				ball.collisionWithBrickOrPaddle();
-				score.addPoints(brick.getBrickPoint());
+				
+				PowerUp powerUp = brick.spawnPowerUp(lives);
+			    if (powerUp != null) {
+			        powerUpList.add(powerUp);
+			        root.getChildren().add(powerUp.getVisualNode());
+			    }
+			    
 				brick.destroyBrick();
+				score.addPoints(brick.getBrickPoint());
+
 				bricks.remove(i);
 			}
 		}
@@ -165,13 +204,17 @@ public class Game {
 		this.isRunning = false;
 		
 		if (win) {
-			System.out.println("YOU WIN!");
-	        System.out.println("Final score: " + score.getCurrentScore());
+			text.setX(windowWidth/2.0);
+			text.setY(windowHeight/2.0);
+			text.setFont(new Font(30));
+			text.setText("YOU WIN!: Final Score" + score.getCurrentScore());
 		}
 		else {
-			System.out.println("GAME OVER...");
-	        System.out.println("Final score: " + score.getCurrentScore());
-	        System.out.println("High score: " + score.getHighScore());
+			text.setX(windowWidth/2.0);
+			text.setY(windowHeight/2.0);
+			text.setFont(new Font(30));
+			text.setText("GAME OVER... Final Score: " + score.getCurrentScore());
+//	        System.out.println("High score: " + score.getHighScore());
 		}
 	}
 	
@@ -186,5 +229,9 @@ public class Game {
 	
 	public boolean getIsRunning() {
 		return isRunning;
+	}
+	
+	public Text getText() {
+		return text;
 	}
 }
