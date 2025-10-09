@@ -31,8 +31,8 @@ public class Paddle {
 		
 		paddle = new Rectangle(PADDLE_WIDTH, PADDLE_HEIGHT);
 		
-		xCoordinate = (this.windowWidth - PADDLE_WIDTH) / 2;
-		yCoordinate = this.windowHeight - PADDLE_HEIGHT - 50;
+		xCoordinate = windowWidth/2;
+		yCoordinate = windowHeight/2;
 		
 		paddle.setX(xCoordinate);
 		paddle.setY(yCoordinate);

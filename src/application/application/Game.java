@@ -8,13 +8,13 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 public class Game {
-	private int windowHeight = 800;
-	private int windowWidth = 600;
+	private final int windowHeight = 800;
+	private final int windowWidth = 600;
 	private Paddle paddle = new Paddle();
 	private Ball ball = new Ball(); 
-	private ArrayList<Brick> brickList = new ArrayList<>(); 
-	private ArrayList<PowerUp> powerUpList = new ArrayList<>();
-	private BrickWall brickWall = new BrickWall(800, 600);
+	//private ArrayList<Brick> brickList = new ArrayList<>(); 
+	//private ArrayList<PowerUp> powerUpList = new ArrayList<>();
+	private BrickWall brickWall = new BrickWall(windowHeight, windowWidth);
 	private Score score = new Score(); 
 	private int lives = 3;
 	private boolean isRunning = false; 
@@ -23,27 +23,52 @@ public class Game {
 	private Group root;
 	
 	
-	private Group getRoot() {
-		return this.root;
-	}
+//	private Group getRoot() {
+//		return this.root;
+//	}
 	
 	private void handleBallLost() {
-	    lives--;
-	    if (lives <= 0) {
-	        endGame(false);
-	        return;
+	    ball.outOfBoundsCollision(windowWidth, windowHeight);
+	    if (ball.checkIfRoundLost()) {
+	        lives--;
+	        if (lives > 0) {
+	            ball.resetBallPosition(windowWidth, windowHeight);
+	            isRunning = false; // Wait for SPACE to relaunch
+	        } else {
+	            endGame(false);
+	        }
 	    }
-	    
-	    // Reset ball for next attempt
-	    this.root.getChildren().remove(this.ball.getBall());
-	    this.ball.createBall(this.windowWidth, this.windowHeight);
-	    this.root.getChildren().add(this.ball.getBall());
 	}
-
+	    
+//	    // Reset ball for next attempt
+//	    this.root.getChildren().remove(this.ball.getBall());
+//	    this.ball.createBall(this.windowWidth, this.windowHeight);
+//	    this.root.getChildren().add(this.ball.getBall());
 	
 	public Game(Group root) {
-		this.root = root;
+	    this.root = root;
+	    
+	    paddle.createPaddle(windowWidth, windowHeight);
+	    ball.createBall(windowWidth, windowHeight);
+	    brickWall.createBrickWall();
 	}
+	
+	public void startGame() {
+		isRunning = true;
+	}
+	
+	public Paddle getPaddle() {
+		return paddle;
+	}
+	
+	public Ball getBall() {
+		return ball;
+	}
+	
+	public BrickWall getBrickWall() {
+		return brickWall;
+	}
+	
 	
 	public void step() {
 	    if (!isRunning) {
@@ -51,41 +76,34 @@ public class Game {
 	    }
 	    
 	    ball.move(elapsedTime);
-	    ball.outOfBoundsCollision(windowWidth, windowHeight);
-	    
-	    if (ball.checkIfRoundLost()) {
-	        handleBallLost();
-	        if (lives <= 0) {
-	            return;
-	        }
-	    }
-	    
-	    // make power ups fall 
-	    for (int i = powerUpList.size() - 1; i >= 0; i--) {
-	        PowerUp powerUp = powerUpList.get(i);
-	        if (powerUp.isActive()) {
-	            powerUp.fall();
-	            
-	            // Check if power-up caught by paddle
-	            if (powerUp.getVisualNode().getBoundsInParent()
-	                    .intersects(paddle.getPaddle().getBoundsInParent())) {
-	                lives = powerUp.activatePowerUp(lives);
-	                root.getChildren().remove(powerUp.getVisualNode());
-	                powerUpList.remove(i);
-	            }
-	            // Remove if fell off screen
-	            else if (powerUp.getY() > windowHeight) {
-	                powerUp.setActive(false);
-	                root.getChildren().remove(powerUp.getVisualNode());
-	                powerUpList.remove(i);
-	            }
-	        }
-	    }
-	    
+	    handleBallLost();
 	    checkCollisions();
-	    if (brickList.isEmpty()) {
-	        endGame(true);
-	    }
+	    
+	    if (brickWall.getBrickWall().isEmpty()) {
+            endGame(true);
+        }
+	    
+	    
+//	    // make power ups fall 
+//	    for (int i = powerUpList.size() - 1; i >= 0; i--) {
+//	        PowerUp powerUp = powerUpList.get(i);
+//	        if (powerUp.isActive()) {
+//	            powerUp.fall();
+//	            
+//	            // Check if power-up caught by paddle
+//	            if (powerUp.getVisualNode().getBoundsInParent()
+//	                    .intersects(paddle.getPaddle().getBoundsInParent())) {
+//	                lives = powerUp.activatePowerUp(lives);
+//	                root.getChildren().remove(powerUp.getVisualNode());
+//	                powerUpList.remove(i);
+//	            }
+//	            // Remove if fell off screen
+//	            else if (powerUp.getY() > windowHeight) {
+//	                powerUp.setActive(false);
+//	                root.getChildren().remove(powerUp.getVisualNode());
+//	                powerUpList.remove(i);
+	    
+	   
 	}
 	
 	
@@ -94,32 +112,46 @@ public class Game {
 	//public void checkBallCollisionWithPowerUp() {}	
 	public void checkCollisions() { 
 		Circle ballShape = this.ball.getBall();
-	    Rectangle paddleShape = this.paddle.getPaddle();
-	    Shape ballPaddleIntersection = Shape.intersect(ballShape, paddleShape);
-	    Group root = this.getRoot();
+		Rectangle paddleShape = this.paddle.getPaddle();
 
-	   
-	    
-	    for (int i = brickList.size() - 1; i >= 0; i--) {
-	    	Brick brick = brickList.get(i);
-	    	 //review
-		    if (ballPaddleIntersection.getBoundsInLocal().getWidth() != -1) {
-		        brick.destroyBrick();
-		    }
-	    	
-	    	if (brick.getBrickPoint() > 0) {
-	    		//ask anna
-	    		ballShape.setCenterY(paddleShape.getY() - ballShape.getRadius());
-	    		//then call this
-	    		this.ball.collisionWithBrickOrPaddle();
-	    		score.addPoints(brick.getBrickPoint());
-	    		brick.spawnPowerUp(i);
-	    		brick.destroyBrick();
-	    		brickList.remove(i);
-	    	}
-	    	
-	    }	
+
+		ArrayList<Brick> bricks = brickWall.getBrickWall();
+		for (int i = bricks.size() - 1; i >= 0; i--) {
+			Brick brick = bricks.get(i);
+			Shape intersection = Shape.intersect(ballShape, brick.getBrick());
+			if (intersection.getBoundsInLocal().getWidth() != -1) {
+				ball.collisionWithBrickOrPaddle();
+				score.addPoints(brick.getBrickPoint());
+				brick.destroyBrick();
+				bricks.remove(i);
+			}
+		}
+
+
+		Shape ballPaddleIntersection = Shape.intersect(ballShape, paddleShape);
+		if (ballPaddleIntersection.getBoundsInLocal().getWidth() != -1) {
+			ball.collisionWithBrickOrPaddle();
+		}
+
 	}
+	    
+//	    for (int i = brickWall.getBrickWall().size() - 1; i >= 0; i--) {
+//	    	Brick brick = brickWall.getBrickWall().get(i);
+//	    	 //review
+//		    if (ballPaddleIntersection.getBoundsInLocal().getWidth() != -1) {
+//		        brick.destroyBrick();
+//		    }
+//	    	
+//	    	if (brick.getBrickPoint() > 0) {
+//	    		//ask anna
+//	    		//then call this
+//	    		this.ball.collisionWithBrickOrPaddle();
+//	    		score.addPoints(brick.getBrickPoint());
+//	    		brick.spawnPowerUp(i);
+//	    		brick.destroyBrick();
+//	    		brickWall.getBrickWall().remove(i);
+//	    	}
+	    	
 	
 	public void resetBall() {
 		this.ball = null;
@@ -150,5 +182,9 @@ public class Game {
 			endGame(false);
 			ball.launchBall();
 		}
+	}
+	
+	public boolean getIsRunning() {
+		return isRunning;
 	}
 }
