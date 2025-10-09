@@ -3,8 +3,16 @@ import java.util.HashMap;
 public class Score {
 	private int currentScore;
 	private int highScore;
+	private int WINNING_SCORE = 100;
+	private int SCORE_DEFAULT_INCREMENT = 1;
 	// TBD if this remains
 	private HashMap<String, Integer> scores;
+	
+	
+	public Score() {
+		this.currentScore = 0;
+		this.highScore = 0;
+	}
 	
 	
 	public void resetPoints() {
@@ -12,31 +20,29 @@ public class Score {
 		this.highScore = 0;
 	}
 	
-	/*
-	 * returns an int
-	 * TODO: verify why int needs to be returned (what if score was just a singleton?)
-	 */
 	public void addPoints(int points) {
 		this.currentScore += points;
 	}
 	
 	public void addPoints() {
-		this.currentScore++;
+		this.currentScore += SCORE_DEFAULT_INCREMENT;
 	}
 	
+	public int getCurrentScore () {
+		return this.currentScore;
+	}
 	
-	//
-	/*
-	 * questions: how complicated should this be? will it create a 
-	 * 			  text file to store high scores, and just pull from that?
-	 * 			  or maybe just 
-	 */
+	public int getHighScore() {
+		return this.highScore;
+	}
+	
+	public int getWinningScore() {
+		return this.WINNING_SCORE;
+	}
+	
 	public void saveHighScore() {
-		
+		// take username: 
 	}
 	
-	public Score loadHighScore() {
-		
-	}
-	//
+	
 }

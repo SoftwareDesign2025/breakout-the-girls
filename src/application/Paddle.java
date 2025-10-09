@@ -8,17 +8,15 @@ import javafx.scene.shape.Rectangle;
 
 public class Paddle {
 	
-	public static final Paint PADDLE_COLOR = Color.DEEPPINK;
-	public static final int PADDLE_HEIGHT = 10;
-	public static final int PADDLE_WIDTH = 45;
-	public static final int PADDLE_SPEED = 10; // how do i speed up paddle
+	private final Paint PADDLE_COLOR = Color.DEEPPINK;
+	private final int PADDLE_HEIGHT = 20;
+	private final int PADDLE_WIDTH = 70;
+	private final int PADDLE_SPEED = 20; // how do i speed up paddle
 
 
 	private Rectangle paddle;
 	private int windowWidth;
 	private int windowHeight;
-	private double rectangleHeight;
-	private double rectangleWidth;
 	private double xCoordinate;
 	private double yCoordinate;
 
@@ -31,11 +29,9 @@ public class Paddle {
 		this.windowHeight = windowHeight;
 		
 		paddle = new Rectangle(PADDLE_WIDTH, PADDLE_HEIGHT);
-		rectangleHeight = paddle.getHeight();
-		rectangleWidth = paddle.getWidth();
 		
-		xCoordinate = (this.windowWidth - rectangleWidth) / 2;
-		yCoordinate = this.windowHeight - rectangleHeight - 50;
+		xCoordinate = (this.windowWidth - PADDLE_WIDTH) / 2;
+		yCoordinate = this.windowHeight - PADDLE_HEIGHT - 50;
 		
 		paddle.setX(xCoordinate);
 		paddle.setY(yCoordinate);
@@ -54,13 +50,14 @@ public class Paddle {
 	/* method movePaddleHorizontally
 	 * Move the location of the paddle left or right across the screen
 	 */
-	public void movePaddleHorizontally (boolean goRight) {
+	private void movePaddleHorizontally (boolean goRight) {
 		if(goRight)
-			paddle.setX(paddle.getX() - PADDLE_SPEED);
+			paddle.setX(paddle.getX() + PADDLE_SPEED);
 
 		else {
-			paddle.setX(paddle.getX() + PADDLE_SPEED);
+			paddle.setX(paddle.getX() - PADDLE_SPEED);
 		}
+		keepPaddleInBounds();
 	}
 	
 	/* Method handleKeyInput
@@ -68,11 +65,20 @@ public class Paddle {
 	 */
 	public void handleKeyInput (KeyCode code) {
 		if (code == KeyCode.RIGHT) {
-			movePaddleHorizontally(false);
+			movePaddleHorizontally(true);
 		} 
 		else if (code == KeyCode.LEFT) {
-			movePaddleHorizontally(true);
+			movePaddleHorizontally(false);
 		}
+	}
+	
+	private void keepPaddleInBounds() {
+	    if (paddle.getX() < 0) {
+	        paddle.setX(0);
+	    }
+	    if (paddle.getX() + paddle.getWidth() > windowWidth) {
+	        paddle.setX(windowWidth - paddle.getWidth());
+	    }
 	}
 	
 	
