@@ -14,7 +14,7 @@ public class Game {
 	private ArrayList<PowerUp> powerUpList = new ArrayList<>();
 	private BrickWall brickWall = new BrickWall(800, 600);
 	private Score score = new Score(); 
-	private int lives = 0;
+	private int lives = 3;
 	private boolean isRunning = false; 
 	// elapsedTime delta, should it be changed?
 	private double elapsedTime = 1.0 / 60.0;
@@ -25,59 +25,93 @@ public class Game {
 		return this.root;
 	}
 	
+	private void handleBallLost() {
+	    lives--;
+	    if (lives <= 0) {
+	        endGame(false);
+	        return;
+	    }
+	    
+	    // Reset ball for next attempt
+	    this.root.getChildren().remove(this.ball.getBall());
+	    this.ball.createBall(this.windowWidth, this.windowHeight);
+	    this.root.getChildren().add(this.ball.getBall());
+	}
+
+	
 	public Game(Group root) {
 		this.root = root;
 	}
 	
 	public void step() {
-		/**
-		 * TODO: ref JavaFX lab had step function on AnimationController.java
-		 * should be remarkably similar if not same implementation except for different object names
-		 * 
-		 * questions for team:
-		 * 	=> do we need a central run function that initializes any objects, i.e. balls
-		 * => when is the game over? 
-		 * => can we move windowWidth and windowHeight setting logic in Game to centralize control of it to and have it set in 1 file?
-		 * => when ball hits paddle, it bounces off paddle? (see below in collisions func)
-		 * 
-		 * for sure do:
-		 * 
-		 * => if isRunning is false --> return out of the func
-		 * => check endGame() to see if game has been won
-		 * => move balls 
-		 * => move paddles 
-		 * 
-		 * else:
-		 * => manage BrickWalls
-		 * => track all PowerUps currently being used (ArrayList)
-		 * =>
-		 */
+	    if (!isRunning) {
+	        return;
+	    }
+	    
+	    ball.move(elapsedTime);
+	    ball.outOfBoundsCollision(windowWidth, windowHeight);
+	    
+	    if (ball.checkIfGameLost()) {
+	        handleBallLost();
+	        if (lives <= 0) {
+	            return;
+	        }
+	    }
+	    
+	    // make power ups fall 
+	    for (int i = powerUpList.size() - 1; i >= 0; i--) {
+	        PowerUp powerUp = powerUpList.get(i);
+	        if (powerUp.isActive()) {
+	            powerUp.fall();
+	            
+	            // Check if power-up caught by paddle
+	            if (powerUp.getVisualNode().getBoundsInParent()
+	                    .intersects(paddle.getPaddle().getBoundsInParent())) {
+	                lives = powerUp.activatePowerUp(lives);
+	                root.getChildren().remove(powerUp.getVisualNode());
+	                powerUpList.remove(i);
+	            }
+	            // Remove if fell off screen
+	            else if (powerUp.getY() > windowHeight) {
+	                powerUp.setActive(false);
+	                root.getChildren().remove(powerUp.getVisualNode());
+	                powerUpList.remove(i);
+	            }
+	        }
+	    }
+	    
+	    checkCollisions();
+	    if (brickList.isEmpty()) {
+	        endGame(true);
+	    }
 	}
 	
+	
+	//public void checkBallCollisionWithBrick() {}
+	//public void checkBallCollisionWithPaddle() {}
+	//public void checkBallCollisionWithPowerUp() {}	
 	public void checkCollisions() { 
-		/**
-		 * Ball 	=> checkCollision()
-		 * Brick	=> checkCollision()
-		 * 			=> call in step() func
-		 */
 		Circle ballShape = this.ball.getBall();
 	    Rectangle paddleShape = this.paddle.getPaddle();
 	    Shape ballPaddleIntersection = Shape.intersect(ballShape, paddleShape);
 	    Group root = this.getRoot();
-	    
-	    if (ballPaddleIntersection.getBoundsInLocal().getWidth() != -1) {
-	        // Ball hit paddle and then do what?
-	    }
+
+	    //review
+//	    if (ballPaddleIntersection.getBoundsInLocal().getWidth() != -1) {
+//	        // Ball hit paddle and then do what?
+//	    }
 	    
 	    for (int i = brickList.size() - 1; i >= 0; i--) {
 	    	Brick brick = brickList.get(i);
 	    	brick.checkCollision(ballShape);
 	    	
 	    	if (brick.getBrickPoint() > 0) {
-	    		// needs logic for bouncing off whatever it hits which currently doesnt exist hre
-	    		// bare minimum it needs to bounce off the paddle
+	    		//ask anna
+	    		ballShape.setCenterY(paddleShape.getY() - ballShape.getRadius());
+	    		//then call this
+	    		this.ball.collisionWithBrickOrPaddle();
 	    		score.addPoints(brick.getBrickPoint());
-	    		root.getChildren().remove(brick.getBrick());
+	    		brick.destroyBrick();
 	    		brickList.remove(i);
 	    	}
 	    	
@@ -111,7 +145,7 @@ public class Game {
 		boolean outOfBounds = this.ball.keepBallWithinBounds(this.windowHeight, this.windowWidth);
 		
 		if (outOfBounds) {
-			// logic logic logic
+			
 		}
 	}
 }

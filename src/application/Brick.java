@@ -28,7 +28,6 @@ public class Brick {
 	private boolean isDestroyed;
 	
     private Random random = new Random();
-    //private ExtraLife extraLifePowerUp = new ExtraLife();
     
     public Brick() {}
 
@@ -95,16 +94,18 @@ public class Brick {
 		return BRICK_HEIGHT;
 	}
 	
-	// Determine what brick point values will spawn the power up and activate the power up.
-//	public void spawnPowerUp () {
-//		ArrayList<Integer> powerUpLocations = new ArrayList<>();
-//		for (int i = POWERUP_OCCURRENCES; i<MAX_BRICK_POINT_VALUE; i+=POWERUP_OCCURRENCES) {
-//			powerUpLocations.add(i);
-//		}
-//		if (powerUpLocations.contains(brickPointValue)) {
-//			extraLifePowerUp.activatePowerUp(brickPointValue);
-//		}
-//	}
+	 //Determine what brick point values will spawn the power up and activate the power up.
+	public void spawnPowerUp (int numberOfLives) {
+	    ExtraLife extraLifePowerUp = new ExtraLife(xCoordinate, yCoordinate);
+	    
+		ArrayList<Integer> powerUpLocations = new ArrayList<>();
+		for (int i = POWERUP_OCCURRENCES; i<MAX_BRICK_POINT_VALUE; i+=POWERUP_OCCURRENCES) {
+			powerUpLocations.add(i);
+		}
+		if (powerUpLocations.contains(brickPointValue)) {
+			extraLifePowerUp.activatePowerUp(brickPointValue);
+		}
+	}
 
 	
 }
