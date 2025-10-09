@@ -1,6 +1,5 @@
 //Katherine Hoadley
 package application;
-import javafx.scene.paint.Color;
 
 /**
  * The ExtraLife class represents a specific type of PowerUp that grants
@@ -11,10 +10,10 @@ import javafx.scene.paint.Color;
  * the player's life count by one and deactivates the power-up after use.
  */
 
-public abstract class ExtraLife extends PowerUp{
+public class ExtraLife extends PowerUp{
 
 	public ExtraLife(double x, double y) {
-        super(x, y, Color.LIGHTGREEN);
+        super(x, y);
     }
 	
 	 @Override
