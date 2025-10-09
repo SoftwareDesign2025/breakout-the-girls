@@ -1,3 +1,5 @@
+package application;
+
 //Katherine Hoadley
 import javafx.application.Application;
 import javafx.scene.Group;

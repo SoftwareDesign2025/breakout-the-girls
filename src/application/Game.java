@@ -1,5 +1,10 @@
 import java.util.ArrayList;
 
+import com.sun.javafx.geom.Shape;
+import javafx.scene.Group;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+
 public class Game {
 	private int windowHeight = 800;
 	private int windowWidth = 600;
@@ -16,7 +21,7 @@ public class Game {
 	private Group root;
 	
 	
-	private void getRoot() {
+	private Group getRoot() {
 		return this.root;
 	}
 	
