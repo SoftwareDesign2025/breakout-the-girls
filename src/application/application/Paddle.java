@@ -1,0 +1,89 @@
+// Anna Rakes
+// Creates and handles an object representing the paddle.
+package application;
+
+import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
+
+public class Paddle {
+	
+	private final Paint PADDLE_COLOR = Color.DEEPPINK;
+	private final int PADDLE_HEIGHT = 20;
+	private final int PADDLE_WIDTH = 70;
+	private final int PADDLE_SPEED = 20; // how do i speed up paddle
+
+
+	private Rectangle paddle;
+	private int windowWidth;
+	private int windowHeight;
+	private double xCoordinate;
+	private double yCoordinate;
+
+	
+	/* Method createPaddleShape
+	 * Create attributes for the paddle, such as size and color.
+	 */
+	public void createPaddle(int windowWidth, int windowHeight) {
+		this.windowWidth = windowWidth;
+		this.windowHeight = windowHeight;
+		
+		paddle = new Rectangle(PADDLE_WIDTH, PADDLE_HEIGHT);
+		
+		xCoordinate = (this.windowWidth - PADDLE_WIDTH) / 2;
+		yCoordinate = this.windowHeight - PADDLE_HEIGHT - 50;
+		
+		paddle.setX(xCoordinate);
+		paddle.setY(yCoordinate);
+		
+		paddle.setFill(PADDLE_COLOR);
+		
+	}
+	
+	/* Method getPaddle
+	 * get the paddle object
+	 */
+	public Rectangle getPaddle() {
+		return paddle;
+	}
+	
+	/* method movePaddleHorizontally
+	 * Move the location of the paddle left or right across the screen
+	 */
+	private void movePaddleHorizontally (boolean goRight) {
+		if(goRight)
+			paddle.setX(paddle.getX() + PADDLE_SPEED);
+
+		else {
+			paddle.setX(paddle.getX() - PADDLE_SPEED);
+		}
+		keepPaddleInBounds();
+	}
+	
+	/* Method handleKeyInput
+	 * based on the key pressed, move the paddle left or right.
+	 */
+	public void handleKeyInput (KeyCode code) {
+		if (code == KeyCode.RIGHT) {
+			movePaddleHorizontally(true);
+		} 
+		else if (code == KeyCode.LEFT) {
+			movePaddleHorizontally(false);
+		}
+	}
+	
+	private void keepPaddleInBounds() {
+	    if (paddle.getX() < 0) {
+	        paddle.setX(0);
+	    }
+	    if (paddle.getX() + paddle.getWidth() > windowWidth) {
+	        paddle.setX(windowWidth - paddle.getWidth());
+	    }
+	}
+	
+	
+	
+	
+
+}
