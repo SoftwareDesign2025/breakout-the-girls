@@ -30,7 +30,6 @@ public class Game {
 		 * should be remarkably similar if not same implementation except for different object names
 		 * 
 		 * questions for team:
-		 * => what constitutes an action that will affect the score?
 		 * 	=> do we need a central run function that initializes any objects, i.e. balls
 		 * => when is the game over? 
 		 * => can we move windowWidth and windowHeight setting logic in Game to centralize control of it to and have it set in 1 file?
@@ -89,10 +88,17 @@ public class Game {
 	}
 	
 	public void endGame(boolean win) {
-		/*
-		 * how to know when "all bricks are destroyed"?
-		 * -> create ArrayList of Bricks and track the ArrayList for when every brick has been deleted
-		 */
+		this.isRunning = false;
+		
+		if (win) {
+			System.out.println("YOU WIN!");
+	        System.out.println("Final score: " + score.getCurrentScore());
+		}
+		else {
+			System.out.println("GAME OVER...");
+	        System.out.println("Final score: " + score.getCurrentScore());
+	        System.out.println("High score: " + score.getHighScore());
+		}
 	}
 	
 	// is this func necessary considering Ball already checks if it is in bounds?

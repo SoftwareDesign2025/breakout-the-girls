@@ -28,7 +28,7 @@ public class Score {
 		this.currentScore += SCORE_DEFAULT_INCREMENT;
 	}
 	
-	public int getCurrentScore() {
+	public int getCurrentScore () {
 		return this.currentScore;
 	}
 	
