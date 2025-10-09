@@ -98,11 +98,19 @@ public class Ball {
 	/* Changes the ball's velocity from 0 at the start of the game
 	 * to the defined speed when launchBall() is called.
 	 */
+	
+	
+	public void resetBallPosition(int windowWidth, int windowHeight) {
+	    ball.setCenterX(windowWidth / 2.0);
+	    ball.setCenterY(windowHeight * 2.0 / 3.0);
+	    ballVelocity = new Point2D(0, 0);
+	    roundLost = false; // Reset this flag!
+	}
+
 	public void launchBall() {
-		Point2D startPosition = new Point2D(0,0);
-		if (ballVelocity.equals(startPosition)) {
-			ballVelocity = new Point2D(0,-SPEED);
-		}
+	    // Always set a fixed upward velocity
+	    ballVelocity = new Point2D(0, -SPEED);
+	    roundLost = false; // Ensure ball can move
 	}
 	
 	
