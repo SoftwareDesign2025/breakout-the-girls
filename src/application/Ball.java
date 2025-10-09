@@ -1,4 +1,5 @@
 // Anna Rakes
+// Create the ball object
 
 import java.util.Random;
 
@@ -11,12 +12,19 @@ public class Ball {
 	private final double radius = 10;
     private final double SPEED = 280;
 	
+    // Fields:
 	private Circle ball;
     private Point2D ballVelocity;
     private Random random = new Random();
     private boolean gameLost = false;
     
 	
+    /* Create the ball
+     * Determine starting location of by centering it in the middle of the widths and 2/3 of the
+     * way down the screen.
+     * Set the size of the ball and the color to black.
+     * Start the ball in a static position for the beginning of the game.
+     */
 	public void createBall(int windowWidth, int windowHeight) {
 		ball = new Circle();		
 		double xCoordinate = windowWidth/2;
@@ -27,13 +35,12 @@ public class Ball {
 		ball.setRadius(radius);
 		ball.setFill(Color.BLACK);
 		
-		ballVelocity = new Point2D(0,-SPEED); // how many pixels over and down it moves by
+		ballVelocity = new Point2D(0,0); // how many pixels over and down it moves by
 	}
 	
 	/**
-     * Move by taking one step based on its velocity.
-     *
-     * Note, elapsedTime is used to ensure consistent speed across different machines.
+     * Move the ball according to its velocity. 
+     * Movement scaled by elapsedTime to ensure consistent speed.
      */
     public void move (double elapsedTime) {
         ball.setCenterX(ball.getCenterX() + ballVelocity.getX() * elapsedTime);
@@ -78,6 +85,13 @@ public class Ball {
 	
 	private double getRandomVelocityChange() {
 	    return (random.nextDouble() * 200) - 100; 
+	}
+	
+	public void launchBall() {
+		Point2D startPosition = new Point2D(0,0);
+		if (ballVelocity.equals(startPosition)) {
+			ballVelocity = new Point2D(0,-SPEED);
+		}
 	}
 	
 	
