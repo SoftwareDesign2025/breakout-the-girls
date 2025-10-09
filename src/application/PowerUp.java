@@ -22,11 +22,11 @@ public abstract class PowerUp {		//abstract because it needs a subclass to do an
 	protected Circle onScreenPowerUp;
 	
 	//constructor
-	public PowerUp(double x, double y, Color color) {
+	public PowerUp(double x, double y) {
 		this.x = x;
 		this.y = y;
 		this.isActive = true;
-		this.onScreenPowerUp = new Circle(x, y, radius, color);
+		this.onScreenPowerUp = new Circle(x, y, radius, Color.GREEN);
 	}
 	
 	//method to add a powerUp into game

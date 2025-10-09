@@ -30,9 +30,7 @@ public class Main extends Application {
             }
         };
         timer.start();
-        
-        // Add paddle once Game is made
-		//scene.setOnKeyPressed(e -> myPaddle.handleKeyInput(e.getCode()));
+
     }
 
     public static void main(String[] args) {
