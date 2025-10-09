@@ -21,7 +21,7 @@ public class Game {
 	}
 	
 	private void handleBallLost() {
-	    lives--;
+	    lives--;	
 	    if (lives <= 0) {
 	        endGame(false);
 	        return;
