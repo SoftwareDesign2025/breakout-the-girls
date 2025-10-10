@@ -1,5 +1,6 @@
 // Anna Rakes
 // Store collection of bricks and position them into a wall.
+package application;
 
 import java.util.ArrayList;
 import java.util.Random;
