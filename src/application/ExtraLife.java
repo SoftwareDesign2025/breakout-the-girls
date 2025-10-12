@@ -1,6 +1,9 @@
 //Katherine Hoadley
 package application;
 
+import javafx.scene.paint.Color;
+
+
 /**
  * The ExtraLife class represents a specific type of PowerUp that grants
  * the player an additional life when activated.
@@ -14,6 +17,8 @@ public class ExtraLife extends PowerUp{
 
 	public ExtraLife(double x, double y) {
         super(x, y);
+		onScreenPowerUp.setFill(Color.LIGHTGREEN);
+
     }
 	
 	 @Override
