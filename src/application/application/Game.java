@@ -151,9 +151,9 @@ public class Game {
 			Brick brick = bricks.get(i);
 			Shape intersection = Shape.intersect(ballShape, brick.getBrick());
 			if (intersection.getBoundsInLocal().getWidth() != -1) {
-				ball.collisionWithBrickOrPaddle();
+				ball.changeBallVelocity();
 				
-				PowerUp powerUp = brick.spawnPowerUp(lives);
+				PowerUp powerUp = brick.spawnExtraLife(lives);
 			    if (powerUp != null) {
 			        powerUpList.add(powerUp);
 			        root.getChildren().add(powerUp.getVisualNode());
@@ -169,7 +169,7 @@ public class Game {
 
 		Shape ballPaddleIntersection = Shape.intersect(ballShape, paddleShape);
 		if (ballPaddleIntersection.getBoundsInLocal().getWidth() != -1) {
-			ball.collisionWithBrickOrPaddle();
+			ball.changeBallVelocity();
 		}
 
 	}
