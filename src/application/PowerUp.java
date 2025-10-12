@@ -1,7 +1,6 @@
 //Katherine Hoadley
 package application;
 
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 /*
@@ -27,7 +26,7 @@ public abstract class PowerUp {		//abstract because it needs a subclass to do an
 		this.x = x;
 		this.y = y;
 		this.isActive = true;
-		this.onScreenPowerUp = new Circle(x, y, radius, Color.GREEN);
+		this.onScreenPowerUp = new Circle(x, y, radius);
 	}
 	
 	//method to add a powerUp into game
