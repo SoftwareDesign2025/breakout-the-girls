@@ -1,5 +1,6 @@
 // Anna Rakes
 // Create the ball object
+package application;
 
 import java.util.Random;
 
@@ -16,7 +17,7 @@ public class Ball {
 	private Circle ball;
     private Point2D ballVelocity;
     private Random random = new Random();
-    private boolean gameLost = false;
+    private boolean roundLost = false;
     
 	
     /* Create the ball
@@ -59,7 +60,7 @@ public class Ball {
             ballVelocity = new Point2D(ballVelocity.getX(), -ballVelocity.getY());
         }
         if (ball.getCenterY() - radius > screenHeight - ball.getBoundsInLocal().getHeight()) {
-        		gameLost = true;
+        		roundLost = true;
         }
     }
     
@@ -70,8 +71,8 @@ public class Ball {
 	}
 	
 	// Return true if the game is lost.
-	public boolean checkIfGameLost() {
-		return gameLost;
+	public boolean checkIfRoundLost() {
+		return roundLost;
 	}
 	
 	
@@ -97,14 +98,20 @@ public class Ball {
 	/* Changes the ball's velocity from 0 at the start of the game
 	 * to the defined speed when launchBall() is called.
 	 */
-	public void launchBall() {
-		Point2D startPosition = new Point2D(0,0);
-		if (ballVelocity.equals(startPosition)) {
-			ballVelocity = new Point2D(0,-SPEED);
-		}
+	
+	
+	public void resetBallPosition(int windowWidth, int windowHeight) {
+	    ball.setCenterX(windowWidth / 2.0);
+	    ball.setCenterY(windowHeight * 2.0 / 3.0);
+	    ballVelocity = new Point2D(0, 0);
+	    roundLost = false; // Reset this flag!
 	}
-	
-	
+
+	public void launchBall() {
+	    // Always set a fixed upward velocity
+	    ballVelocity = new Point2D(0, -SPEED);
+	    roundLost = false; // Ensure ball can move
+	}
 	
 	
 	
