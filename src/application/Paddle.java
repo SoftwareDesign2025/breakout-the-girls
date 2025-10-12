@@ -1,5 +1,6 @@
 // Anna Rakes
 // Creates and handles an object representing the paddle.
+package application;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
@@ -30,8 +31,8 @@ public class Paddle {
 		
 		paddle = new Rectangle(PADDLE_WIDTH, PADDLE_HEIGHT);
 		
-		xCoordinate = (this.windowWidth - PADDLE_WIDTH) / 2;
-		yCoordinate = this.windowHeight - PADDLE_HEIGHT - 50;
+		xCoordinate = windowWidth/2 - (PADDLE_WIDTH/2.0);
+		yCoordinate = windowHeight * 0.8 - PADDLE_HEIGHT;
 		
 		paddle.setX(xCoordinate);
 		paddle.setY(yCoordinate);
