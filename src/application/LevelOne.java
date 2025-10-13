@@ -1,9 +1,9 @@
 package application;
 
-public class LevelOne extends Level {
+public class LevelOne extends Environment {
 	
 	public LevelOne (int windowWidth, int windowHeight) {
-		super(windowWidth, windowHeight);
+		super();
 	}
 	
 	@Override

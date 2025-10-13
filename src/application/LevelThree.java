@@ -1,6 +1,6 @@
 package application;
 
-public class LevelThree extends Level {
+public class LevelThree extends Environment {
 	
 	protected Obstacle obstacle;
 	
