@@ -81,7 +81,7 @@ public class Ball {
 	 * It reverse the y to send the brick the opposite direction, but slightly alters the 
 	 * x which changes the angle at which the ball bounces off. 
 	 */
-	public void collisionWithBrickOrPaddle () {
+	public void changeBallVelocity () {
 		double newY = -ballVelocity.getY();
 		double newX = ballVelocity.getX() + getRandomVelocityChange();
         ballVelocity = new Point2D(newX,newY);
