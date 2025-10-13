@@ -16,7 +16,6 @@ public class Game {
 	private final int windowWidth = 800;
 	private Paddle paddle = new Paddle();
 	private Ball ball = new Ball(); 
-	//private ArrayList<Brick> brickList = new ArrayList<>(); 
 	private BrickWall brickWall = new BrickWall(windowWidth, windowHeight);
 	private Score score = new Score(); 
 	private int lives = 3;
@@ -56,7 +55,7 @@ public class Game {
 	    
 	    paddle.createPaddle(windowWidth, windowHeight);
 	    ball.createBall(windowWidth, windowHeight);
-	    brickWall.createBrickWall();
+	    brickWall.createIntermediateBrickWall();
 	}
 	
 	public void startGame() {
@@ -152,9 +151,9 @@ public class Game {
 			Brick brick = bricks.get(i);
 			Shape intersection = Shape.intersect(ballShape, brick.getBrick());
 			if (intersection.getBoundsInLocal().getWidth() != -1) {
-				ball.collisionWithBrickOrPaddle();
+				ball.changeBallVelocity();
 				
-				PowerUp powerUp = brick.spawnPowerUp(lives);
+				PowerUp powerUp = brick.spawnExtraLife(lives);
 			    if (powerUp != null) {
 			        powerUpList.add(powerUp);
 			        root.getChildren().add(powerUp.getVisualNode());
@@ -170,7 +169,7 @@ public class Game {
 
 		Shape ballPaddleIntersection = Shape.intersect(ballShape, paddleShape);
 		if (ballPaddleIntersection.getBoundsInLocal().getWidth() != -1) {
-			ball.collisionWithBrickOrPaddle();
+			ball.changeBallVelocity();
 		}
 
 	}

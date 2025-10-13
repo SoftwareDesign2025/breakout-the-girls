@@ -11,7 +11,7 @@ public class Paddle {
 	
 	private final Paint PADDLE_COLOR = Color.DEEPPINK;
 	private final int PADDLE_HEIGHT = 20;
-	private final int PADDLE_WIDTH = 70;
+	private int paddleWidth = 70;
 	private final int PADDLE_SPEED = 20; // how do i speed up paddle
 
 
@@ -29,9 +29,9 @@ public class Paddle {
 		this.windowWidth = windowWidth;
 		this.windowHeight = windowHeight;
 		
-		paddle = new Rectangle(PADDLE_WIDTH, PADDLE_HEIGHT);
+		paddle = new Rectangle(paddleWidth, PADDLE_HEIGHT);
 		
-		xCoordinate = windowWidth/2 - (PADDLE_WIDTH/2.0);
+		xCoordinate = windowWidth/2 - (paddleWidth/2.0);
 		yCoordinate = windowHeight * 0.8 - PADDLE_HEIGHT;
 		
 		paddle.setX(xCoordinate);
@@ -80,6 +80,10 @@ public class Paddle {
 	    if (paddle.getX() + paddle.getWidth() > windowWidth) {
 	        paddle.setX(windowWidth - paddle.getWidth());
 	    }
+	}
+	
+	public void increasePaddleWidth() {
+		paddleWidth += 5;
 	}
 	
 	
