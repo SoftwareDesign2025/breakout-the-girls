@@ -12,24 +12,21 @@ import javafx.animation.AnimationTimer;
 
 public class Main extends Application {
 
-    private Game game;
 
     @Override
     public void start(Stage stage) {
-    	
         Group root = new Group();
-
-        game = new Game(root);
+        Game game = new Game(root, 800, 600);
         
-        root.getChildren().add(game.getPaddle().getPaddle());
-        root.getChildren().add(game.getBall().getBall());
-        root.getChildren().add(game.getText());
-
-
-        // Add bricks
-        for (Brick brick : game.getBrickWall().getBrickWall()) {
-            root.getChildren().add(brick.getBrick());
-        }
+//        root.getChildren().add(game.getPaddle().getPaddle());
+//        root.getChildren().add(game.getBall().getBall());
+//        root.getChildren().add(game.getText());
+//
+//
+//        // Add bricks
+//        for (Brick brick : game.getBrickWall().getBrickWall()) {
+//            root.getChildren().add(brick.getBrick());
+//        }
 
         Scene scene = new Scene(root, 800, 600);
         stage.setTitle("Breakout");
@@ -39,11 +36,10 @@ public class Main extends Application {
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.SPACE) {
                 if (!game.getIsRunning()) { 
-                    game.getBall().launchBall();
                     game.startGame();
                 }
             }
-            game.getPaddle().handleKeyInput(event.getCode());
+            game.getLevel().getPaddle().handleKeyInput(event.getCode());
         });
 
         // Game loop

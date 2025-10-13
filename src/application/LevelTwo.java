@@ -1,6 +1,6 @@
 package application;
 
-public class LevelTwo extends Level {
+public class LevelTwo extends Environment {
 	
 	public LevelTwo (int windowWidth, int windowHeight) {
 		super(windowWidth, windowHeight);
