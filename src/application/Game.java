@@ -73,7 +73,8 @@ public class Game {
 			endRound(true);
 		}
 	}
-	
+		
+
 	private void handleBallLost() {
 		if (environment.getBall().checkIfRoundLost()) {
 	        lives--;
