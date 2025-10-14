@@ -1,10 +1,14 @@
 // Johnathan Meeks
+package application;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import import java.nio.file.Files
 
 
+// update this to handle both Mac and Windows folder structures
 public class Score {
 	private int SCORE_DEFAULT_INCREMENT = 1;
     private static final String GAME_DATA_FOLDER_NAME = "BreakoutGameData";
@@ -29,7 +33,7 @@ public class Score {
 	        e.printStackTrace();
 	    }
 	    
-	    this.loadSavedHighScore();
+	    this.saveHighScore();
 	}
 	
 	
