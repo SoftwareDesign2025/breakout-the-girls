@@ -4,8 +4,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class Obstacle {
-	private final int OBSTACLE_HEIGHT = 10;
-	private final int OBSTACLE_WIDTH = 40;
+	private final int OBSTACLE_HEIGHT = 30;
+	private int obstacleWidth;
 	double xCoordinate;
 	double yCoordinate;
 
@@ -18,12 +18,12 @@ public class Obstacle {
 	
 	
 	// Creates the obstacle and sets the location of the obstacle on screen.
-	public void createObstacle(int windowWidth, int windowHeight) {
-		obstacle = new Rectangle(OBSTACLE_WIDTH, OBSTACLE_HEIGHT);				
+	public void createObstacle(int windowWidth, int windowHeight, int obstacleWidth) {
+		obstacle = new Rectangle(obstacleWidth, OBSTACLE_HEIGHT);				
 		obstacle.setFill(Color.RED);
 		
-		obstacle.setX(windowWidth / 2.0 - OBSTACLE_WIDTH / 2.0);
-		obstacle.setY(windowHeight * 2.0 / 3.0 - OBSTACLE_HEIGHT / 2.0);
+		obstacle.setX(windowWidth / 2.0 - obstacleWidth / 2.0);
+		obstacle.setY(windowHeight / 2.0 - OBSTACLE_HEIGHT / 2.0);
 	}
 	
 	// Return the obstacle object which is a Rectangle. 

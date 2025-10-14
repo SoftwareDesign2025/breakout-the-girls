@@ -11,7 +11,7 @@ import javafx.scene.shape.Circle;
 public class Ball {
 	
 	private final double radius = 10;
-    private final double SPEED = 280;
+    private final double SPEED = 100;
 	
     // Fields:
 	private Circle ball;
@@ -29,7 +29,7 @@ public class Ball {
 	public void createBall(int windowWidth, int windowHeight) {
 		ball = new Circle();		
 		double xCoordinate = windowWidth/2;
-		double yCoordinate = windowHeight*2.0/3.0;
+		double yCoordinate = windowHeight * 0.8;
 		
 		ball.setCenterX(xCoordinate);
 		ball.setCenterY(yCoordinate);
@@ -102,7 +102,7 @@ public class Ball {
 	
 	public void resetBallPosition(int windowWidth, int windowHeight) {
 	    ball.setCenterX(windowWidth / 2.0);
-	    ball.setCenterY(windowHeight * 2.0 / 3.0);
+	    ball.setCenterY(windowHeight * 0.8);
 	    ballVelocity = new Point2D(0, 0);
 	    roundLost = false; // Reset this flag!
 	}

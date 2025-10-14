@@ -66,8 +66,6 @@ public class Brick {
 	 * and now sets isDestroyed to true.
 	 */
 	public void destroyBrick () {
-//		Shape intersection = Shape.intersect(brick, ball);
-//		if (intersection.getBoundsInLocal().getWidth() != -1) {
 		brick.setFill(Color.TRANSPARENT);
 		brick.setStroke(Color.TRANSPARENT);
 		isDestroyed = true;
@@ -75,18 +73,19 @@ public class Brick {
 	
 	// Gets the point value assigned to the brick if it was destroyed and returns it.
 	public int getBrickPoint () {
-		if (isDestroyed) {
-			return brickPointValue;
-		}
-		else {
-			return 0;
-		}
+//		if (isDestroyed) {
+//			return brickPointValue;
+//		}
+//		else {
+//			return 0;
+//		}
+		return brickPointValue;
 	}
 	
-	// Checks to see if the brick was destroyed, if so, it returns true.
-	public boolean checkIfDestroyed () {
-		return isDestroyed;
-	}
+//	// Checks to see if the brick was destroyed, if so, it returns true.
+//	private boolean checkIfDestroyed () {
+//		return isDestroyed;
+//	}
 	
 	// Returns the width of the brick.
 	public int getBrickWidth() {
@@ -98,30 +97,38 @@ public class Brick {
 		return brickHeight;
 	}
 	
-	 //Determine what brick point values will spawn the power up and activate the power up.
-	public PowerUp spawnExtraLife (int numberOfLives) {
-		ArrayList<Integer> powerUpValues = new ArrayList<>();
-	    for (int i = EXTRA_LIFE_OCCURRENCES; i < MAX_BRICK_POINT_VALUE; i += EXTRA_LIFE_OCCURRENCES) {
-	        powerUpValues.add(i);
-	    }
-
-	    if (powerUpValues.contains(brickPointValue)) {
-	        return new ExtraLife(xCoordinate + brickWidth / 2, yCoordinate + brickHeight / 2);
-	    }
-
-	    return null; // no power-up for this brick
+	public double getX() { 
+		return xCoordinate;
 	}
 	
-	public PowerUp spawnLongerPaddle () {
-		ArrayList<Integer> powerUpValues = new ArrayList<>();
-		for (int i = EXTEND_PADDLE_OCCURRENCES; i < MAX_BRICK_POINT_VALUE; i += EXTRA_LIFE_OCCURRENCES) {
-			powerUpValues.add(i);
-		}
-		if (powerUpValues.contains(brickPointValue)) {
-			return new ExtraLife(xCoordinate + brickWidth / 2, yCoordinate + brickHeight / 2);
-		}
-		return null;
-	}
+    public double getY() { 
+    		return yCoordinate; 
+    	}
+	
+	 //Determine what brick point values will spawn the power up and activate the power up.
+//	public PowerUp spawnExtraLife (int numberOfLives) {
+//		ArrayList<Integer> powerUpValues = new ArrayList<>();
+//	    for (int i = EXTRA_LIFE_OCCURRENCES; i < MAX_BRICK_POINT_VALUE; i += EXTRA_LIFE_OCCURRENCES) {
+//	        powerUpValues.add(i);
+//	    }
+//
+//	    if (powerUpValues.contains(brickPointValue)) {
+//	        return new ExtraLife(xCoordinate + brickWidth / 2, yCoordinate + brickHeight / 2);
+//	    }
+//
+//	    return null; // no power-up for this brick
+//	}
+//	
+//	public PowerUp spawnLongerPaddle () {
+//		ArrayList<Integer> powerUpValues = new ArrayList<>();
+//		for (int i = EXTEND_PADDLE_OCCURRENCES; i < MAX_BRICK_POINT_VALUE; i += EXTRA_LIFE_OCCURRENCES) {
+//			powerUpValues.add(i);
+//		}
+//		if (powerUpValues.contains(brickPointValue)) {
+//			return new ExtraLife(xCoordinate + brickWidth / 2, yCoordinate + brickHeight / 2);
+//		}
+//		return null;
+//	}
 
 
 	
