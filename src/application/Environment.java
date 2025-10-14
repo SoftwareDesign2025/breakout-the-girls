@@ -6,27 +6,31 @@ import javafx.scene.Group;
 
 public class Environment {
 	
-	protected BrickWall brickWall;
-	protected Paddle paddle;
-	protected Ball ball;
-	protected Score score = new Score(); 
-	protected ArrayList<PowerUp> powerUps = new ArrayList<>();
-	protected int windowWidth;
-	protected int windowHeight;
-	protected Group root;
+	private BrickWall brickWall;
+	private Paddle paddle;
+	private Ball ball;
+	private Score score;
+	private ArrayList<PowerUp> powerUps;
+	private int windowWidth;
+	private int windowHeight;
+	private Group root;
+	private Obstacle obstacle;
+	private Level level;
 	
 	
-	public Environment(Group root, int windowWidth, int windowHeight) {
+	public Environment(Group root, int windowWidth, int windowHeight, Level level) {
 		this.root = root;
 		this.windowHeight = windowHeight;
 		this.windowWidth = windowWidth;
+		this.level = level;
 		
-		brickWall = new BrickWall(windowWidth, windowHeight);
 		paddle = new Paddle();
 		ball = new Ball();
 		score = new Score();
 		powerUps = new ArrayList<>();
-		
+		brickWall = level.createBrickWall();
+		obstacle = level.createObstacle();
+
 		initializeObjects();
 	}
 	
@@ -35,11 +39,20 @@ public class Environment {
 		ball.createBall(windowWidth, windowHeight);
 		brickWall.createBrickWall();
 		
+		if (obstacle != null) {
+			obstacle.createObstacle(windowWidth, windowHeight, 160);
+			root.getChildren().add(obstacle.getObstacle());
+		}
 		root.getChildren().add(paddle.getPaddle());
 		root.getChildren().add(ball.getBall());
 		for (Brick brick : brickWall.getBrickWall()) {
 			root.getChildren().add(brick.getBrick());
 		}
+	}
+	
+	public void resetEnvironment() {
+		root.getChildren().clear();
+		initializeObjects();
 	}
 		
 	
@@ -59,6 +72,10 @@ public class Environment {
 		return score;
 	}
 	
+	public Obstacle getObstacle() {
+		return obstacle;
+	}
+	
 	public ArrayList<PowerUp> getPowerUps() {
 		return powerUps;
 	}
@@ -73,6 +90,10 @@ public class Environment {
 	
 	public Group getRoot() {
 		return root;
+	}
+	
+	public Level getLevel() {
+		return level;
 	}
 
 }

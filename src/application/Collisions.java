@@ -9,57 +9,69 @@ import javafx.scene.shape.Shape;
 
 public class Collisions {
 
-	private Environment level;
+	private Environment environment;
 
 	public Collisions(Environment level) {
-		this.level = level;
+		this.environment = level;
 	}
 
 	public void checkAllCollisions () {
-		level.getBall().outOfBoundsCollision(level.getWindowWidth(), level.getWindowHeight());
+		environment.getBall().outOfBoundsCollision(environment.getWindowWidth(), environment.getWindowHeight());
 		ballPaddleCollision();
 		ballBrickCollision();
+		ballObstacleCollision();
 		paddlePowerUpCollision();
 	}
 
 	private void ballPaddleCollision() {
-		Circle ball = level.getBall().getBall();
-		Rectangle paddle = level.getPaddle().getPaddle();
+		Circle ball = environment.getBall().getBall();
+		Rectangle paddle = environment.getPaddle().getPaddle();
 
 		Shape ballPaddleIntersection = Shape.intersect(ball, paddle);
 		if (ballPaddleIntersection.getBoundsInLocal().getWidth() != -1) {
-			level.getBall().changeBallVelocity();
+			environment.getBall().changeBallVelocity();
+		}
+	}
+	
+	private void ballObstacleCollision() {
+		if (environment.getObstacle()!= null) {
+			Circle ball = environment.getBall().getBall();
+			Rectangle obstacle = environment.getObstacle().getObstacle();
+			Shape ballObstacleIntersection = Shape.intersect(ball, obstacle);
+			if (ballObstacleIntersection.getBoundsInLocal().getWidth() != -1) {
+				environment.getBall().changeBallVelocity();
+			}
 		}
 	}
 
 	private void ballBrickCollision() {
-		Circle ball = level.getBall().getBall();
-		ArrayList<Brick> bricks = level.getBrickWall().getBrickWall();
-		Group root = level.getRoot();
+		Circle ball = environment.getBall().getBall();
+		ArrayList<Brick> bricks = environment.getBrickWall().getBrickWall();
+		Group root = environment.getRoot();
 
 		for (int i = bricks.size() - 1; i >= 0; i--) {
 			Brick brick = bricks.get(i);
 			Shape intersection = Shape.intersect(ball, brick.getBrick());
 			if (intersection.getBoundsInLocal().getWidth() != -1) {
-				level.getBall().changeBallVelocity();
+				environment.getBall().changeBallVelocity();
 
-				PowerUp powerUp = brick.spawnExtraLife(level.getPowerUps().size());
+				PowerUp powerUp = environment.getLevel().determineSpawn(brick);
 				if (powerUp != null) {
-					level.getPowerUps().add(powerUp);
+					environment.getPowerUps().add(powerUp);
 					root.getChildren().add(powerUp.getVisualNode());
 				}
 				brick.destroyBrick();
-				level.getScore().addPoints(brick.getBrickPoint());
+				environment.getScore().addPoints(brick.getBrickPoint());
 				bricks.remove(i);
 			}
 		}
 	}
 
 	private void paddlePowerUpCollision() {
-		ArrayList<PowerUp> powerUps = level.getPowerUps();
-		Paddle paddle = level.getPaddle();
-		Group root = level.getRoot();
-		int windowHeight = level.getWindowHeight();
+		ArrayList<PowerUp> powerUps = environment.getPowerUps();
+		Paddle paddle = environment.getPaddle();
+		Group root = environment.getRoot();
+		int windowHeight = environment.getWindowHeight();
 
 		for (int i = powerUps.size() - 1; i >= 0; i--) {
 			PowerUp powerUp = powerUps.get(i);

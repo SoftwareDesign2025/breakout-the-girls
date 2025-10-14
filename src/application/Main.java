@@ -18,16 +18,6 @@ public class Main extends Application {
         Group root = new Group();
         Game game = new Game(root, 800, 600);
         
-//        root.getChildren().add(game.getPaddle().getPaddle());
-//        root.getChildren().add(game.getBall().getBall());
-//        root.getChildren().add(game.getText());
-//
-//
-//        // Add bricks
-//        for (Brick brick : game.getBrickWall().getBrickWall()) {
-//            root.getChildren().add(brick.getBrick());
-//        }
-
         Scene scene = new Scene(root, 800, 600);
         stage.setTitle("Breakout");
         stage.setScene(scene);
@@ -36,10 +26,14 @@ public class Main extends Application {
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.SPACE) {
                 if (!game.getIsRunning()) { 
-                    game.startGame();
+                		if (game.getLives() == 3 || game.getEnvironment().getBrickWall().getBrickWall().isEmpty()) {
+                			game.startGame();
+                		} else {
+                			game.startAfterLifeLost();
+                		}
                 }
             }
-            game.getLevel().getPaddle().handleKeyInput(event.getCode());
+            game.getEnvironment().getPaddle().handleKeyInput(event.getCode());
         });
 
         // Game loop
