@@ -11,7 +11,7 @@ import javafx.scene.shape.Circle;
 public class Ball {
 	
 	private final double radius = 10;
-    private final double SPEED = 100;
+    private final double SPEED = 150;
 	
     // Fields:
 	private Circle ball;

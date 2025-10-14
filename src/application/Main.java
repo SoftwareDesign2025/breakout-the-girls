@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import javafx.animation.AnimationTimer;
 
 public class Main extends Application {
+	
 
 
     @Override
@@ -33,14 +34,28 @@ public class Main extends Application {
                 		}
                 }
             }
-            game.getEnvironment().getPaddle().handleKeyInput(event.getCode());
+            if (event.getCode() == KeyCode.RIGHT) {
+                game.getEnvironment().getPaddle().startMovingRight();
+            } else if (event.getCode() == KeyCode.LEFT) {
+            		game.getEnvironment().getPaddle().startMovingLeft();
+            }
+        });
+        
+        scene.setOnKeyReleased(event -> {
+            if (event.getCode() == KeyCode.RIGHT) {
+                game.getEnvironment().getPaddle().stopMovingRight();
+            } else if (event.getCode() == KeyCode.LEFT) {
+                game.getEnvironment().getPaddle().stopMovingLeft();
+            }
         });
 
         // Game loop
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
+            		game.getEnvironment().getPaddle().update();
                 game.step();
+                
             }
         };
         timer.start();

@@ -15,10 +15,20 @@ public class Game {
 	private Text text = new Text();
 		
 	public Game(Group root, int windowWidth, int windowHeight) {
-		Level level = new LevelOne(windowWidth, windowHeight);
+		Level level = determineLevel(windowWidth, windowHeight);
 		environment = new Environment(root, windowWidth, windowHeight, level);
 		checkCollision = new Collisions(environment);
 		root.getChildren().add(text);
+	}
+	
+	private Level determineLevel(int windowWidth, int windowHeight) {
+		if (roundsCompleted == 0) {
+			return new LevelOne(windowWidth, windowHeight);
+		} else if (roundsCompleted == 1) {
+			return new LevelTwo(windowWidth, windowHeight);
+		} else {
+			return new LevelThree(windowWidth, windowHeight);
+		}
 	}
 	
 	public void startGame() {
@@ -40,6 +50,10 @@ public class Game {
 	
 	public void endRound(boolean win) {
 		isRunning = false;
+		
+		if (win) {
+			roundsWon += 1;
+		}
 		roundsCompleted += 1;
 		
 		text.setX(environment.getWindowWidth()/2.0);
@@ -53,7 +67,11 @@ public class Game {
 			text.setText("YOU LOST THE ROUND!");
 		}
 		
-		if (roundsCompleted == 3) {
+		if (roundsCompleted < 3) {
+			Level nextLevel = determineLevel(environment.getWindowWidth(), environment.getWindowHeight());
+			environment = new Environment(environment.getRoot(), environment.getWindowWidth(), environment.getWindowHeight(), nextLevel);
+			checkCollision = new Collisions(environment);
+		} else {
 			endGame(roundsWon == 3);
 		}
 	}

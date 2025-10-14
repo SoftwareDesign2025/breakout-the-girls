@@ -42,7 +42,7 @@ public class BrickWall {
 	 * Then creates a brick with the next position and random color.
 	 */
 	public void createBrickWall() {
-		emptyBrick.createBrick(30,100);
+		emptyBrick.createBrick(100,400);
 		int numberOfColumns = this.windowWidth/emptyBrick.getBrickWidth();
 		int numberOfRows = (this.windowHeight/3)/emptyBrick.getBrickHeight();
 		for (int i = 0; i<numberOfRows ; i++) {
@@ -50,7 +50,7 @@ public class BrickWall {
 				double xCoordinate = j*emptyBrick.getBrickWidth();
 				double yCoordinate = i*emptyBrick.getBrickHeight();
 				Brick brick = new Brick(generateRandomBrickColor(), xCoordinate, yCoordinate);
-				brick.createBrick(30,100);
+				brick.createBrick(100,400); //30,11
 				brickWall.add(brick);
 			}
 		}
