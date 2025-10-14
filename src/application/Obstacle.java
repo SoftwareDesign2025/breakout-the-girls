@@ -23,7 +23,7 @@ public class Obstacle {
 		obstacle.setFill(Color.RED);
 		
 		obstacle.setX(windowWidth / 2.0 - obstacleWidth / 2.0);
-		obstacle.setY(windowHeight / 2.0 - OBSTACLE_HEIGHT / 2.0);
+		obstacle.setY(windowHeight*0.6 - OBSTACLE_HEIGHT / 2.0);
 	}
 	
 	// Return the obstacle object which is a Rectangle. 

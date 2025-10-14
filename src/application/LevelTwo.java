@@ -50,9 +50,9 @@ public class LevelTwo extends Level {
 
 	    // Decide which power-up to spawn
 	    if (longPaddleValues.contains(brickValue)) {
-	        return new LongPaddle(brick.getX(), brick.getY());
+	        return new LongPaddle(brick.getX() + brick.getBrickWidth()/2, brick.getY() + brick.getBrickHeight()/2);
 	    } else if (extraLifeValues.contains(brickValue)) {
-	        return new ExtraLife(brick.getX(), brick.getY());
+	        return new ExtraLife(brick.getX() + brick.getBrickWidth()/2, brick.getY() + brick.getBrickHeight()/2);
 	    }
 
 	    return null; // no power-up
