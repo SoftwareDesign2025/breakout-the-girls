@@ -1,3 +1,4 @@
+// Game class
 // Johnathan Meeks
 package application;
 
@@ -7,8 +8,6 @@ import javafx.scene.text.Text;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 
-// TODO:
-// implement logic for switching levels
 
 public class Game {
 	private static final Color OVERLAY_COLOR = new Color(0, 0, 0, 0.8); // COLOR: BLACK / 80% OPACITY 
@@ -29,7 +28,19 @@ public class Game {
 	private Text scoreText = new Text();
 	private Text titleText = new Text();
 	private Rectangle endGameBackground;
+		private int roundsCompleted = 0;
+	private int roundsWon = 0;
 	
+	
+	private Level determineLevel(int windowWidth, int windowHeight) {
+		if (roundsCompleted == 0) {
+			return new LevelOne(windowWidth, windowHeight);
+		} else if (roundsCompleted == 1) {
+			return new LevelTwo(windowWidth, windowHeight);
+		} else {
+			return new LevelThree(windowWidth, windowHeight);
+		}
+	}
 	
 	private void handleBallLost() {
 		if (environment.getBall().checkIfRoundLost()) {
@@ -83,16 +94,22 @@ public class Game {
 	
 	
 	public Game(Group root, int windowWidth, int windowHeight) {
-		environment = new Environment(root, windowWidth, windowHeight);
+		Level level = determineLevel(windowWidth, windowHeight);
+		environment = new Environment(root, windowWidth, windowHeight, level);
 		checkCollision = new Collisions(environment);
-	}	
+		root.getChildren().add(titleText);
+		root.getChildren().add(scoreText);
+	}
 	
 	
 	public void startGame() {
-		isRunning = true;
-		environment.getBall().launchBall();
+		if (roundsCompleted < 3) {
+			isRunning = true;
+			environment.resetEnvironment();
+			environment.getBall().launchBall();
+		}
 	}
-
+	
 	public void step() {
 		if (!isRunning) {
 			return;
@@ -102,7 +119,8 @@ public class Game {
 		handleBallLost();
 		
 		if (environment.getBrickWall().getBrickWall().isEmpty()) {
-			endGame(true);
+			roundsWon += 1;
+			endRound(true);
 		}
 	}
 	
@@ -117,4 +135,51 @@ public class Game {
 	public int getLives() {
 		return lives;
 	}
+	
+	public void startAfterLifeLost() {
+		isRunning = true;
+		environment.getBall().launchBall();
+	}
+	
+	public void startRound() {
+		environment.getBall().launchBall();
+	}
+	
+	public void endRound(boolean win) {
+		isRunning = false;
+		
+		if (win) {
+			roundsWon += 1;
+		}
+		roundsCompleted += 1;
+		
+		titleText.setX(environment.getWindowWidth()/2.0);
+		titleText.setY(environment.getWindowHeight()/2.0);
+		titleText.setFont(new Font(30));
+		
+
+		if (win) {
+			titleText.setText("YOU WIN THE ROUND: Score" + environment.getScore().getCurrentScore());
+		} else {
+			titleText.setText("YOU LOST THE ROUND!");
+		}
+		
+		if (roundsCompleted < 3) {
+			Level nextLevel = determineLevel(environment.getWindowWidth(), environment.getWindowHeight());
+			environment = new Environment(environment.getRoot(), environment.getWindowWidth(), environment.getWindowHeight(), nextLevel);
+			checkCollision = new Collisions(environment);
+		} else {
+			endGame(roundsWon == 3);
+		}
+	}
+	
+	public void checkIfGameOver () {
+		if (roundsWon == 3) {
+			titleText.setX(environment.getWindowWidth()/2.0);
+			titleText.setY(environment.getWindowHeight()/2.0);
+			titleText.setFont(new Font(30));
+			titleText.setText("YOU WON ALL THE ROUNDS!: Final Score" + environment.getScore().getCurrentScore());
+		}
+	}
+
 }

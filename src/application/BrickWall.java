@@ -1,4 +1,4 @@
-// Anna Rakes
+// Anna Rakes i
 // Store collection of bricks and position them into a wall.
 package application;
 

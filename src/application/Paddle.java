@@ -1,4 +1,4 @@
-// Anna Rakes
+// Anna Rakes i
 // Creates and handles an object representing the paddle.
 package application;
 
