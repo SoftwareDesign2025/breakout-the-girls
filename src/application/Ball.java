@@ -1,4 +1,4 @@
-// Anna Rakes
+// Anna Rakes i
 // Create the ball object
 package application;
 

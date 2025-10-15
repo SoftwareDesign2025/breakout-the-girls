@@ -1,3 +1,4 @@
+// Game class
 package application;
 
 import javafx.scene.Group;

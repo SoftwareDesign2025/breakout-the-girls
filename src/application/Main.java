@@ -1,7 +1,7 @@
 //Katherine Hoadley
 package application;
 
-
+// Main Class
 
 import javafx.application.Application;
 import javafx.scene.Group;
