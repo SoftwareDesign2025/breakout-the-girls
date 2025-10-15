@@ -37,9 +37,9 @@ public class Game {
 	        if (lives > 0) {
 	            // Reset the ball for the next round
 	            environment.getBall().resetBallPosition(environment.getWindowWidth(), environment.getWindowHeight());
-	            isRunning = false; // pause until SPACE is pressed again
+	            isRunning = false; // pause until space is pressed again
 	        } else {
-	            endGame(false);
+	            endRound(false);
 	        }
 	    }
 	}
@@ -105,12 +105,16 @@ public class Game {
 			endGame(true);
 		}
 	}
-
+	
 	public boolean getIsRunning() {
 		return isRunning;
 	}
 	
-	public Environment getLevel() {
+	public Environment getEnvironment() {
 		return environment;
+	}
+	
+	public int getLives() {
+		return lives;
 	}
 }

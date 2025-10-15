@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import javafx.animation.AnimationTimer;
 
 public class Main extends Application {
+	
 
 
     @Override
@@ -18,16 +19,6 @@ public class Main extends Application {
         Group root = new Group();
         Game game = new Game(root, 800, 600);
         
-//        root.getChildren().add(game.getPaddle().getPaddle());
-//        root.getChildren().add(game.getBall().getBall());
-//        root.getChildren().add(game.getText());
-//
-//
-//        // Add bricks
-//        for (Brick brick : game.getBrickWall().getBrickWall()) {
-//            root.getChildren().add(brick.getBrick());
-//        }
-
         Scene scene = new Scene(root, 800, 600);
         stage.setTitle("Breakout");
         stage.setScene(scene);
@@ -36,17 +27,35 @@ public class Main extends Application {
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.SPACE) {
                 if (!game.getIsRunning()) { 
-                    game.startGame();
+                		if (game.getLives() == 3 || game.getEnvironment().getBrickWall().getBrickWall().isEmpty()) {
+                			game.startGame();
+                		} else {
+                			game.startAfterLifeLost();
+                		}
                 }
             }
-            game.getLevel().getPaddle().handleKeyInput(event.getCode());
+            if (event.getCode() == KeyCode.RIGHT) {
+                game.getEnvironment().getPaddle().startMovingRight();
+            } else if (event.getCode() == KeyCode.LEFT) {
+            		game.getEnvironment().getPaddle().startMovingLeft();
+            }
+        });
+        
+        scene.setOnKeyReleased(event -> {
+            if (event.getCode() == KeyCode.RIGHT) {
+                game.getEnvironment().getPaddle().stopMovingRight();
+            } else if (event.getCode() == KeyCode.LEFT) {
+                game.getEnvironment().getPaddle().stopMovingLeft();
+            }
         });
 
         // Game loop
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
+            		game.getEnvironment().getPaddle().update();
                 game.step();
+                
             }
         };
         timer.start();
