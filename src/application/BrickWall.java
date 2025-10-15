@@ -21,8 +21,6 @@ public class BrickWall {
 			Color.LIGHTGOLDENRODYELLOW,Color.DARKSEAGREEN};
 	private int windowWidth;
 	private int windowHeight;
-	private int numberOfColumns;
-	private int numberOfRows;
 	private Brick emptyBrick = new Brick();
 
 	
@@ -35,8 +33,6 @@ public class BrickWall {
 	public BrickWall(int windowWidth, int windowHeight) {
 		this.windowHeight = windowHeight;
 		this.windowWidth = windowWidth;
-		numberOfColumns = this.windowWidth/emptyBrick.getBrickWidth();
-		numberOfRows = (this.windowHeight/3) / emptyBrick.getBrickHeight();
 	}
 
 	
@@ -46,16 +42,63 @@ public class BrickWall {
 	 * Then creates a brick with the next position and random color.
 	 */
 	public void createBrickWall() {
+		emptyBrick.createBrick(100,400);
+		int numberOfColumns = this.windowWidth/emptyBrick.getBrickWidth();
+		int numberOfRows = (this.windowHeight/3)/emptyBrick.getBrickHeight();
 		for (int i = 0; i<numberOfRows ; i++) {
 			for (int j = 0; j<numberOfColumns; j++) {
 				double xCoordinate = j*emptyBrick.getBrickWidth();
 				double yCoordinate = i*emptyBrick.getBrickHeight();
 				Brick brick = new Brick(generateRandomBrickColor(), xCoordinate, yCoordinate);
-				brick.createBrick();
+				brick.createBrick(100,400); //30,11
 				brickWall.add(brick);
 			}
 		}
 	}
+	
+	public void createIntermediateBrickWall() {
+		emptyBrick.createBrick(40, 100);
+		int numberOfColumns = this.windowWidth / emptyBrick.getBrickWidth();
+		int numberOfRows = (int) (((this.windowHeight / 3) / emptyBrick.getBrickHeight())*1.5);
+		int gapInterval = 3; 
+		double gapWidth = emptyBrick.getBrickWidth() / 2.0;
+		for (int i = 0; i < numberOfRows; i++) {
+			for (int j = 0; j < numberOfColumns; j++) {
+				double xCoordinate = j * emptyBrick.getBrickWidth();
+				double yCoordinate = i * emptyBrick.getBrickHeight();
+
+				if ((j + 1) % gapInterval == 0) {
+					xCoordinate += gapWidth; 
+				}
+
+				Brick brick = new Brick(generateRandomBrickColor(), xCoordinate, yCoordinate);
+				brick.createBrick(40,100);
+				brickWall.add(brick);
+			}
+
+		}
+	}
+	
+	public void createHardBrickWall() {
+		emptyBrick.createBrick(30, 70);
+		int numberOfColumns = this.windowWidth/emptyBrick.getBrickWidth();
+		int numberOfRows = (int) (((this.windowHeight/3) / emptyBrick.getBrickHeight())*1.5);
+		
+		for (int i = 0; i < numberOfRows; i++) {
+		    for (int j = 0; j < numberOfColumns; j++) {
+		        if (j % 2 == 1) {
+		            continue;
+		        }
+		        double xCoordinate = j * emptyBrick.getBrickWidth();
+		        double yCoordinate = i * emptyBrick.getBrickHeight();
+		        Brick brick = new Brick(generateRandomBrickColor(), xCoordinate, yCoordinate);
+		        brick.createBrick(30, 70);
+		        brickWall.add(brick);
+		    }
+		}
+	}
+
+
 	
 	private Paint generateRandomBrickColor () {
 		Paint brickColor = colorList[random.nextInt(6)];

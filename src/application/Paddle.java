@@ -11,8 +11,8 @@ public class Paddle {
 	
 	private final Paint PADDLE_COLOR = Color.DEEPPINK;
 	private final int PADDLE_HEIGHT = 20;
-	private final int PADDLE_WIDTH = 70;
-	private final int PADDLE_SPEED = 20; // how do i speed up paddle
+	private int paddleWidth = 70;
+	private final int PADDLE_SPEED = 10; // how do i speed up paddle
 
 
 	private Rectangle paddle;
@@ -20,6 +20,8 @@ public class Paddle {
 	private int windowHeight;
 	private double xCoordinate;
 	private double yCoordinate;
+	private boolean movingRight;
+	private boolean movingLeft;
 
 	
 	/* Method createPaddleShape
@@ -29,10 +31,10 @@ public class Paddle {
 		this.windowWidth = windowWidth;
 		this.windowHeight = windowHeight;
 		
-		paddle = new Rectangle(PADDLE_WIDTH, PADDLE_HEIGHT);
+		paddle = new Rectangle(paddleWidth, PADDLE_HEIGHT);
 		
-		xCoordinate = windowWidth/2 - (PADDLE_WIDTH/2.0);
-		yCoordinate = windowHeight * 0.8 - PADDLE_HEIGHT;
+		xCoordinate = windowWidth/2 - (paddleWidth/2.0);
+		yCoordinate = windowHeight * 0.9 - PADDLE_HEIGHT;
 		
 		paddle.setX(xCoordinate);
 		paddle.setY(yCoordinate);
@@ -64,14 +66,14 @@ public class Paddle {
 	/* Method handleKeyInput
 	 * based on the key pressed, move the paddle left or right.
 	 */
-	public void handleKeyInput (KeyCode code) {
-		if (code == KeyCode.RIGHT) {
-			movePaddleHorizontally(true);
-		} 
-		else if (code == KeyCode.LEFT) {
-			movePaddleHorizontally(false);
-		}
-	}
+//	public void handleKeyInput (KeyCode code) {
+//		if (code == KeyCode.RIGHT) {
+//			movePaddleHorizontally(true);
+//		} 
+//		else if (code == KeyCode.LEFT) {
+//			movePaddleHorizontally(false);
+//		}
+//	}
 	
 	private void keepPaddleInBounds() {
 	    if (paddle.getX() < 0) {
@@ -80,6 +82,31 @@ public class Paddle {
 	    if (paddle.getX() + paddle.getWidth() > windowWidth) {
 	        paddle.setX(windowWidth - paddle.getWidth());
 	    }
+	}
+	
+	public void increasePaddleWidth() {
+		paddleWidth += 5;
+	}
+	
+	public void startMovingRight() {
+	    movingRight = true;
+	}
+
+	public void stopMovingRight() {
+	    movingRight = false;
+	}
+
+	public void startMovingLeft() {
+	    movingLeft = true;
+	}
+
+	public void stopMovingLeft() {
+	    movingLeft = false;
+	}
+
+	public void update() {
+	    if (movingRight) movePaddleHorizontally(true);
+	    if (movingLeft) movePaddleHorizontally(false);
 	}
 	
 	

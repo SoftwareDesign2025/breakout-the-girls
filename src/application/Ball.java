@@ -11,7 +11,7 @@ import javafx.scene.shape.Circle;
 public class Ball {
 	
 	private final double radius = 10;
-    private final double SPEED = 280;
+    private final double SPEED = 150;
 	
     // Fields:
 	private Circle ball;
@@ -29,7 +29,7 @@ public class Ball {
 	public void createBall(int windowWidth, int windowHeight) {
 		ball = new Circle();		
 		double xCoordinate = windowWidth/2;
-		double yCoordinate = windowHeight*2.0/3.0;
+		double yCoordinate = windowHeight * 0.8;
 		
 		ball.setCenterX(xCoordinate);
 		ball.setCenterY(yCoordinate);
@@ -81,7 +81,7 @@ public class Ball {
 	 * It reverse the y to send the brick the opposite direction, but slightly alters the 
 	 * x which changes the angle at which the ball bounces off. 
 	 */
-	public void collisionWithBrickOrPaddle () {
+	public void changeBallVelocity () {
 		double newY = -ballVelocity.getY();
 		double newX = ballVelocity.getX() + getRandomVelocityChange();
         ballVelocity = new Point2D(newX,newY);
@@ -102,7 +102,7 @@ public class Ball {
 	
 	public void resetBallPosition(int windowWidth, int windowHeight) {
 	    ball.setCenterX(windowWidth / 2.0);
-	    ball.setCenterY(windowHeight * 2.0 / 3.0);
+	    ball.setCenterY(windowHeight * 0.8);
 	    ballVelocity = new Point2D(0, 0);
 	    roundLost = false; // Reset this flag!
 	}
