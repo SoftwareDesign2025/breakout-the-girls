@@ -1,3 +1,5 @@
+// Obstacle Class
+
 package application;
 
 import javafx.scene.paint.Color;
