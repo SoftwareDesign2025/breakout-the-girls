@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import import java.nio.file.Files
 
 
 // update this to handle both Mac and Windows folder structures
