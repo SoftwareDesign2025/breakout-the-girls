@@ -11,7 +11,7 @@ import javafx.scene.shape.Circle;
 public class Ball {
 	
 	private final double radius = 10;
-    private final double SPEED = 150;
+    private final double SPEED = 300;
 	
     // Fields:
 	private Circle ball;
@@ -84,6 +84,13 @@ public class Ball {
 	public void changeBallVelocity () {
 		double newY = -ballVelocity.getY();
 		double newX = ballVelocity.getX() + getRandomVelocityChange();
+		
+		double currentSpeed = Math.sqrt(newX*newX + newY*newY);
+	    double scale = SPEED / currentSpeed;
+
+	    newX *= scale;
+	    newY *= scale;
+	    
         ballVelocity = new Point2D(newX,newY);
 	}
 	

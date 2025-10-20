@@ -2,7 +2,6 @@
 // Create an individual brick object with its point value and determine if it was hit or not.
 package application;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import javafx.scene.paint.Color;
@@ -13,8 +12,6 @@ public class Brick {
 
 	private int brickHeight;
 	private int brickWidth;
-	private final int EXTRA_LIFE_OCCURRENCES = 5;
-	private final int EXTEND_PADDLE_OCCURRENCES = 10;
 	private final int MAX_BRICK_POINT_VALUE = 25;
 
 	// Fields
@@ -27,7 +24,7 @@ public class Brick {
 	private int brickPointValue;
 	
 	// Whether the brick has been hit by the ball or not:
-	private boolean isDestroyed;
+//	private boolean isDestroyed;
 	
     private Random random = new Random();
     
@@ -41,7 +38,7 @@ public class Brick {
 		this.xCoordinate = xCoordinate;
 		this.yCoordinate = yCoordinate;
 		brickPointValue = random.nextInt(MAX_BRICK_POINT_VALUE) + 1;
-		isDestroyed = false;
+//		isDestroyed = false;
 	}
 	
 	
@@ -68,7 +65,7 @@ public class Brick {
 	public void destroyBrick () {
 		brick.setFill(Color.TRANSPARENT);
 		brick.setStroke(Color.TRANSPARENT);
-		isDestroyed = true;
+//		isDestroyed = true;
 	}
 	
 	// Gets the point value assigned to the brick if it was destroyed and returns it.

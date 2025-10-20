@@ -7,7 +7,6 @@ import javafx.scene.shape.Rectangle;
 
 public class Obstacle {
 	private final int OBSTACLE_HEIGHT = 30;
-	private int obstacleWidth;
 	double xCoordinate;
 	double yCoordinate;
 

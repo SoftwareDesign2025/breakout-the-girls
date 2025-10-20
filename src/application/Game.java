@@ -166,7 +166,9 @@ public class Game {
 		
 		if (roundsCompleted < 3) {
 			Level nextLevel = determineLevel(environment.getWindowWidth(), environment.getWindowHeight());
-			environment = new Environment(environment.getRoot(), environment.getWindowWidth(), environment.getWindowHeight(), nextLevel);
+			Group root = environment.getRoot();
+			root.getChildren().clear();
+			environment = new Environment(root, environment.getWindowWidth(), environment.getWindowHeight(), nextLevel);
 			checkCollision = new Collisions(environment);
 		} else {
 			endGame(roundsWon == 3);
