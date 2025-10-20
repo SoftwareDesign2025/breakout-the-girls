@@ -2,7 +2,6 @@
 // Creates and handles an object representing the paddle.
 package application;
 
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
@@ -17,7 +16,6 @@ public class Paddle {
 
 	private Rectangle paddle;
 	private int windowWidth;
-	private int windowHeight;
 	private double xCoordinate;
 	private double yCoordinate;
 	private boolean movingRight;
@@ -29,7 +27,6 @@ public class Paddle {
 	 */
 	public void createPaddle(int windowWidth, int windowHeight) {
 		this.windowWidth = windowWidth;
-		this.windowHeight = windowHeight;
 		
 		paddle = new Rectangle(paddleWidth, PADDLE_HEIGHT);
 		
