@@ -17,8 +17,8 @@ public abstract class PowerUp {		//abstract because it needs a subclass to do an
 	protected double x;
 	protected double y;
 	protected boolean isActive;
-	protected int radius = 10;
-	protected int fallSpeed = 2;
+	protected final int RADIUS = 10;
+	protected final int FALL_SPEED = 2;
 	protected Circle onScreenPowerUp;
 	
 	//constructor
@@ -26,7 +26,7 @@ public abstract class PowerUp {		//abstract because it needs a subclass to do an
 		this.x = x;
 		this.y = y;
 		this.isActive = true;
-		this.onScreenPowerUp = new Circle(x, y, radius);
+		this.onScreenPowerUp = new Circle(x, y, RADIUS);
 	}
 	
 	//method to add a powerUp into game
@@ -35,7 +35,7 @@ public abstract class PowerUp {		//abstract because it needs a subclass to do an
 	//movement
 	public void fall() {
 		if(isActive) {
-			y+= fallSpeed;
+			y+= FALL_SPEED;
 			onScreenPowerUp.setCenterY(y);
 		}
 	}
