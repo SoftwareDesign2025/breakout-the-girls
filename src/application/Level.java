@@ -54,7 +54,7 @@ public abstract class Level {
 
     private ArrayList<Integer> generateMultiples(int step) {
         ArrayList<Integer> values = new ArrayList<>();
-        if (step <= 0) return values; // handle cases with no Long Paddle
+        if (step <= 0) return values; 
         for (int i = step; i < MAX_BRICK_POINT_VALUE; i += step) {
             values.add(i);
         }
@@ -62,8 +62,5 @@ public abstract class Level {
     }
     
     
-   
-
-
     public abstract Obstacle createObstacle();
 }
