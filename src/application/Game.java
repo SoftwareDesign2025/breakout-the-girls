@@ -37,6 +37,16 @@ public class Game {
 	private MainScreen mainScreen; 
 	
 	
+	private Level determineLevel(int windowWidth, int windowHeight) {
+		if (roundsCompleted == 0) {
+			return new LevelOne(windowWidth, windowHeight);
+		} else if (roundsCompleted == 1) {
+			return new LevelTwo(windowWidth, windowHeight);
+		} else {
+			return new LevelThree(windowWidth, windowHeight);
+		}
+	}
+	
 	private void handleBallLost() {
 		if (environment.getBall().checkIfRoundLost()) {
 	        lives--;
@@ -110,7 +120,7 @@ public class Game {
 		isRunning = true;
 		environment.getBall().launchBall();
 	}
-
+	
 	public void step() {
 		if (!isRunning) {
 			return;
@@ -121,7 +131,8 @@ public class Game {
 		handleBallLost();
 		
 		if (environment.getBrickWall().getBrickWall().isEmpty()) {
-			endGame(true);
+			roundsWon += 1;
+			endRound(true);
 		}
 		
 		// call @handleLevelCompleted()

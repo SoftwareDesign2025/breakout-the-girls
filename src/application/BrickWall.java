@@ -1,4 +1,4 @@
-// Anna Rakes
+// Anna Rakes i
 // Store collection of bricks and position them into a wall.
 package application;
 
@@ -58,24 +58,17 @@ public class BrickWall {
 	
 	public void createIntermediateBrickWall() {
 		emptyBrick.createBrick(40, 100);
-		int numberOfColumns = this.windowWidth / emptyBrick.getBrickWidth();
-		int numberOfRows = (int) (((this.windowHeight / 3) / emptyBrick.getBrickHeight())*1.5);
-		int gapInterval = 3; 
-		double gapWidth = emptyBrick.getBrickWidth() / 2.0;
-		for (int i = 0; i < numberOfRows; i++) {
-			for (int j = 0; j < numberOfColumns; j++) {
-				double xCoordinate = j * emptyBrick.getBrickWidth();
-				double yCoordinate = i * emptyBrick.getBrickHeight();
-
-				if ((j + 1) % gapInterval == 0) {
-					xCoordinate += gapWidth; 
-				}
-
-				Brick brick = new Brick(generateRandomBrickColor(), xCoordinate, yCoordinate);
-				brick.createBrick(40,100);
-				brickWall.add(brick);
-			}
-
+		int numberOfColumns = this.windowWidth/emptyBrick.getBrickWidth();
+		int maxNumberOfRows = (this.windowHeight/3)/emptyBrick.getBrickHeight();
+		for (int j = 0; j < numberOfColumns; j++) {
+		    int randomHeight = random.nextInt(maxNumberOfRows) + 2;
+		    for (int i = 0; i < randomHeight; i++) {
+		        double xCoordinate = j * emptyBrick.getBrickWidth();
+		        double yCoordinate = i * emptyBrick.getBrickHeight();
+		        Brick brick = new Brick(generateRandomBrickColor(), xCoordinate, yCoordinate);
+		        brick.createBrick(40, 100); 
+		        brickWall.add(brick);
+		    }
 		}
 	}
 	
@@ -86,14 +79,13 @@ public class BrickWall {
 		
 		for (int i = 0; i < numberOfRows; i++) {
 		    for (int j = 0; j < numberOfColumns; j++) {
-		        if (j % 2 == 1) {
-		            continue;
+		        if (j % 2 == 0) {
+		            double xCoordinate = j * emptyBrick.getBrickWidth();
+		            double yCoordinate = i * emptyBrick.getBrickHeight();
+		            Brick brick = new Brick(generateRandomBrickColor(), xCoordinate, yCoordinate);
+		            brick.createBrick(30, 70);
+		            brickWall.add(brick);
 		        }
-		        double xCoordinate = j * emptyBrick.getBrickWidth();
-		        double yCoordinate = i * emptyBrick.getBrickHeight();
-		        Brick brick = new Brick(generateRandomBrickColor(), xCoordinate, yCoordinate);
-		        brick.createBrick(30, 70);
-		        brickWall.add(brick);
 		    }
 		}
 	}

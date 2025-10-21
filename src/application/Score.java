@@ -1,4 +1,4 @@
-// Johnathan Meeks
+// Johnathan Meeks i
 package application;
 
 import java.io.IOException;
