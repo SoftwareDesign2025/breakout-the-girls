@@ -14,7 +14,6 @@ import javafx.scene.paint.Color;
 
 public class LongPaddle extends PowerUp{
 	
-	private int PADDLE_LENGTH_MULTIPLIER = 2;
 	
 	public LongPaddle(double x, double y) {
 		super(x, y);
@@ -23,10 +22,10 @@ public class LongPaddle extends PowerUp{
 	}
 
 	@Override
-	public int activatePowerUp(int paddleLength) {
-		int longPaddleLength = paddleLength * PADDLE_LENGTH_MULTIPLIER;
-		setActive(false);
-		return longPaddleLength;
+	public void activatePowerUp(Environment environment) {
+        Paddle paddle = environment.getPaddle();
+        paddle.increasePaddleWidth();
+        setActive(false);
 	}
 
 }

@@ -22,12 +22,8 @@ public class ExtraLife extends PowerUp{
     }
 	
 	 @Override
-	 public int activatePowerUp(int lives) {
-	    // Add one life to the player
-	    lives++;
-
-	    // Deactivate so it stops moving and disappears
+	 public void activatePowerUp(Environment environment) {
+	    environment.increaseLives();
 	    setActive(false);
-	    return lives;
 	}
 }
