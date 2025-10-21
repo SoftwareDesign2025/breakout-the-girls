@@ -30,7 +30,7 @@ public abstract class PowerUp {		//abstract because it needs a subclass to do an
 	}
 	
 	//method to add a powerUp into game
-	public abstract int activatePowerUp(int lives);
+	public abstract void activatePowerUp(Environment environment);
 	
 	//movement
 	public void fall() {
