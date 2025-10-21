@@ -7,8 +7,8 @@ public class LevelTwo extends Level {
 	
 	public LevelTwo (int windowWidth, int windowHeight) {
 		super(windowWidth, windowHeight);
-		 this.extraLifeOccurrences = 8;
-	     this.extendPaddleOccurrences = 8;
+		 this.extraLifeOccurrences = 6;
+	     this.extendPaddleOccurrences = 7;
 	}
 	
 	@Override

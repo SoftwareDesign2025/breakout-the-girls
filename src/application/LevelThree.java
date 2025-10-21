@@ -8,7 +8,7 @@ public class LevelThree extends Level {
 	public LevelThree (int windowWidth, int windowHeight) {
 		super(windowWidth, windowHeight);
 		this.extraLifeOccurrences = 8;
-        this.extendPaddleOccurrences = 10;
+        this.extendPaddleOccurrences = 9;
 	}
 	
 	@Override

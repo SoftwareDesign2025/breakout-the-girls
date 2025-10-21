@@ -18,13 +18,15 @@ public class Environment {
 	private Group root;
 	private Obstacle obstacle;
 	private Level level;
+	private Game game;
 	
 	
-	public Environment(Group root, int windowWidth, int windowHeight, Level level) {
+	public Environment(Group root, int windowWidth, int windowHeight, Level level, Game game) {
 		this.root = root;
 		this.windowHeight = windowHeight;
 		this.windowWidth = windowWidth;
 		this.level = level;
+		this.game = game;
 		
 		paddle = new Paddle();
 		ball = new Ball();
@@ -54,6 +56,10 @@ public class Environment {
 	public void resetEnvironment() {
 		root.getChildren().clear();
 		initializeObjects();
+	}
+	
+	public void increaseLives() {
+		game.setLives(game.getLives() + 1);
 	}
 		
 	
