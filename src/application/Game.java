@@ -1,3 +1,4 @@
+
 // Johnathan Meeks
 package application;
 
@@ -8,10 +9,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 
 // TODO:
-// implement logic for switching levels
 
 public class Game {
-	private static final Color OVERLAY_COLOR = new Color(0, 0, 0, 0.8); // COLOR: BLACK / 80% OPACITY 
+	private static final Color OVERLAY_COLOR = new Color(0, 0, 0, 0.8); // COLOR: BLACK / 80% OPACITY
 	private static final Color TEXT_COLOR = Color.WHITE;
 	private static final int TITLE_FONT_SIZE = 50;
 	private static final int SCORE_FONT_SIZE = 40;
@@ -26,9 +26,15 @@ public class Game {
 	private double elapsedTime = 1.0 / 60.0;
 	private boolean isRunning = false;
 	private int lives = 3;
+	//levels
+	private Level levelOne;
+	private Level leveTwo;
+	private Level levelThree;
+	//screens
 	private Text scoreText = new Text();
 	private Text titleText = new Text();
 	private Rectangle endGameBackground;
+	private MainScreen mainScreen; 
 	
 	
 	private void handleBallLost() {
@@ -39,9 +45,14 @@ public class Game {
 	            environment.getBall().resetBallPosition(environment.getWindowWidth(), environment.getWindowHeight());
 	            isRunning = false; // pause until space is pressed again
 	        } else {
-	            endRound(false);
+	        	//FIXME: this doesn't exist??
+	            endGame(false);
 	        }
 	    }
+	}
+	
+	private void handleLevelCompleted() {
+		// todo
 	}
 	
 	private void configureEndGameDisplayText(Text text, double yPosition, Font font) {
@@ -62,7 +73,7 @@ public class Game {
 			endGameBackground = new Rectangle(0, 0, environment.getWindowWidth(), environment.getWindowHeight());
 			endGameBackground.setFill(OVERLAY_COLOR);
 			environment.getRoot().getChildren().add(endGameBackground);
-		} 
+		}
 		else {
 			endGameBackground.setFill(OVERLAY_COLOR);
 		}
@@ -70,7 +81,7 @@ public class Game {
 		String titleString;
 		if (win) {
 		    titleString = WIN_MESSAGE;
-		} 
+		}
 		else {
 		    titleString = LOSE_MESSAGE;
 		}
@@ -83,12 +94,19 @@ public class Game {
 	
 	
 	public Game(Group root, int windowWidth, int windowHeight) {
-		environment = new Environment(root, windowWidth, windowHeight);
+		levelOne = new LevelOne(windowWidth, windowHeight);
+		environment = new Environment(root, windowWidth, windowHeight, levelOne);
 		checkCollision = new Collisions(environment);
-	}	
+		mainScreen = new MainScreen(root, windowWidth, windowHeight);
+		
+		mainScreen.getStartButton().setOnAction(event -> {
+			startGame();
+		});
+	}
 	
 	
 	public void startGame() {
+		mainScreen.hide();
 		isRunning = true;
 		environment.getBall().launchBall();
 	}
@@ -97,6 +115,7 @@ public class Game {
 		if (!isRunning) {
 			return;
 		}
+		
 		environment.getBall().move(elapsedTime);
 		checkCollision.checkAllCollisions();
 		handleBallLost();
@@ -104,6 +123,8 @@ public class Game {
 		if (environment.getBrickWall().getBrickWall().isEmpty()) {
 			endGame(true);
 		}
+		
+		// call @handleLevelCompleted()
 	}
 	
 	public boolean getIsRunning() {
@@ -116,5 +137,9 @@ public class Game {
 	
 	public int getLives() {
 		return lives;
+	}
+
+	public void startAfterLifeLost() {
+		//System.out.println("hell wolrd");
 	}
 }
