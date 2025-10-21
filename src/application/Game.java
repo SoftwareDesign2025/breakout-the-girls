@@ -32,6 +32,14 @@ public class Game {
 	private int roundsWon = 0;
 	
 	
+	//levels
+	private Level levelOne;
+	private Level leveTwo;
+	private Level levelThree;
+	//screens
+	private MainScreen mainScreen; 
+	
+	
 	private Level determineLevel(int windowWidth, int windowHeight) {
 		if (roundsCompleted == 0) {
 			return new LevelOne(windowWidth, windowHeight);
@@ -41,6 +49,7 @@ public class Game {
 			return new LevelThree(windowWidth, windowHeight);
 		}
 	}
+	
 	
 	private void handleBallLost() {
 		if (environment.getBall().checkIfRoundLost()) {
@@ -55,6 +64,7 @@ public class Game {
 	    }
 	}
 	
+	
 	private void configureEndGameDisplayText(Text text, double yPosition, Font font) {
 		text.setFont(font);
 		text.setFill(TEXT_COLOR);
@@ -65,6 +75,7 @@ public class Game {
 			environment.getRoot().getChildren().add(text);
 		}
 	}
+	
 	
 	private void endGame(boolean win) {
 		isRunning = false;
@@ -93,22 +104,31 @@ public class Game {
 	}
 	
 	
+	
 	public Game(Group root, int windowWidth, int windowHeight) {
 		Level level = determineLevel(windowWidth, windowHeight);
 		environment = new Environment(root, windowWidth, windowHeight, level);
 		checkCollision = new Collisions(environment);
 		root.getChildren().add(titleText);
 		root.getChildren().add(scoreText);
+		
+		mainScreen = new MainScreen(root, windowWidth, windowHeight);
+		mainScreen.getStartButton().setOnAction(event -> {
+			startGame();
+		});
+
 	}
 	
 	
 	public void startGame() {
 		if (roundsCompleted < 3) {
+			mainScreen.hide();
 			isRunning = true;
 			environment.resetEnvironment();
 			environment.getBall().launchBall();
 		}
 	}
+	
 	
 	public void step() {
 		if (!isRunning) {
@@ -124,9 +144,11 @@ public class Game {
 		}
 	}
 	
+	
 	public boolean getIsRunning() {
 		return isRunning;
 	}
+	
 	
 	public Environment getEnvironment() {
 		return environment;
@@ -185,3 +207,12 @@ public class Game {
 	}
 
 }
+	
+	
+	
+	
+	
+
+	
+
+
