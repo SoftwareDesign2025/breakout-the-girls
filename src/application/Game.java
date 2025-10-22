@@ -1,219 +1,235 @@
-// Game class
 // Johnathan Meeks
 package application;
 
 import javafx.scene.Group;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.paint.Color;
 
 
 public class Game {
-	private static final Color OVERLAY_COLOR = new Color(0, 0, 0, 0.8); // COLOR: BLACK / 80% OPACITY 
-	private static final Color TEXT_COLOR = Color.WHITE;
-	private static final int TITLE_FONT_SIZE = 50;
-	private static final int SCORE_FONT_SIZE = 40;
-	private static final String WIN_MESSAGE = "YOU WIN!";
-	private static final String LOSE_MESSAGE = "GAME OVER!";
-	private static final String FINAL_SCORE_STRING = "Final score: ";
-	private static final double TITLE_Y_POSITION_FACTOR = 4.0;
-	private static final double SCORE_Y_POSITION_FACTOR = 2.0;
-	
-	private Environment environment;
-	private Collisions checkCollision;
-	private boolean gameOver = false;
-	private double elapsedTime = 1.0 / 60.0;
-	private boolean isRunning = false;
-	private int lives = 3;
-	private Text scoreText = new Text();
-	private Text titleText = new Text();
-	private Rectangle endGameBackground;
-		private int roundsCompleted = 0;
-	private int roundsWon = 0;
-	
-	//screens
-	private MainScreen mainScreen; 
-	
-	
-	public Game(Group root, int windowWidth, int windowHeight) {
-		Level level = determineLevel(windowWidth, windowHeight);
-		environment = new Environment(root, windowWidth, windowHeight, level, this);
-		checkCollision = new Collisions(environment);
-		root.getChildren().add(titleText);
-		root.getChildren().add(scoreText);
-		
-		mainScreen = new MainScreen(root, windowWidth, windowHeight);
-		mainScreen.getStartButton().setOnAction(event -> {
-			startGame();
-		});
+    private final Color OVERLAY_COLOR = new Color(0, 0, 0, 0.8); // COLOR: BLACK / 80% OPACITY
+    private final Color TEXT_COLOR = Color.WHITE;
+    private final int TITLE_FONT_SIZE = 50;
+    private final int SCORE_FONT_SIZE = 40;
+    private final String WIN_MESSAGE = "YOU WIN!";
+    private final String LOSE_MESSAGE = "GAME OVER!";
+    private final String FINAL_SCORE_STRING = "Final score: ";
+    private final double TITLE_Y_POSITION_FACTOR = 4.0;
+    private final double SCORE_Y_POSITION_FACTOR = 2.0;
+    private final int TOTAL_LEVELS = 3;
+    
+    private Environment environment;
+    private Collisions checkCollision;
+    // GAME
+    private double elapsedTime = 1.0 / 60.0;
+    private boolean isRunning = false;
+    private boolean gameOver = false;
+    private int lives = 3;
+    private int roundsCompleted = 0;
+    private int roundsWon = 0;
+    // LEVELS 
+    private Level levelOne;
+    private Level levelTwo;
+    private Level levelThree;
+    // SCREENS
+    private Text scoreText = new Text();
+    private Text titleText = new Text();
+    private Rectangle endGameBackground;
+    private MainScreen mainScreen;
 
-	}
-	
-	private Level determineLevel(int windowWidth, int windowHeight) {
-		if (roundsCompleted == 0) {
-			return new LevelOne(windowWidth, windowHeight);
-		} else if (roundsCompleted == 1) {
-			return new LevelTwo(windowWidth, windowHeight);
-		} else {
-			return new LevelThree(windowWidth, windowHeight);
-		}
-	}
-	
+    
+    private Level determineNextLevel() {
+        if (roundsCompleted == 0) {
+            return levelOne;
+        }
+        else if (roundsCompleted == 1) {
+            return levelTwo;
+        }
+        else {
+            return levelThree;
+        }
+    }
 
-	public void startGame() {
-		if (!gameOver) {
-			if (roundsCompleted < 3) {
-				mainScreen.hide();
-				isRunning = true;
-				environment.resetEnvironment();
-				environment.getBall().launchBall();
-			}
-		}
-	}
-	
-	private void endGame(boolean win) {
+    private void handleBallLost() {
+        if (environment.getBall().checkIfRoundLost()) {
+            lives--;
+            if (lives > 0) {
+                environment.getBall().resetBallPosition(environment.getWindowWidth(), environment.getWindowHeight());
+                isRunning = false;
+            } 
+            else {
+                gameOver = true;
+                endGame(false);
+            }
+        }
+    }
+
+    private void configureEndGameDisplayText(Text text, double yPosition, Font font) {
+        text.setFont(font);
+        text.setFill(TEXT_COLOR);
+        text.setX(
+            (environment.getWindowWidth() - text.getLayoutBounds().getWidth()) /
+                2
+        );
+        text.setY(yPosition);
+
+        if (!environment.getRoot().getChildren().contains(text)) {
+            environment.getRoot().getChildren().add(text);
+        }
+    }
+    
+    //round-based logic (losing but continuing to next orund) is not 100% complete yet.
+    private void endRound(boolean win) {
 		isRunning = false;
-
-		if (endGameBackground == null) {
-			endGameBackground = new Rectangle(0, 0, environment.getWindowWidth(), environment.getWindowHeight());
-			endGameBackground.setFill(OVERLAY_COLOR);
-			environment.getRoot().getChildren().add(endGameBackground);
-		} 
-		else {
-			endGameBackground.setFill(OVERLAY_COLOR);
-		}
-
-		String titleString;
+		
+		titleText.setX(environment.getWindowWidth()/2.0);
+		titleText.setY(environment.getWindowHeight()/2.0);
+		//constant-ify
+		titleText.setFont(new Font(30));
+		
 		if (win) {
-		    titleString = WIN_MESSAGE;
+			//constant-ify
+			titleText.setText("YOU WIN THE ROUND: Score" + environment.getScore().getCurrentScore());
+			roundsWon++;
+		}
+		else {
+			//constant-ify
+			titleText.setText("YOU LOST THE ROUND!");
+		}
+		
+		roundsCompleted++;
+		
+		if (roundsCompleted < TOTAL_LEVELS) {
+			Level level = determineNextLevel();
+			Group root = environment.getRoot();
+			root.getChildren().clear();
+			environment = new Environment(root, environment.getWindowWidth(), environment.getWindowHeight(), level);
+			checkCollision = new Collisions(environment);
 		} 
 		else {
-		    titleString = LOSE_MESSAGE;
+			endGame(roundsWon == TOTAL_LEVELS);
 		}
-		
-		titleText.setText(titleString);
-		configureEndGameDisplayText(titleText, environment.getWindowHeight() / TITLE_Y_POSITION_FACTOR, new Font(TITLE_FONT_SIZE));
-		scoreText.setText(FINAL_SCORE_STRING + environment.getScore().getCurrentScore());
-		configureEndGameDisplayText(scoreText, environment.getWindowHeight() / SCORE_Y_POSITION_FACTOR, new Font(SCORE_FONT_SIZE));
-	}
-	
-	public void startRound() {
+    }
+
+    private void endGame(boolean win) {
+        isRunning = false;
+   
+        if (endGameBackground == null) {
+            endGameBackground = new Rectangle(0, 0, environment.getWindowWidth(), environment.getWindowHeight());
+            endGameBackground.setFill(OVERLAY_COLOR);
+            environment.getRoot().getChildren().add(endGameBackground);
+        } 
+        else {
+            endGameBackground.setFill(OVERLAY_COLOR);
+        }
+        
+        String titleString;
+        if (win) {
+            titleString = WIN_MESSAGE;
+        } 
+        else {
+            titleString = LOSE_MESSAGE;
+        }
+
+        titleText.setText(titleString);
+        configureEndGameDisplayText(
+            titleText,
+            environment.getWindowHeight() / TITLE_Y_POSITION_FACTOR,
+            new Font(TITLE_FONT_SIZE)
+        );
+        
+        scoreText.setText(FINAL_SCORE_STRING + environment.getScore().getCurrentScore());
+        configureEndGameDisplayText(
+            scoreText,
+            environment.getWindowHeight() / SCORE_Y_POSITION_FACTOR,
+            new Font(SCORE_FONT_SIZE)
+        );
+    }
+
+    
+    public Game(Group root, int windowWidth, int windowHeight) {
+        levelOne = new LevelOne(windowWidth, windowHeight);
+        levelTwo = new LevelTwo(windowWidth, windowHeight);
+        levelThree = new LevelThree(windowWidth, windowHeight);
+        environment = new Environment(
+            root,
+            windowWidth,
+            windowHeight,
+            levelOne
+        );
+        checkCollision = new Collisions(environment);
+        mainScreen = new MainScreen(root, windowWidth, windowHeight);
+
+        mainScreen
+            .getStartButton()
+            .setOnAction(event -> {
+                startGame();
+            });
+    }
+    
+    
+    public void startRound() {
 		environment.getBall().launchBall();
 	}
-	
-	public void endRound(boolean win) {
-		if (gameOver) {
-			endGame(false);
-		} else {
-			isRunning = false;
+    
+    public void startGame() {
+    	if (gameOver) {
+    		return;
+    	}
+    	
+        mainScreen.hide();
+        isRunning = true;
+        environment.resetEnvironment();
+        environment.getBall().launchBall();
+    }
+    
+    public void startAfterLifeLost() {
+    	isRunning = true;
+        environment.getBall().launchBall();
+    }
 
-			if (win) {
-				roundsWon += 1;
-			}
-			roundsCompleted += 1;
+    public boolean getIsRunning() {
+        return isRunning;
+    }
 
-			titleText.setX(environment.getWindowWidth()/2.0);
-			titleText.setY(environment.getWindowHeight()/2.0);
-			titleText.setFont(new Font(30));
+    public Environment getEnvironment() {
+        return environment;
+    }
 
-
-			if (win) {
-				titleText.setText("YOU WIN THE ROUND: Score" + environment.getScore().getCurrentScore());
-			} else {
-				titleText.setText("YOU LOST THE ROUND!");
-			}
-
-			if (roundsCompleted < 3) {
-				Level nextLevel = determineLevel(environment.getWindowWidth(), environment.getWindowHeight());
-				Group root = environment.getRoot();
-				root.getChildren().clear();
-				environment = new Environment(root, environment.getWindowWidth(), environment.getWindowHeight(), nextLevel, this);
-				checkCollision = new Collisions(environment);
-			} else {
-				endGame(roundsWon == 3);
-			}
-		}
-	}
-	
-	public void startAfterLifeLost() {
-		isRunning = true;
-		environment.getBall().launchBall();
-	}
-	
-	
-	public void checkIfGameOver () {
-		if (roundsWon == 3) {
-			titleText.setX(environment.getWindowWidth()/2.0);
-			titleText.setY(environment.getWindowHeight()/2.0);
-			titleText.setFont(new Font(30));
-			titleText.setText("YOU WON ALL THE ROUNDS!: Final Score" + environment.getScore().getCurrentScore());
-		}
-	}
-	
-	
-	private void handleBallLost() {
-		if (environment.getBall().checkIfRoundLost()) {
-	        lives--;
-	        if (lives > 0) {
-	            // Reset the ball for the next round
-	            environment.getBall().resetBallPosition(environment.getWindowWidth(), environment.getWindowHeight());
-	            isRunning = false; // pause until space is pressed again
-	        } else {
-	        		gameOver = true;
-	            endRound(false);
-	        }
-	    }
-	}
-	
-	
-	private void configureEndGameDisplayText(Text text, double yPosition, Font font) {
-		text.setFont(font);
-		text.setFill(TEXT_COLOR);
-		text.setX((environment.getWindowWidth() - text.getLayoutBounds().getWidth()) / 2);
-		text.setY(yPosition);
-		
-		if (!environment.getRoot().getChildren().contains(text)) {
-			environment.getRoot().getChildren().add(text);
-		}
-	}
-	
-	
-	
-	
-	public void step() {
-		if (!isRunning) {
-			return;
-		}
-		environment.getBall().move(elapsedTime);
-		checkCollision.checkAllCollisions();
-		handleBallLost();
-		
-		if (environment.getBrickWall().getBrickWall().isEmpty()) {
-			roundsWon += 1;
-			endRound(true);
-		}
-	}
-	
-	
-	public boolean getIsRunning() {
-		return isRunning;
-	}
-	
-	
-	public Environment getEnvironment() {
-		return environment;
-	}
-	
-	public int getLives() {
-		return lives;
-	}
-	
-	public void setLives(int lives) {
-		this.lives = lives;
-	}
-	
-
+    public int getLives() {
+        return lives;
+    }
+    
+    public void step() {
+        if (!isRunning) {
+            return;
+        }
+        
+        environment.getBall().move(elapsedTime);
+        
+        /*
+         * Check power up list size --> check collisions --> check size again after collisions
+         * (because it deletes power ups during collisions)
+         * -> if it's smaller increment lives
+         * (this is the only way i've been able to get it to work, the paddlePowerUpCollisions() func doesn't 
+         * connect to the instance variable so it never updates lives)
+         */
+        int powerUpCountBefore = environment.getPowerUps().size();
+        checkCollision.checkAllCollisions();
+        int powerUpCountAfter = environment.getPowerUps().size();
+        if (powerUpCountAfter < powerUpCountBefore) {
+            lives++;
+        }
+        
+        handleBallLost();
+        
+        boolean hasRoundEnded = environment.getBrickWall().getBrickWall().isEmpty();
+        if (hasRoundEnded) {
+        	endRound(true);
+        }
+    }
 }
 	
 	
