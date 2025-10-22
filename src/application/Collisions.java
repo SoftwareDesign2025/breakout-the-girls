@@ -82,7 +82,7 @@ public class Collisions {
 				if (powerUp.getVisualNode().getBoundsInParent()
 						.intersects(paddle.getPaddle().getBoundsInParent())) {
 
-					powerUp.activatePowerUp(1); // could modify lives externally if needed
+					powerUp.activatePowerUp(environment); // could modify lives externally if needed
 					root.getChildren().remove(powerUp.getVisualNode());
 					powerUps.remove(i);
 				} else if (powerUp.getY() > windowHeight) {

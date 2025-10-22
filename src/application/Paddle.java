@@ -82,7 +82,13 @@ public class Paddle {
 	}
 	
 	public void increasePaddleWidth() {
-		paddleWidth += 5;
+		double currentWidth = paddle.getWidth();
+	    double newWidth = currentWidth + 5;
+
+	    double currentX = paddle.getX();
+	    paddle.setX(currentX - (newWidth - currentWidth)/2);
+
+	    paddle.setWidth(newWidth);
 	}
 	
 	public void startMovingRight() {
