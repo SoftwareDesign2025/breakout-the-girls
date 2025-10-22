@@ -1,7 +1,9 @@
 //Katherine Hoadley
 package application;
 
-// Main Class
+//This is the main entry point for the Breakout game application.
+// It initializes the JavaFX stage, sets up the game environment,
+// handles user keyboard input, and manages the main animation loop.
 
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -13,7 +15,8 @@ import javafx.animation.AnimationTimer;
 public class Main extends Application {
 	
 
-
+	// This method sets up the JavaFX stage, creates the game environment,
+	// defines keyboard controls for gameplay, and starts the main animation loop.
     @Override
     public void start(Stage stage) {
         Group root = new Group();
@@ -60,7 +63,8 @@ public class Main extends Application {
         };
         timer.start();
     }
-
+    
+    //Launches the JavaFX application and triggers start method
     public static void main(String[] args) {
         launch(args);
     }
