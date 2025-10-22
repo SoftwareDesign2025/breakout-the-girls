@@ -4,11 +4,14 @@ package application;
 
 public class LevelTwo extends Level {
 	
+	private final int EXTRA_LIFE_OCCURRENCES = 6;
+	private final int EXTEND_PADDLE_OCCURRENCES = 7;
+	
 	
 	public LevelTwo (int windowWidth, int windowHeight) {
 		super(windowWidth, windowHeight);
-		 this.extraLifeOccurrences = 6;
-	     this.extendPaddleOccurrences = 7;
+		this.extraLifeOccurrences = EXTRA_LIFE_OCCURRENCES;
+	    this.extendPaddleOccurrences = EXTEND_PADDLE_OCCURRENCES;
 	}
 	
 	@Override

@@ -2,6 +2,8 @@
 // Johnathan Meeks
 package application;
 
+import java.util.HashMap;
+
 import javafx.scene.Group;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -37,9 +39,7 @@ public class Game {
 	
 	
 	public Game(Group root, int windowWidth, int windowHeight) {
-		Level level = determineLevel(windowWidth, windowHeight);
-		environment = new Environment(root, windowWidth, windowHeight, level, this);
-		checkCollision = new Collisions(environment);
+		initializeEnvironment(root, windowWidth, windowHeight);
 		root.getChildren().add(titleText);
 		root.getChildren().add(scoreText);
 		
@@ -50,25 +50,44 @@ public class Game {
 
 	}
 	
+	public void initializeEnvironment(Group root, int windowWidth, int windowHeight) {
+		Level level = determineLevel(windowWidth, windowHeight);
+		environment = new Environment(root, windowWidth, windowHeight, level, this);
+		checkCollision = new Collisions(environment);
+	}
+	
+	public void advanceToNextLevel() {
+	    if (roundsCompleted < 3) {
+	        roundsCompleted++;
+	        resetEnvironmentForNextLevel();
+	    } else {
+	        endGame(true);
+	    }
+	}
+	
+	public void resetEnvironmentForNextLevel() {
+        Group root = environment.getRoot();
+        root.getChildren().clear();
+        initializeEnvironment(root, environment.getWindowWidth(), environment.getWindowHeight());
+	}
+
+	
 	private Level determineLevel(int windowWidth, int windowHeight) {
-		if (roundsCompleted == 0) {
-			return new LevelOne(windowWidth, windowHeight);
-		} else if (roundsCompleted == 1) {
-			return new LevelTwo(windowWidth, windowHeight);
-		} else {
-			return new LevelThree(windowWidth, windowHeight);
-		}
+		HashMap<Integer,Level> levels = new HashMap<>();
+		levels.put(1, new LevelOne(windowWidth, windowHeight));
+		levels.put(2, new LevelTwo(windowWidth,windowHeight));
+		levels.put(3, new LevelThree(windowWidth,windowHeight));
+		
+		return levels.get(roundsCompleted+1);
 	}
 	
 
 	public void startGame() {
-		if (!gameOver) {
-			if (roundsCompleted < 3) {
-				mainScreen.hide();
-				isRunning = true;
-				environment.resetEnvironment();
-				environment.getBall().launchBall();
-			}
+		if (!gameOver && roundsCompleted < 3) {
+			mainScreen.hide();
+			environment.resetEnvironment();
+			environment.getBall().launchBall();
+			isRunning = true;
 		}
 	}
 	
@@ -98,6 +117,7 @@ public class Game {
 		configureEndGameDisplayText(scoreText, environment.getWindowHeight() / SCORE_Y_POSITION_FACTOR, new Font(SCORE_FONT_SIZE));
 	}
 	
+	
 	public void startRound() {
 		environment.getBall().launchBall();
 	}
@@ -113,32 +133,33 @@ public class Game {
 			}
 			roundsCompleted += 1;
 
-			titleText.setX(environment.getWindowWidth()/2.0);
-			titleText.setY(environment.getWindowHeight()/2.0);
-			titleText.setFont(new Font(30));
-
-
+			String message;
 			if (win) {
-				titleText.setText("YOU WIN THE ROUND: Score" + environment.getScore().getCurrentScore());
+				message = "YOU WON THE ROUND! SCORE: " + environment.getScore().getCurrentScore();
 			} else {
-				titleText.setText("YOU LOST THE ROUND!");
+				message = "YOU LOST THE ROUND";
 			}
+			createRoundText(message);
 
 			if (roundsCompleted < 3) {
-				Level nextLevel = determineLevel(environment.getWindowWidth(), environment.getWindowHeight());
-				Group root = environment.getRoot();
-				root.getChildren().clear();
-				environment = new Environment(root, environment.getWindowWidth(), environment.getWindowHeight(), nextLevel, this);
-				checkCollision = new Collisions(environment);
+				resetEnvironmentForNextLevel();
 			} else {
 				endGame(roundsWon == 3);
 			}
 		}
 	}
 	
+	private void createRoundText(String text) {
+		titleText.setText(text);
+		titleText.setFont(new Font(30));
+		titleText.setX(environment.getWindowWidth()/2.0);
+		titleText.setY(environment.getWindowHeight()/2.0);
+		
+	}
+	
 	public void startAfterLifeLost() {
-		isRunning = true;
 		environment.getBall().launchBall();
+		isRunning = true;
 	}
 	
 	

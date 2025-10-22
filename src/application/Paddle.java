@@ -11,7 +11,8 @@ public class Paddle {
 	private final Paint PADDLE_COLOR = Color.DEEPPINK;
 	private final int PADDLE_HEIGHT = 20;
 	private int paddleWidth = 70;
-	private final int PADDLE_SPEED = 10; // how do i speed up paddle
+	private final int PADDLE_SPEED = 10; 
+	private final int PADDLE_SIZE_INCREASE = 10;
 
 
 	private Rectangle paddle;
@@ -83,7 +84,7 @@ public class Paddle {
 	
 	public void increasePaddleWidth() {
 		double currentWidth = paddle.getWidth();
-	    double newWidth = currentWidth + 5;
+	    double newWidth = currentWidth + PADDLE_SIZE_INCREASE;
 
 	    double currentX = paddle.getX();
 	    paddle.setX(currentX - (newWidth - currentWidth)/2);
