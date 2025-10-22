@@ -32,8 +32,9 @@ public abstract class PowerUp {		//abstract because it needs a subclass to do an
 	//method to add a powerUp into game
 	public abstract void activatePowerUp(Environment environment);
 	
-	//movement
-	public void fall() {
+	//this method controls the movement of the power-up.
+	//It falls at a constant by changing it's y position.
+	protected void fall() {
 		if(isActive) {
 			y+= FALL_SPEED;
 			onScreenPowerUp.setCenterY(y);
@@ -44,9 +45,7 @@ public abstract class PowerUp {		//abstract because it needs a subclass to do an
 	public Circle getVisualNode() {
         return onScreenPowerUp;
     }
-	public double getX() { 
-		return x;
-	}
+
 	public double getY() {
 		return y; 
 	}
