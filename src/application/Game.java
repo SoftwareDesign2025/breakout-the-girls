@@ -7,7 +7,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-// TODO:
 
 public class Game {
     private final Color OVERLAY_COLOR = new Color(0, 0, 0, 0.8); // COLOR: BLACK / 80% OPACITY
@@ -232,3 +231,12 @@ public class Game {
         }
     }
 }
+	
+	
+	
+	
+	
+
+	
+
+
