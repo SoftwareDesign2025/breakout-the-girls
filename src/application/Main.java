@@ -1,4 +1,5 @@
 //Katherine Hoadley
+
 package application;
 
 //This is the main entry point for the Breakout game application.
