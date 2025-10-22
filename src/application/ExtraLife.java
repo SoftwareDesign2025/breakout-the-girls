@@ -15,12 +15,16 @@ import javafx.scene.paint.Color;
 
 public class ExtraLife extends PowerUp{
 
+	//This is the constructor for the ExtraLife class
 	public ExtraLife(double x, double y) {
         super(x, y);
 		onScreenPowerUp.setFill(Color.LIGHTGREEN);
 
     }
 	
+	//Activates the power-up by taking in the environment, and then
+	//having the environment increase the lives. It then turns off
+	//after it is applied.
 	 @Override
 	 public void activatePowerUp(Environment environment) {
 	    environment.increaseLives();
