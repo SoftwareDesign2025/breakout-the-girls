@@ -1,4 +1,5 @@
 //Katherine Hoadley
+
 package application;
 
 //This is the main entry point for the Breakout game application.
@@ -28,20 +29,21 @@ public class Main extends Application {
         stage.show();
         
         scene.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.SPACE) {
-                if (!game.getIsRunning()) { 
-                		if (game.getLives() == 3 || game.getEnvironment().getBrickWall().getBrickWall().isEmpty()) {
-                			game.startGame();
-                		} else {
-                			game.startAfterLifeLost();
-                		}
-                }
-            }
-            if (event.getCode() == KeyCode.RIGHT) {
-                game.getEnvironment().getPaddle().startMovingRight();
-            } else if (event.getCode() == KeyCode.LEFT) {
-            		game.getEnvironment().getPaddle().startMovingLeft();
-            }
+        	KeyCode code = event.getCode();
+
+        	if (code == KeyCode.SPACE) {
+        		if (!game.getIsRunning()) { 
+        			if (game.getLives() == 3 || game.getEnvironment().getBrickWall().getBrickWall().isEmpty()) {
+        				game.startGame();
+        			} else {
+        				game.startAfterLifeLost();
+        			}
+        		}
+        	} else if (code == KeyCode.RIGHT) {
+        		game.getEnvironment().getPaddle().startMovingRight();
+        	} else if (code == KeyCode.LEFT) {
+        		game.getEnvironment().getPaddle().startMovingLeft();
+        	}
         });
         
         scene.setOnKeyReleased(event -> {
