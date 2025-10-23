@@ -17,7 +17,7 @@ public class LevelTwo extends Level {
 	
 	@Override
 	public void createSpecificBrickWall (BrickWall wall) {
-		brickWall.createIntermediateBrickWall();
+		brickWall.createBrickWall();
 	}
 
 
