@@ -14,13 +14,16 @@ import javafx.scene.paint.Color;
 
 public class LongPaddle extends PowerUp{
 	
-	
+	//This is the constructor for the LongPaddle class
 	public LongPaddle(double x, double y) {
 		super(x, y);
 		onScreenPowerUp.setFill(Color.LIGHTPINK);
 		
 	}
-
+	
+	//Activates the power-up by taking in the environment, and then
+	//having the environment increase the paddle width. It then turns off
+	//after it is applied.
 	@Override
 	public void activatePowerUp(Environment environment) {
         Paddle paddle = environment.getPaddle();

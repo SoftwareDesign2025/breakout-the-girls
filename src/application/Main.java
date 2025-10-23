@@ -1,7 +1,10 @@
 //Katherine Hoadley
+
 package application;
 
-// Main Class
+//This is the main entry point for the Breakout game application.
+// It initializes the JavaFX stage, sets up the game environment,
+// handles user keyboard input, and manages the main animation loop.
 
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -13,7 +16,8 @@ import javafx.animation.AnimationTimer;
 public class Main extends Application {
 	
 
-
+	// This method sets up the JavaFX stage, creates the game environment,
+	// defines keyboard controls for gameplay, and starts the main animation loop.
     @Override
     public void start(Stage stage) {
         Group root = new Group();
@@ -25,20 +29,29 @@ public class Main extends Application {
         stage.show();
         
         scene.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.SPACE) {
-                if (!game.getIsRunning()) { 
-                		if (game.getLives() == 3 || game.getEnvironment().getBrickWall().getBrickWall().isEmpty()) {
-                			game.startGame();
-                		} else {
-                			game.startAfterLifeLost();
-                		}
-                }
-            }
-            if (event.getCode() == KeyCode.RIGHT) {
-                game.getEnvironment().getPaddle().startMovingRight();
-            } else if (event.getCode() == KeyCode.LEFT) {
-            		game.getEnvironment().getPaddle().startMovingLeft();
-            }
+        	KeyCode code = event.getCode();
+
+        	if (code == KeyCode.SPACE) {
+        		if (!game.getIsRunning()) { 
+        			if (game.getLives() == 3 || game.getEnvironment().getBrickWall().getBrickWall().isEmpty()) {
+        				game.startGame();
+        			} else {
+        				game.startAfterLifeLost();
+        			}
+        		}
+        	} else if (code == KeyCode.RIGHT) {
+        		game.getEnvironment().getPaddle().startMovingRight();
+        	} else if (code == KeyCode.LEFT) {
+        		game.getEnvironment().getPaddle().startMovingLeft();
+        	}
+        	
+        	//easter eggs
+        	else if(code ==KeyCode.Q) {
+        		game.skipToLevel(2);
+        	}
+        	else if(code ==KeyCode.W) {
+        		game.skipToLevel(3);
+        	}
         });
         
         scene.setOnKeyReleased(event -> {
@@ -60,7 +73,8 @@ public class Main extends Application {
         };
         timer.start();
     }
-
+    
+    //Launches the JavaFX application and triggers start method
     public static void main(String[] args) {
         launch(args);
     }
