@@ -44,6 +44,14 @@ public class Main extends Application {
         	} else if (code == KeyCode.LEFT) {
         		game.getEnvironment().getPaddle().startMovingLeft();
         	}
+        	
+        	//easter eggs
+        	else if(code ==KeyCode.Q) {
+        		game.skipToLevel(2);
+        	}
+        	else if(code ==KeyCode.W) {
+        		game.skipToLevel(3);
+        	}
         });
         
         scene.setOnKeyReleased(event -> {
