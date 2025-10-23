@@ -64,6 +64,6 @@ public abstract class Level {
         return values;
     }
     
-    
+ 
     public abstract Obstacle createObstacle();
 }
