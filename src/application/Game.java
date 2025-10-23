@@ -286,6 +286,17 @@ public class Game {
 		}
 	}
 	
+	//Katherine Hoadley
+	//Easter egg that lets you skip to level
+	//2 or 3 to make testing easy
+	public void skipToLevel(int levelNumber) {
+		this.roundsCompleted = levelNumber -1;
+		this.roundsWon = levelNumber -1;
+		
+		resetEnvironmentForNextLevel();
+		
+		startRound();
+	}
 	
 	public boolean getIsRunning() {
 		return isRunning;
