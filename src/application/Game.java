@@ -101,7 +101,6 @@ public class Game {
 		levels.put(1, new LevelOne(windowWidth, windowHeight));
 		levels.put(2, new LevelTwo(windowWidth,windowHeight));
 		levels.put(3, new LevelThree(windowWidth,windowHeight));
-		
 		return levels.get(roundsCompleted+1);
 	}
 	
