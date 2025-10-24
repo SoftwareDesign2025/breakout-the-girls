@@ -1,3 +1,4 @@
+//Johnathan Meeks
 package application;
 
 import javafx.scene.Group;
@@ -9,8 +10,6 @@ import javafx.scene.text.Text;
 import javafx.scene.Group;
 
 public class MainScreen {
-
-
 	private static final Color OVERLAY_COLOR = new Color(0, 0, 0, 0.8); // COLOR: BLACK / 80% OPACITY
 	private static final Color TEXT_COLOR = Color.WHITE;
 	private static final int TITLE_FONT_SIZE = 70;
