@@ -101,29 +101,32 @@ public class Game {
 		levels.put(1, new LevelOne(windowWidth, windowHeight));
 		levels.put(2, new LevelTwo(windowWidth,windowHeight));
 		levels.put(3, new LevelThree(windowWidth,windowHeight));
+
 		return levels.get(roundsCompleted+1);
 	}
+	
+	private void configureOverlay(Rectangle overlay) {
+		if (overlay == null) {
+			overlay = new Rectangle(0, 0, environment.getWindowWidth(), environment.getWindowHeight());
+			overlay.setFill(OVERLAY_COLOR);
+	        environment.getRoot().getChildren().add(overlay);
+	    } 
+	    else {
+	    	overlay.setWidth(environment.getWindowWidth());
+	    	overlay.setHeight(environment.getWindowHeight());
+	    	overlay.setFill(OVERLAY_COLOR);
+	        if (!environment.getRoot().getChildren().contains(overlay)) {
+	        	environment.getRoot().getChildren().add(overlay);
+	        }
+	    }
+	}
+	
 	
 	/* method configureEndGameDisplayText
 	 * 
 	 */
 	private void configureGameDisplayText(Text text, double yPosition, Font font, String textValue) {
-		Group root = environment.getRoot();
-		
-		// end round overlay
-	    if ((backgroundOverlay == null) && (!gameOver)) {
-	        backgroundOverlay = new Rectangle(0, 0, environment.getWindowWidth(), environment.getWindowHeight());
-	        backgroundOverlay.setFill(OVERLAY_COLOR);
-	        root.getChildren().add(backgroundOverlay);
-	    } 
-	    else {
-	        backgroundOverlay.setWidth(environment.getWindowWidth());
-	        backgroundOverlay.setHeight(environment.getWindowHeight());
-	        backgroundOverlay.setFill(OVERLAY_COLOR);
-	        if (!root.getChildren().contains(backgroundOverlay)) {
-	            root.getChildren().add(backgroundOverlay);
-	        }
-	    }
+		configureOverlay(backgroundOverlay);
 	    
 		text.toFront();
 		text.setText(textValue);
@@ -132,10 +135,8 @@ public class Game {
 		text.setX((environment.getWindowWidth() - text.getLayoutBounds().getWidth()) / 2);
 		text.setY(yPosition);
 		
-		boolean doesEnvironmentHaveText = environment.getRoot().getChildren().contains(text);
-		if (!doesEnvironmentHaveText) {
-			environment.getRoot().getChildren().add(text);
-		}
+		environment.getRoot().getChildren().remove(text);
+		environment.getRoot().getChildren().add(text);
 	}
 	
 	/* method endGame
@@ -345,7 +346,6 @@ public class Game {
 	public boolean getIsRunning() {
 		return isRunning;
 	}
-	
 	
 	public Environment getEnvironment() {
 		return environment;
