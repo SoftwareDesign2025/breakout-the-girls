@@ -110,7 +110,8 @@ public class Game {
 	 */
 	private void configureGameDisplayText(Text text, double yPosition, Font font, String textValue) {
 		Group root = environment.getRoot();
-
+		
+		// end round overlay
 	    if ((backgroundOverlay == null) && (!gameOver)) {
 	        backgroundOverlay = new Rectangle(0, 0, environment.getWindowWidth(), environment.getWindowHeight());
 	        backgroundOverlay.setFill(OVERLAY_COLOR);
