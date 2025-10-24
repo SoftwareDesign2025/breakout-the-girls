@@ -264,9 +264,8 @@ public class Game {
 		text.setX((environment.getWindowWidth() - text.getLayoutBounds().getWidth()) / 2);
 		text.setY(yPosition);
 		
-		if (!environment.getRoot().getChildren().contains(text)) {
-			environment.getRoot().getChildren().add(text);
-		}
+		environment.getRoot().getChildren().remove(text);
+		environment.getRoot().getChildren().add(text);
 	}
 	
 	
@@ -281,7 +280,6 @@ public class Game {
 		handleBallLost();
 		
 		if (environment.getBrickWall().getBrickWall().isEmpty()) {
-			roundsWon += 1;
 			endRound(true);
 		}
 	}
