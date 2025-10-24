@@ -335,12 +335,11 @@ public class Game {
 	//Easter egg that lets you skip to level
 	//2 or 3 to make testing easy
 	public void skipToLevel(int levelNumber) {
-		this.roundsCompleted = levelNumber --;
-		this.roundsWon = levelNumber --;
-		
-		resetEnvironmentForNextLevel();
-		
-		startRound();
+		this.roundsCompleted = levelNumber - 1; // so determineLevel gets correct key
+	    this.roundsWon = levelNumber - 1;
+
+	    resetEnvironmentForNextLevel();
+	    startRound();
 	}
 	
 	public boolean getIsRunning() {
