@@ -1,44 +1,52 @@
 // Environment Class
-
+//
 package application;
 
 import java.util.ArrayList;
 
 import javafx.scene.Group;
 
+//
+//import java.util.ArrayList;
+//
+//import javafx.scene.Group;
+//
 public class Environment {
-	
 	private BrickWall brickWall;
 	private Paddle paddle;
 	private Ball ball;
 	private Score score;
 	private ArrayList<PowerUp> powerUps;
+	private Obstacle obstacle;
+	private Group root;
+	private UI ui;
+	private Level level;
 	private int windowWidth;
 	private int windowHeight;
-	private Group root;
-	private Obstacle obstacle;
-	private Level level;
-	private Game game;
+	private Collisions collisions;
+	private int lives = 3;
+
 	
-	
-	public Environment(Group root, int windowWidth, int windowHeight, Level level, Game game) {
+	public Environment(Level level, Group root, UI ui, int windowWidth, int windowHeight, Score score) {
 		this.root = root;
 		this.windowHeight = windowHeight;
 		this.windowWidth = windowWidth;
 		this.level = level;
-		this.game = game;
+		this.score = new Score();
+		this.powerUps = new ArrayList<>();
+		this.ui = new UI(root, windowWidth, windowHeight);
+		this.collisions = new Collisions();
+		this.score = score;
 		
-		paddle = new Paddle();
-		ball = new Ball();
-		score = new Score();
-		powerUps = new ArrayList<>();
-		brickWall = level.createBrickWall();
-		obstacle = level.createObstacle();
-
 		initializeObjects();
 	}
 	
 	private void initializeObjects () {
+		paddle = new Paddle();
+		ball = new Ball();
+		brickWall = level.createBrickWall();
+		obstacle = level.createObstacle();
+		
 		paddle.createPaddle(windowWidth, windowHeight);
 		ball.createBall(windowWidth, windowHeight);
 		
@@ -58,49 +66,56 @@ public class Environment {
 		initializeObjects();
 	}
 	
-	public void increaseLives() {
-		game.setLives(game.getLives() + 1);
+	
+	public int resetEnvironmentForNextLevel(Level nextLevel) {
+        root.getChildren().clear();
+        ui.resetText();        
+        int lives = 3;
+        level = nextLevel;
+        initializeObjects();
+        ui.startText(); 
+        
+        return lives;
 	}
-		
+	
+	public void checkAllCollisions() {
+		ball.outOfBoundsCollision(windowWidth, windowHeight);
+		collisions.ballPaddleCollision(paddle,ball);
+		collisions.ballBrickCollision(root, brickWall.getBrickWall(), ball, level, powerUps, score);
+		collisions.ballObstacleCollision(obstacle, ball);
+		collisions.paddlePowerUpCollision(this, powerUps, paddle, root, windowHeight);
+	}
+	
+	public void launchBall() {
+	    ball.launchBall();
+	}
+
+	public void moveBall(double elapsedTime) {
+	    ball.move(elapsedTime);
+	}
+
+	public boolean isBallLost() {
+	    return ball.checkIfRoundLost();
+	}
+
+	public void resetBallPosition() {
+	    ball.resetBallPosition(windowWidth, windowHeight);
+	}
+	
+	public boolean isBrickWallEmpty() {
+	    return brickWall.getBrickWall().isEmpty();
+	}
+	
+	public int increaseLives() {
+		lives += 1;
+		return lives;
+	}
 	
 	public Paddle getPaddle() {
 		return paddle;
 	}
 	
-	public Ball getBall() {
-		return ball;
-	}
-	
 	public BrickWall getBrickWall() {
 		return brickWall;
 	}
-	
-	public Score getScore () {
-		return score;
-	}
-	
-	public Obstacle getObstacle() {
-		return obstacle;
-	}
-	
-	public ArrayList<PowerUp> getPowerUps() {
-		return powerUps;
-	}
-	
-	public int getWindowWidth() {
-		return windowWidth;
-	}
-	
-	public int getWindowHeight() {
-		return windowHeight;
-	}
-	
-	public Group getRoot() {
-		return root;
-	}
-	
-	public Level getLevel() {
-		return level;
-	}
-
 }

@@ -33,16 +33,16 @@ public class Main extends Application {
 
         	if (code == KeyCode.SPACE) {
         		if (!game.getIsRunning()) { 
-        			if (game.getLives() == 3 || game.getEnvironment().getBrickWall().getBrickWall().isEmpty()) {
+        			if (game.getLives() == 3 || game.getBrickWall().getBrickWall().isEmpty()) {
         				game.startRound();
         			} else {
         				game.startAfterLifeLost();
         			}
         		}
         	} else if (code == KeyCode.RIGHT) {
-        		game.getEnvironment().getPaddle().startMovingRight();
+        		game.getPaddle().startMovingRight();
         	} else if (code == KeyCode.LEFT) {
-        		game.getEnvironment().getPaddle().startMovingLeft();
+        		game.getPaddle().startMovingLeft();
         	}
         	
         	//easter eggs
@@ -56,9 +56,9 @@ public class Main extends Application {
         
         scene.setOnKeyReleased(event -> {
             if (event.getCode() == KeyCode.RIGHT) {
-                game.getEnvironment().getPaddle().stopMovingRight();
+                game.getPaddle().stopMovingRight();
             } else if (event.getCode() == KeyCode.LEFT) {
-                game.getEnvironment().getPaddle().stopMovingLeft();
+                game.getPaddle().stopMovingLeft();
             }
         });
 
@@ -66,7 +66,7 @@ public class Main extends Application {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-            		game.getEnvironment().getPaddle().update();
+            		game.getPaddle().update();
                 game.step();
                 
             }
