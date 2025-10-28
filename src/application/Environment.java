@@ -40,7 +40,7 @@ public class Environment {
 	
 	private void initializeObjects () {
 		paddle.createPaddle(windowWidth, windowHeight);
-		ball.createBall(windowWidth, windowHeight);
+		ball.createProjectile(windowWidth, windowHeight);
 		
 		if (obstacle != null) {
 			obstacle.createObstacle(windowWidth, windowHeight, 160);
