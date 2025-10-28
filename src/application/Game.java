@@ -117,7 +117,7 @@ public class Game {
 	 * respective level is shown instead.
 	 * Resets lives to 3 for the given level.
 	 */
-	public void resetEnvironmentForNextLevel() {
+	private void resetEnvironmentForNextLevel() {
 		level = determineLevel(windowWidth, windowHeight);
 		lives = environment.resetEnvironmentForNextLevel(level);
 	}
