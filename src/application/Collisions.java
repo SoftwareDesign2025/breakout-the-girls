@@ -26,7 +26,7 @@ public class Collisions {
 	}
 	
 	private boolean genericBallRectangleCollision(Rectangle rect) {
-		Circle ball = environment.getBall().getBall();
+		Circle ball = environment.getBall().getProjectile();
 		Shape ballRectangleIntersection = Shape.intersect(ball, rect);
 		if (ballRectangleIntersection.getBoundsInLocal().getWidth() != -1) {
 			environment.getBall().changeBallVelocity();

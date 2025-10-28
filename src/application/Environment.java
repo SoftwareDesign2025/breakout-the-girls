@@ -47,7 +47,7 @@ public class Environment {
 			root.getChildren().add(obstacle.getObstacle());
 		}
 		root.getChildren().add(paddle.getPaddle());
-		root.getChildren().add(ball.getBall());
+		root.getChildren().add(ball.getProjectile());
 		for (Brick brick : brickWall.getBrickWall()) {
 			root.getChildren().add(brick.getBrick());
 		}
