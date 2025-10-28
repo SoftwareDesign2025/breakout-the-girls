@@ -6,27 +6,10 @@ package application;
 import java.util.HashMap;
 
 import javafx.scene.Group;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.paint.Color;
 
 
 public class Game {
-	private static final Color OVERLAY_COLOR = new Color(0, 0, 0, 0.8); // COLOR: BLACK / 80% OPACITY 
-	private static final Color TEXT_COLOR = Color.WHITE;
-	private static final int TITLE_FONT_SIZE = 50;
-	private static final int SCORE_FONT_SIZE = 40;
-	private static final String WIN_MESSAGE = "YOU WIN!";
-	private static final String LOSE_MESSAGE = "GAME OVER!";
-	private static final String FINAL_SCORE_STRING = "Final score: ";
-	private static final String WIN_ROUND = "YOU WON THE ROUND!";
-	private static final String LOSE_ROUND = "YOU LOST THE ROUND!";
-	private static final double TITLE_Y_POSITION_FACTOR = 4.0;
-	private static final double SCORE_Y_POSITION_FACTOR = 2.0;
-	private static final double ROUND_END_DISPLAY_SECONDS = 5.0;
-	
-	// GAME
+
 	private boolean gameOver = false;
 	private boolean isRunning = false;
 	private boolean isWaitingForNextRound = false;
@@ -35,24 +18,35 @@ public class Game {
 	private int lives = 3;
 	private int roundsCompleted = 0;
 	private int roundsWon = 0;
-	// OBJECTS
-	private Environment environment;
-	private Collisions checkCollision;
+	private static final double ROUND_END_DISPLAY_SECONDS = 5.0;
+
 	private MainScreen mainScreen; 
-	// TEXT DISPLAY
-	private Text scoreText = new Text();
-	private Text titleText = new Text();
-	private Rectangle backgroundOverlay;
+	private Score score;
+	private int windowWidth;
+	private int windowHeight;
+	private Level level;
+	private UI ui;
+	private Environment environment;
 	
 	
 	/* Game Constructor
 	 * Sets up initial game environment and main screen
 	 */
 	public Game(Group root, int windowWidth, int windowHeight) {
-		initializeEnvironment(root, windowWidth, windowHeight);
-		root.getChildren().add(titleText);
-		root.getChildren().add(scoreText);
+		this.windowHeight = windowHeight;
+		this.windowWidth = windowWidth;
+		this.level = determineLevel(windowWidth, windowHeight);
+		this.ui = new UI(root, windowWidth, windowHeight);
+		score = new Score();
+		this.environment = new Environment(level, root, ui, windowWidth, windowHeight, score);
+		
 		implementMainScreen(root, windowWidth, windowHeight);
+	}
+	
+	
+	
+	public void increaseLives() {
+		environment.increaseLives();
 	}
 	
 	
@@ -61,12 +55,12 @@ public class Game {
 	 * or if they get to continue.
 	 */
 	private void handleBallLost() {
-		if (environment.getBall().checkIfRoundLost()) {
+		if (environment.isBallLost()) {
 	        lives--;
 	        
 	        if (lives > 0) {
 	            // Reset the ball for the next round
-	            environment.getBall().resetBallPosition(environment.getWindowWidth(), environment.getWindowHeight());
+	            environment.resetBallPosition();
 	            isRunning = false; // pause until space is pressed again
 	        } 
 	        else {
@@ -105,39 +99,6 @@ public class Game {
 		return levels.get(roundsCompleted+1);
 	}
 	
-	private void configureOverlay(Rectangle overlay) {
-		if (overlay == null) {
-			overlay = new Rectangle(0, 0, environment.getWindowWidth(), environment.getWindowHeight());
-			overlay.setFill(OVERLAY_COLOR);
-	        environment.getRoot().getChildren().add(overlay);
-	    } 
-	    else {
-	    	overlay.setWidth(environment.getWindowWidth());
-	    	overlay.setHeight(environment.getWindowHeight());
-	    	overlay.setFill(OVERLAY_COLOR);
-	        if (!environment.getRoot().getChildren().contains(overlay)) {
-	        	environment.getRoot().getChildren().add(overlay);
-	        }
-	    }
-	}
-	
-	
-	/* method configureEndGameDisplayText
-	 * 
-	 */
-	private void configureGameDisplayText(Text text, double yPosition, Font font, String textValue) {
-		configureOverlay(backgroundOverlay);
-	    
-		text.toFront();
-		text.setText(textValue);
-		text.setFont(font);
-		text.setFill(TEXT_COLOR);
-		text.setX((environment.getWindowWidth() - text.getLayoutBounds().getWidth()) / 2);
-		text.setY(yPosition);
-		
-		environment.getRoot().getChildren().remove(text);
-		environment.getRoot().getChildren().add(text);
-	}
 	
 	/* method endGame
 	 * creates what is shown once the entire game is over depending on if
@@ -146,57 +107,10 @@ public class Game {
 	private void endGame(boolean win) {
 		isRunning = false;
 		isWaitingForNextRound = false;
-
-		if (backgroundOverlay == null) {
-			backgroundOverlay = new Rectangle(0, 0, environment.getWindowWidth(), environment.getWindowHeight());
-			backgroundOverlay.setFill(OVERLAY_COLOR);
-			environment.getRoot().getChildren().add(backgroundOverlay);
-		} 
-		else {
-			backgroundOverlay.setFill(OVERLAY_COLOR);
-			backgroundOverlay.toFront(); //
-		}
-
-		String titleString;
-		if (win) {
-		    titleString = WIN_MESSAGE;
-		} 
-		else {
-		    titleString = LOSE_MESSAGE;
-		}
-		
-		titleText.setText(titleString);
-		String scoreTextValue = FINAL_SCORE_STRING + environment.getScore().getCurrentScore();
-		configureGameDisplayText(titleText, environment.getWindowHeight() / TITLE_Y_POSITION_FACTOR, new Font(TITLE_FONT_SIZE), titleString);
-		configureGameDisplayText(scoreText, environment.getWindowHeight() / SCORE_Y_POSITION_FACTOR, new Font(SCORE_FONT_SIZE),scoreTextValue);
-		
-		titleText.toFront(); //
-		scoreText.toFront();///
+		ui.endGameMessage(win, score);
 	}
-	
-	/* method initializeEnvironment
-	 *  Initializes the game environment based on the specified window dimensions and 
-	 *  determines the appropriate game level.
-	 */
-	public void initializeEnvironment(Group root, int windowWidth, int windowHeight) {
-		Level level = determineLevel(windowWidth, windowHeight);
-		environment = new Environment(root, windowWidth, windowHeight, level, this);
-		checkCollision = new Collisions(environment);
-	}
-	
-	/* method advanceToNextLevel
-	 * restarts the game in order to continue onto to next level.
-	 * If they have completed all 3 levels, the game ends.
-	 */
-//	public void advanceToNextLevel() {
-//	    if (roundsCompleted < 3) {
-//	        roundsCompleted++;
-//	        resetEnvironmentForNextLevel();
-//	        startRound();
-//	    } else {
-//	        endGame(true);
-//	    }
-//	}
+
+
 
 	/* method resetEnvironmentForNextLevel
 	 * clears the root so the environment from the previous level is gone and the
@@ -204,14 +118,8 @@ public class Game {
 	 * Resets lives to 3 for the given level.
 	 */
 	public void resetEnvironmentForNextLevel() {
-        Group root = environment.getRoot();
-        root.getChildren().clear();
-        root.getChildren().add(titleText);
-		root.getChildren().add(scoreText);
-		
-        initializeEnvironment(root, environment.getWindowWidth(), environment.getWindowHeight());
-        
-        lives = 3;
+		level = determineLevel(windowWidth, windowHeight);
+		lives = environment.resetEnvironmentForNextLevel(level);
 	}
 
 	/* method startGame
@@ -221,10 +129,9 @@ public class Game {
 	public void startGame() {
 		if (!gameOver && roundsCompleted < 3) {
 			mainScreen.hide();
-			titleText.setText(""); 
-			scoreText.setText("");
+			ui.startText();
 			environment.resetEnvironment();
-			environment.getBall().launchProjectile();
+			environment.launchBall();
 			isRunning = true;
 		}
 	}
@@ -233,10 +140,9 @@ public class Game {
 	 * start each individual round by launching the ball
 	 */
 	public void startRound() {
-		titleText.setText(""); 
-		scoreText.setText("");
+		ui.startText();
 		environment.resetEnvironment();
-		environment.getBall().launchProjectile();
+		environment.launchBall();
 		isRunning = true;
 	}
 	
@@ -257,18 +163,7 @@ public class Game {
 	    if (win) { roundsWon ++; }
 	    roundsCompleted ++;
 
-	    String message;
-	    if (win) {
-	        message = "YOU WON THE ROUND! \n SCORE: " + environment.getScore().getCurrentScore();
-	    } 
-	    else {
-	        message = "YOU LOST THE ROUND";
-	    }
-	    
-	    configureGameDisplayText(titleText, 
-	    		environment.getWindowHeight() / TITLE_Y_POSITION_FACTOR, new Font(TITLE_FONT_SIZE), message);
-	    titleText.toFront();
-	    scoreText.toFront();
+	    ui.endRoundMessage(win, score);
 
 	    if (roundsCompleted < 3) {
 	        if (win) {
@@ -289,7 +184,7 @@ public class Game {
 	 * can continue to play the game.
 	 */
 	public void startAfterLifeLost() {
-		environment.getBall().launchProjectile();
+		environment.launchBall();
 		isRunning = true;
 	}
 	
@@ -299,15 +194,11 @@ public class Game {
 	 */
 	public void checkIfGameOver() {
 		if (roundsWon == 3) {
-			titleText.setX(environment.getWindowWidth()/2.0);
-			titleText.setY(environment.getWindowHeight()/2.0);
-			titleText.setFont(new Font(30));
-			titleText.setText("YOU WON ALL THE ROUNDS!: Final Score" + environment.getScore().getCurrentScore());
+			ui.gameWonMessage(score);
 		}
 	}
 	
 	public void step() {
-		
 		// 5-second countdown in between round ==> next round
 		if (isWaitingForNextRound) {
 			roundOverDelayTime -= elapsedTime; 
@@ -316,20 +207,19 @@ public class Game {
 			}
 			return; 
 		}
-		
 		if (!isRunning) {
 			return;
 		}
-		
-		environment.getBall().move(elapsedTime);
-		checkCollision.checkAllCollisions();
+		environment.moveBall(elapsedTime);
+		environment.checkAllCollisions();
 		handleBallLost();
 		
-		boolean isRoundEnded = environment.getBrickWall().getBrickWall().isEmpty();
+		boolean isRoundEnded = environment.isBrickWallEmpty();
 		if (isRoundEnded) {
 			endRound(true);
 		}
 	}
+	
 	
 	//Katherine Hoadley
 	//Easter egg that lets you skip to level
@@ -346,17 +236,18 @@ public class Game {
 		return isRunning;
 	}
 	
-	public Environment getEnvironment() {
-		return environment;
-	}
-	
 	public int getLives() {
 		return lives;
 	}
 	
-	public void setLives(int lives) {
-		this.lives = lives;
+	public Paddle getPaddle() {
+		return environment.getPaddle();
 	}
+	
+	public BrickWall getBrickWall() {
+		return environment.getBrickWall();
+	}
+	
 }
 	
 
