@@ -48,14 +48,14 @@ public class Environment {
 		obstacle = level.createObstacle();
 		
 		paddle.createPaddle(windowWidth, windowHeight);
-		ball.createBall(windowWidth, windowHeight);
+		ball.createProjectile(windowWidth, windowHeight);
 		
 		if (obstacle != null) {
 			obstacle.createObstacle(windowWidth, windowHeight, 160);
 			root.getChildren().add(obstacle.getObstacle());
 		}
 		root.getChildren().add(paddle.getPaddle());
-		root.getChildren().add(ball.getBall());
+		root.getChildren().add(ball.getProjectile());
 		for (Brick brick : brickWall.getBrickWall()) {
 			root.getChildren().add(brick.getBrick());
 		}
@@ -87,7 +87,7 @@ public class Environment {
 	}
 	
 	public void launchBall() {
-	    ball.launchBall();
+	    ball.launchProjectile();
 	}
 
 	public void moveBall(double elapsedTime) {

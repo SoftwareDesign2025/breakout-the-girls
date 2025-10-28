@@ -13,7 +13,7 @@ public class Collisions {
 	
 	
 	private boolean genericBallRectangleCollision(Rectangle rect, Ball ball) {
-		Shape ballRectangleIntersection = Shape.intersect(ball.getBall(), rect);
+		Shape ballRectangleIntersection = Shape.intersect(ball.getProjectile(), rect);
 		if (ballRectangleIntersection.getBoundsInLocal().getWidth() != -1) {
 			ball.changeBallVelocity();
 			return true;
