@@ -7,9 +7,9 @@ import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class Projectile {
+public abstract class Projectile {
 	
-	protected final double radius = 10;
+	protected final double RADIUS = 10;
 	protected final double SPEED = 300;
 	
     // Fields:
@@ -18,7 +18,10 @@ public class Projectile {
 	protected Random random = new Random();
 	protected boolean roundLost = false;
 
-
+	// Return true if the game is lost.
+	public boolean checkIfRoundLost() {
+		return roundLost;
+	}
 	
     // Return the projectile which is a circle
 	public Circle getProjectile() {
@@ -26,20 +29,14 @@ public class Projectile {
 	}
 	
 	
-	/**
-     * Move the projectile according to its velocity. 
-     * Movement scaled by elapsedTime to ensure consistent speed.
-     */
-    public void move (double elapsedTime) {
-    	projectile.setCenterX(projectile.getCenterX() + ballVelocity.getX() * elapsedTime);
-    	projectile.setCenterY(projectile.getCenterY() + ballVelocity.getY() * elapsedTime);
-    }
+	// abstract move to be implemented
+    public abstract void move (double elapsedTime);
 
 	
 	/* Changes the projectile velocity from 0 at the start of the game
 	 * to the defined speed when launchBall() is called.
 	 */
-	public void launchBall() {
+	public void launchProjectile() {
 	    // Always set a fixed upward velocity
 	    ballVelocity = new Point2D(0, -SPEED);
 	    roundLost = false; // Ensure ball can move

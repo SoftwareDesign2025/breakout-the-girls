@@ -5,6 +5,7 @@ package application;
 import java.util.Random;
 
 import javafx.geometry.Point2D;
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
@@ -24,7 +25,7 @@ public class Ball extends Projectile {
 		
 		projectile.setCenterX(xCoordinate);
 		projectile.setCenterY(yCoordinate);
-		projectile.setRadius(radius);
+		projectile.setRadius(RADIUS);
 		projectile.setFill(Color.BLACK);
 		
 		ballVelocity = new Point2D(0,0); // how many pixels over and down it moves by
@@ -44,13 +45,13 @@ public class Ball extends Projectile {
      * If the ball goes past the bottom of the screen, the game is lost.
      */
     public void outOfBoundsCollision (double screenWidth, double screenHeight) {
-        if (projectile.getCenterX() - radius < 0 || projectile.getCenterX() - radius > screenWidth - projectile.getBoundsInLocal().getWidth()) {
+        if (projectile.getCenterX() - RADIUS < 0 || projectile.getCenterX() - RADIUS > screenWidth - projectile.getBoundsInLocal().getWidth()) {
             ballVelocity = new Point2D(-ballVelocity.getX(), ballVelocity.getY());
         }
-        if (projectile.getCenterY() - radius < 0 ) {
+        if (projectile.getCenterY() - RADIUS < 0 ) {
             ballVelocity = new Point2D(ballVelocity.getX(), -ballVelocity.getY());
         }
-        if (projectile.getCenterY() - radius > screenHeight - projectile.getBoundsInLocal().getHeight()) {
+        if (projectile.getCenterY() - RADIUS > screenHeight - projectile.getBoundsInLocal().getHeight()) {
         		roundLost = true;
         }
     }
@@ -91,6 +92,8 @@ public class Ball extends Projectile {
 	    ballVelocity = new Point2D(0, 0);
 	    roundLost = false; // Reset this flag!
 	}
+
+
 
 	
 	
