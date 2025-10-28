@@ -224,7 +224,7 @@ public class Game {
 			titleText.setText(""); 
 			scoreText.setText("");
 			environment.resetEnvironment();
-			environment.getBall().launchProjectile();
+			environment.getBall().launchBall();
 			isRunning = true;
 		}
 	}
@@ -236,7 +236,7 @@ public class Game {
 		titleText.setText(""); 
 		scoreText.setText("");
 		environment.resetEnvironment();
-		environment.getBall().launchProjectile();
+		environment.getBall().launchBall();
 		isRunning = true;
 	}
 	
@@ -289,7 +289,7 @@ public class Game {
 	 * can continue to play the game.
 	 */
 	public void startAfterLifeLost() {
-		environment.getBall().launchProjectile();
+		environment.getBall().launchBall();
 		isRunning = true;
 	}
 	
