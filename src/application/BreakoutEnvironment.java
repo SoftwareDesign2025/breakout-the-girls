@@ -47,14 +47,14 @@ public class BreakoutEnvironment {
 		brickWall = level.createBrickWall();
 		obstacle = level.createObstacle();
 		
-		paddle.createPaddle(windowWidth, windowHeight);
+		paddle.createController(windowWidth, windowHeight);
 		ball.createProjectile(windowWidth, windowHeight);
 		
 		if (obstacle != null) {
 			obstacle.createObstacle(windowWidth, windowHeight, 160);
 			root.getChildren().add(obstacle.getObstacle());
 		}
-		root.getChildren().add(paddle.getPaddle());
+		root.getChildren().add(paddle.getController());
 		root.getChildren().add(ball.getProjectile());
 		for (Target brick : brickWall.getBrickWall()) {
 			root.getChildren().add(brick.getTarget());
