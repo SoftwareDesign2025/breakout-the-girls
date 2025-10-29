@@ -11,8 +11,8 @@ import javafx.scene.Group;
 //
 //import javafx.scene.Group;
 //
-public class Environment {
-	private BrickWall brickWall;
+public class BreakoutEnvironment {
+	private TargetWall brickWall;
 	private Paddle paddle;
 	private Ball ball;
 	private Score score;
@@ -27,7 +27,7 @@ public class Environment {
 	private int lives = 3;
 
 	
-	public Environment(Level level, Group root, GameScreen ui, int windowWidth, int windowHeight, Score score) {
+	public BreakoutEnvironment(Level level, Group root, GameScreen ui, int windowWidth, int windowHeight, Score score) {
 		this.root = root;
 		this.windowHeight = windowHeight;
 		this.windowWidth = windowWidth;
@@ -56,8 +56,8 @@ public class Environment {
 		}
 		root.getChildren().add(paddle.getPaddle());
 		root.getChildren().add(ball.getProjectile());
-		for (Brick brick : brickWall.getBrickWall()) {
-			root.getChildren().add(brick.getBrick());
+		for (Target brick : brickWall.getBrickWall()) {
+			root.getChildren().add(brick.getTarget());
 		}
 	}
 	
@@ -81,16 +81,16 @@ public class Environment {
 	public void checkAllCollisions() {
 		ball.outOfBoundsCollision(windowWidth, windowHeight);
 		collisions.ballPaddleCollision(paddle,ball);
-		collisions.ballBrickCollision(root, brickWall.getBrickWall(), ball, level, powerUps, score);
+		collisions.ballTargetCollision(root, brickWall.getBrickWall(), ball, level, powerUps, score);
 		collisions.ballObstacleCollision(obstacle, ball);
 		collisions.paddlePowerUpCollision(this, powerUps, paddle, root, windowHeight);
 	}
 	
-	public void launchBall() {
+	public void launchProjectile() {
 	    ball.launchProjectile();
 	}
 
-	public void moveBall(double elapsedTime) {
+	public void moveProjectile(double elapsedTime) {
 	    ball.move(elapsedTime);
 	}
 
@@ -102,7 +102,7 @@ public class Environment {
 	    ball.resetBallPosition(windowWidth, windowHeight);
 	}
 	
-	public boolean isBrickWallEmpty() {
+	public boolean isWallEmpty() {
 	    return brickWall.getBrickWall().isEmpty();
 	}
 	
@@ -115,7 +115,7 @@ public class Environment {
 		return paddle;
 	}
 	
-	public BrickWall getBrickWall() {
+	public TargetWall getWall() {
 		return brickWall;
 	}
 }
