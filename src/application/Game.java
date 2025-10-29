@@ -9,11 +9,11 @@ import javafx.scene.Group;
 
 
 public class Game {
-
+	private final double ELAPSED_TIME = 1.0 / 60.0;
+	
 	private boolean gameOver = false;
 	private boolean isRunning = false;
 	private boolean isWaitingForNextRound = false;
-	private double elapsedTime = 1.0 / 60.0;
 	private double roundOverDelayTime = 0.0;
 	private int lives = 3;
 	private int roundsCompleted = 0;
@@ -25,7 +25,7 @@ public class Game {
 	private int windowWidth;
 	private int windowHeight;
 	private Level level;
-	private UI ui;
+	private GameScreen ui;
 	private Environment environment;
 	
 	
@@ -36,7 +36,7 @@ public class Game {
 		this.windowHeight = windowHeight;
 		this.windowWidth = windowWidth;
 		this.level = determineLevel(windowWidth, windowHeight);
-		this.ui = new UI(root, windowWidth, windowHeight);
+		this.ui = new GameScreen(root, windowWidth, windowHeight);
 		score = new Score();
 		this.environment = new Environment(level, root, ui, windowWidth, windowHeight, score);
 		
@@ -129,7 +129,7 @@ public class Game {
 	public void startGame() {
 		if (!gameOver && roundsCompleted < 3) {
 			mainScreen.hide();
-			ui.startText();
+			ui.clearText();
 			environment.resetEnvironment();
 			environment.launchBall();
 			isRunning = true;
@@ -140,7 +140,7 @@ public class Game {
 	 * start each individual round by launching the ball
 	 */
 	public void startRound() {
-		ui.startText();
+		ui.clearText();
 		environment.resetEnvironment();
 		environment.launchBall();
 		isRunning = true;
@@ -201,7 +201,7 @@ public class Game {
 	public void step() {
 		// 5-second countdown in between round ==> next round
 		if (isWaitingForNextRound) {
-			roundOverDelayTime -= elapsedTime; 
+			roundOverDelayTime -= ELAPSED_TIME; 
 			if (roundOverDelayTime <= 0) {
 				waitForNextRound(); 
 			}
@@ -210,7 +210,7 @@ public class Game {
 		if (!isRunning) {
 			return;
 		}
-		environment.moveBall(elapsedTime);
+		environment.moveBall(ELAPSED_TIME);
 		environment.checkAllCollisions();
 		handleBallLost();
 		
