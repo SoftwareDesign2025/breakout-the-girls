@@ -9,22 +9,11 @@ import javafx.scene.shape.Rectangle;
 
 public class Brick extends Target {
 
-//	private int brickHeight;
-//	private int brickWidth;
-//	private final int MAX_BRICK_POINT_VALUE = 25;
 
 	// Fields
-//	private Rectangle brick;
 	private Paint brickColor;
 	
-	// Location of brick on screen:
-//	private double xCoordinate;
-//	private double yCoordinate;
-//	private int brickPointValue;
 	
-	// Whether the brick has been hit by the ball or not:
-//	private boolean isDestroyed;
-	 
 
 	/* Constructor: Takes in parameters of brick location and color.
 	 * Also assigns it a random point value between 1 and 25.
@@ -49,50 +38,5 @@ public class Brick extends Target {
 		target.setY(yCoordinate);
 	}
 	
-	
-	/* Destroys the brick by making it transparent
-	 * and now sets isDestroyed to true.
-	 */
-//	public void destroyBrick () {
-//		brick.setFill(Color.TRANSPARENT);
-//		brick.setStroke(Color.TRANSPARENT);
-////		isDestroyed = true;
-//	}
-	
-//	// Gets the point value assigned to the brick if it was destroyed and returns it.
-//	public int getBrickPoint () {
-////		if (isDestroyed) {
-////			return brickPointValue;
-////		}
-////		else {
-////			return 0;
-////		}
-//		return brickPointValue;
-//	}
-//	
-////	// Checks to see if the brick was destroyed, if so, it returns true.
-////	private boolean checkIfDestroyed () {
-////		return isDestroyed;
-////	}
-//	
-//	// Returns the width of the brick.
-//	public int getBrickWidth() {
-//		return brickWidth;
-//	}
-//	
-//	// Returns the height of the brick.
-//	public int getBrickHeight() {
-//		return brickHeight;
-//	}
-//	
-//	public double getX() { 
-//		return xCoordinate;
-//	}
-//	
-//    public double getY() { 
-//    		return yCoordinate; 
-//    	}
-
-
 	
 }
