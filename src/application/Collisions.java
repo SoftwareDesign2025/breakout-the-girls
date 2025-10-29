@@ -5,15 +5,14 @@ package application;
 import java.util.ArrayList;
 
 import javafx.scene.Group;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 public class Collisions {
 	
 	
 	
-	private boolean genericBallRectangleCollision(Rectangle rect, Ball ball) {
-		Shape ballRectangleIntersection = Shape.intersect(ball.getProjectile(), rect);
+	private boolean genericBallRectangleCollision(Shape shape, Ball ball) {
+		Shape ballRectangleIntersection = Shape.intersect(ball.getProjectile(), shape);
 		if (ballRectangleIntersection.getBoundsInLocal().getWidth() != -1) {
 			ball.changeBallVelocity();
 			return true;

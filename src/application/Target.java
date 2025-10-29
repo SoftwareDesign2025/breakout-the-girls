@@ -4,6 +4,7 @@ import java.util.Random;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 public abstract class Target {
 
@@ -29,7 +30,7 @@ public abstract class Target {
 
 	public abstract void createTarget(int brickHeight, int brickWidth);
 	
-	public Rectangle getTarget() {
+	public Shape getTarget() {
 		return target;
 	}
 
