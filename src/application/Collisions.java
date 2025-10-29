@@ -33,18 +33,18 @@ public class Collisions {
 		}
 	}
 
-	public void ballBrickCollision(Group root, ArrayList<Brick> bricks, Ball ball, Level level, ArrayList<PowerUp> powerUps, Score score) {
-		for (int i = bricks.size() - 1; i >= 0; i--) {
-			Brick brick = bricks.get(i);
-			if (genericBallRectangleCollision(brick.getBrick(), ball)) {
-				PowerUp powerUp = level.determineSpawn(brick);
+	public void ballTargetCollision(Group root, ArrayList<Target> targets, Ball ball, Level level, ArrayList<PowerUp> powerUps, Score score) {
+		for (int i = targets.size() - 1; i >= 0; i--) {
+			Target target = targets.get(i);
+			if (genericBallRectangleCollision(target.getTarget(), ball)) {
+				PowerUp powerUp = level.determineSpawn(target);
 				if (powerUp != null) {
 					powerUps.add(powerUp);
 					root.getChildren().add(powerUp.getVisualNode());
 				}
-				brick.destroyBrick();
-				score.addPoints(brick.getBrickPoint());
-				bricks.remove(i);
+				target.destroyTarget();
+				score.addPoints(target.getTargetPoint());
+				targets.remove(i);
 			}
 		}
 	}

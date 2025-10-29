@@ -131,7 +131,7 @@ public class Game {
 			mainScreen.hide();
 			ui.clearText();
 			environment.resetEnvironment();
-			environment.launchBall();
+			environment.launchProjectile();
 			isRunning = true;
 		}
 	}
@@ -142,7 +142,7 @@ public class Game {
 	public void startRound() {
 		ui.clearText();
 		environment.resetEnvironment();
-		environment.launchBall();
+		environment.launchProjectile();
 		isRunning = true;
 	}
 	
@@ -184,7 +184,7 @@ public class Game {
 	 * can continue to play the game.
 	 */
 	public void startAfterLifeLost() {
-		environment.launchBall();
+		environment.launchProjectile();
 		isRunning = true;
 	}
 	
@@ -210,11 +210,11 @@ public class Game {
 		if (!isRunning) {
 			return;
 		}
-		environment.moveBall(ELAPSED_TIME);
+		environment.moveProjectile(ELAPSED_TIME);
 		environment.checkAllCollisions();
 		handleBallLost();
 		
-		boolean isRoundEnded = environment.isBrickWallEmpty();
+		boolean isRoundEnded = environment.isWallEmpty();
 		if (isRoundEnded) {
 			endRound(true);
 		}
@@ -244,8 +244,8 @@ public class Game {
 		return environment.getPaddle();
 	}
 	
-	public BrickWall getBrickWall() {
-		return environment.getBrickWall();
+	public TargetWall getBrickWall() {
+		return environment.getWall();
 	}
 	
 }
