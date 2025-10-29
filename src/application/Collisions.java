@@ -24,7 +24,7 @@ public class Collisions {
 	}
 
 	public void ballPaddleCollision(Paddle paddle, Ball ball) {
-		genericBallRectangleCollision(paddle.getPaddle(), ball);
+		genericBallRectangleCollision(paddle.getController(), ball);
 	}
 	
 	public void ballObstacleCollision(Obstacle obstacle, Ball ball) {
@@ -62,7 +62,7 @@ public class Collisions {
 	
 	private boolean initiatePowerUp(Environment environment, PowerUp powerUp, Paddle paddle, Group root, int windowHeight) {
 		powerUp.fall();
-		if (powerUp.getVisualNode().getBoundsInParent().intersects(paddle.getPaddle().getBoundsInParent())) {
+		if (powerUp.getVisualNode().getBoundsInParent().intersects(paddle.getController().getBoundsInParent())) {
 			powerUp.activatePowerUp(environment); // could modify lives externally if needed
 			root.getChildren().remove(powerUp.getVisualNode());
 			return true;
