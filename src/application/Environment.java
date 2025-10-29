@@ -19,7 +19,7 @@ public class Environment {
 	private ArrayList<PowerUp> powerUps;
 	private Obstacle obstacle;
 	private Group root;
-	private UI ui;
+	private GameScreen ui;
 	private Level level;
 	private int windowWidth;
 	private int windowHeight;
@@ -27,14 +27,14 @@ public class Environment {
 	private int lives = 3;
 
 	
-	public Environment(Level level, Group root, UI ui, int windowWidth, int windowHeight, Score score) {
+	public Environment(Level level, Group root, GameScreen ui, int windowWidth, int windowHeight, Score score) {
 		this.root = root;
 		this.windowHeight = windowHeight;
 		this.windowWidth = windowWidth;
 		this.level = level;
 		this.score = new Score();
 		this.powerUps = new ArrayList<>();
-		this.ui = new UI(root, windowWidth, windowHeight);
+		this.ui = new GameScreen(root, windowWidth, windowHeight);
 		this.collisions = new Collisions();
 		this.score = score;
 		
@@ -69,11 +69,11 @@ public class Environment {
 	
 	public int resetEnvironmentForNextLevel(Level nextLevel) {
         root.getChildren().clear();
-        ui.resetText();        
+        //ui.resetText();        
         int lives = 3;
         level = nextLevel;
         initializeObjects();
-        ui.startText(); 
+        ui.clearText(); 
         
         return lives;
 	}
