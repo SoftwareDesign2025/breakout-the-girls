@@ -26,7 +26,7 @@ public class ExtraLife extends PowerUp{
 	//having the environment increase the lives. It then turns off
 	//after it is applied.
 	 @Override
-	 public void activatePowerUp(BreakoutEnvironment environment) {
+	 public void activatePowerUp(Environment environment) {
 	    environment.increaseLives();
 	    setActive(false);
 	}

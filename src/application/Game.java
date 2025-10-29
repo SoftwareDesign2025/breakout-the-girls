@@ -26,7 +26,7 @@ public class Game {
 	private int windowHeight;
 	private Level level;
 	private GameScreen ui;
-	private BreakoutEnvironment environment;
+	private Environment environment;
 	
 	
 	/* Game Constructor
@@ -38,7 +38,7 @@ public class Game {
 		this.level = determineLevel(windowWidth, windowHeight);
 		this.ui = new GameScreen(root, windowWidth, windowHeight);
 		score = new Score();
-		this.environment = new BreakoutEnvironment(level, root, ui, windowWidth, windowHeight, score);
+		this.environment = new Environment(level, root, ui, windowWidth, windowHeight, score);
 		
 		implementMainScreen(root, windowWidth, windowHeight);
 	}

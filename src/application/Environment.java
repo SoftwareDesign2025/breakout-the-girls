@@ -11,7 +11,7 @@ import javafx.scene.Group;
 //
 //import javafx.scene.Group;
 //
-public class BreakoutEnvironment {
+public class Environment {
 	private TargetWall brickWall;
 	private Paddle paddle;
 	private Ball ball;
@@ -27,7 +27,7 @@ public class BreakoutEnvironment {
 	private int lives = 3;
 
 	
-	public BreakoutEnvironment(Level level, Group root, GameScreen ui, int windowWidth, int windowHeight, Score score) {
+	public Environment(Level level, Group root, GameScreen ui, int windowWidth, int windowHeight, Score score) {
 		this.root = root;
 		this.windowHeight = windowHeight;
 		this.windowWidth = windowWidth;

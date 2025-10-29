@@ -25,7 +25,7 @@ public class LongPaddle extends PowerUp{
 	//having the environment increase the paddle width. It then turns off
 	//after it is applied.
 	@Override
-	public void activatePowerUp(BreakoutEnvironment environment) {
+	public void activatePowerUp(Environment environment) {
         Paddle paddle = environment.getPaddle();
         paddle.increasePaddleWidth();
         setActive(false);

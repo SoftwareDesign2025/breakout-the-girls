@@ -30,7 +30,7 @@ public abstract class PowerUp {		//abstract because it needs a subclass to do an
 	}
 	
 	//method to add a powerUp into game
-	public abstract void activatePowerUp(BreakoutEnvironment environment);
+	public abstract void activatePowerUp(Environment environment);
 	
 	//this method controls the movement of the power-up.
 	//It falls at a constant by changing it's y position.
