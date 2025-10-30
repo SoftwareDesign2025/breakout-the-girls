@@ -21,6 +21,7 @@ public class Collisions {
 			return false;
 		}
 	}
+	
 
 	public void ballPaddleCollision(Paddle paddle, Ball ball) {
 		genericBallRectangleCollision(paddle.getController(), ball);
@@ -30,6 +31,17 @@ public class Collisions {
 		if (obstacle!= null) {
 			genericBallRectangleCollision(obstacle.getObstacle(), ball);
 		}
+	}
+	
+	public boolean aircraftBugCollision(Aircraft aircraft, TargetWall targetWall) {
+		for (int i = targetWall.getWall().size() - 1; i >= 0; i--) {
+			Target target = targetWall.getWall().get(i);
+			Shape aircraftBugIntersection = Shape.intersect(aircraft.getController(), target.getTarget());
+			if (aircraftBugIntersection.getBoundsInLocal().getWidth() != -1) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void ballTargetCollision(Group root, ArrayList<Target> targets, Ball ball, Level level, ArrayList<PowerUp> powerUps, Score score) {

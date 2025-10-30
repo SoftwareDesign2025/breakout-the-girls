@@ -1,48 +1,84 @@
 package application;
 
+
+import javafx.scene.Group;
+
 public class GalagaEnvironment implements GameEnvironment {
 
-	@Override
-	public void initializeObjects() {
-		// TODO Auto-generated method stub
-		
+	private TargetWall bugWall;
+	private Aircraft aircraft;
+	private Bullet bullet;
+	private Score score;
+	private Group root;
+	private GameScreen ui;
+	private int windowWidth;
+	private int windowHeight;
+	private Collisions collisions;
+	private int lives = 3;
+
+
+	public GalagaEnvironment(Group root, GameScreen ui, int windowWidth, int windowHeight, Score score) {
+		this.root = root;
+		this.windowHeight = windowHeight;
+		this.windowWidth = windowWidth;
+		this.score = new Score();
+		this.ui = new GameScreen(root, windowWidth, windowHeight);
+		this.collisions = new Collisions();
+		this.score = score;
+
+		initializeObjects();
 	}
 
-	@Override
+	public void initializeObjects () {
+		aircraft = new Aircraft();
+		bullet = new Bullet();
+		bugWall.createTargetWall();
+
+		aircraft.createController(windowWidth, windowHeight);
+		bullet.createProjectile(windowWidth, windowHeight);
+
+		root.getChildren().add(aircraft.getController());
+		root.getChildren().add(bullet.getProjectile());
+		for (Target bug : bugWall.getWall()) {
+			root.getChildren().add(bug.getTarget());
+		}
+	}
+
 	public void resetEnvironment() {
-		// TODO Auto-generated method stub
-		
+		root.getChildren().clear();
+		initializeObjects();
 	}
 
-	@Override
+
+
 	public void checkAllCollisions() {
-		// TODO Auto-generated method stub
-		
+		collisions.aircraftBugCollision(aircraft, bugWall);
 	}
 
-	@Override
 	public void launchProjectile() {
-		// TODO Auto-generated method stub
-		
+		bullet.launchProjectile();
 	}
 
-	@Override
 	public void moveProjectile(double elapsedTime) {
-		// TODO Auto-generated method stub
-		
+		bullet.move(elapsedTime);
 	}
 
-	@Override
+
+
 	public boolean isWallEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return bugWall.getWall().isEmpty();
 	}
 
-	@Override
 	public int increaseLives() {
-		// TODO Auto-generated method stub
-		return 0;
+		lives += 1;
+		return lives;
 	}
-	
 
+	public Aircraft getAircraft() {
+		return aircraft;
+	}
+
+	public TargetWall getWall() {
+		return bugWall;
+	}
 }

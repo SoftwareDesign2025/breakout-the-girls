@@ -56,7 +56,7 @@ public class BreakoutEnvironment implements GameEnvironment {
 		}
 		root.getChildren().add(paddle.getController());
 		root.getChildren().add(ball.getProjectile());
-		for (Target brick : brickWall.getBrickWall()) {
+		for (Target brick : brickWall.getWall()) {
 			root.getChildren().add(brick.getTarget());
 		}
 	}
@@ -81,7 +81,7 @@ public class BreakoutEnvironment implements GameEnvironment {
 	public void checkAllCollisions() {
 		ball.outOfBoundsCollision(windowWidth, windowHeight);
 		collisions.ballPaddleCollision(paddle,ball);
-		collisions.ballTargetCollision(root, brickWall.getBrickWall(), ball, level, powerUps, score);
+		collisions.ballTargetCollision(root, brickWall.getWall(), ball, level, powerUps, score);
 		collisions.ballObstacleCollision(obstacle, ball);
 		collisions.paddlePowerUpCollision(this, powerUps, paddle, root, windowHeight);
 	}
@@ -103,7 +103,7 @@ public class BreakoutEnvironment implements GameEnvironment {
 	}
 	
 	public boolean isWallEmpty() {
-	    return brickWall.getBrickWall().isEmpty();
+	    return brickWall.getWall().isEmpty();
 	}
 	
 	public int increaseLives() {
