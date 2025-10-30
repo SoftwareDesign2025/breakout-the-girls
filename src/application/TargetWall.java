@@ -90,9 +90,20 @@ public class TargetWall {
 		combine(numberOfColumns, numberOfRows, true, false);
 	}
 	
+	public void createBugWall() {
+		emptyTarget.createTarget(20,50); // 40,100
+		int numberOfColumns = this.windowWidth/emptyTarget.getTargetWidth();
+		int numberOfRows = (this.windowHeight/3)/emptyTarget.getTargetHeight();
+		combine(numberOfColumns, numberOfRows, false, false);
+	}
 	
-
-
+	public void shiftBugWallDown() {
+		double shiftAmount = emptyTarget.getTargetHeight();
+		for (Target target : targetWall) {
+			double newY = target.getY() + shiftAmount;
+			target.setY(newY);
+		}
+	}
 	
 	private Paint generateRandomBrickColor () {
 		Paint brickColor = colorList[random.nextInt(6)];

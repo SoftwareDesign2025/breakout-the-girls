@@ -48,7 +48,7 @@ public class Collisions {
 		}
 	}
 
-	public void paddlePowerUpCollision(Environment environment, ArrayList<PowerUp> powerUps, Paddle paddle, Group root, int windowHeight) {
+	public void paddlePowerUpCollision(BreakoutEnvironment environment, ArrayList<PowerUp> powerUps, Paddle paddle, Group root, int windowHeight) {
 		for (int i = powerUps.size() - 1; i >= 0; i--) {
 			PowerUp powerUp = powerUps.get(i);
 			if (powerUp.isActive()) {
@@ -59,7 +59,7 @@ public class Collisions {
 		}
 	}	
 	
-	private boolean initiatePowerUp(Environment environment, PowerUp powerUp, Paddle paddle, Group root, int windowHeight) {
+	private boolean initiatePowerUp(BreakoutEnvironment environment, PowerUp powerUp, Paddle paddle, Group root, int windowHeight) {
 		powerUp.fall();
 		if (powerUp.getVisualNode().getBoundsInParent().intersects(paddle.getController().getBoundsInParent())) {
 			powerUp.activatePowerUp(environment); // could modify lives externally if needed
