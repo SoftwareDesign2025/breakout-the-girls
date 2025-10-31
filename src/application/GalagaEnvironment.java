@@ -3,7 +3,7 @@ package application;
 
 import javafx.scene.Group;
 
-public class GalagaEnvironment implements GameEnvironment {
+public class GalagaEnvironment extends Environment implements GameEnvironment {
 
 	private TargetWall bugWall;
 	private Aircraft aircraft;
@@ -80,5 +80,22 @@ public class GalagaEnvironment implements GameEnvironment {
 
 	public TargetWall getWall() {
 		return bugWall;
+	}
+	
+	public int resetEnvironmentForNextLevel(Level leve) {
+		return -1;
+	}
+
+	@Override
+	public boolean isBallLost() {
+		return false;
+	}
+
+	@Override
+	public void resetBallPosition() {		
+	}
+
+	public UserControl getController() {
+		return aircraft;
 	}
 }

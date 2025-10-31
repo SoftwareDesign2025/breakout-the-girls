@@ -11,7 +11,7 @@ import javafx.scene.Group;
 //
 //import javafx.scene.Group;
 //
-public class BreakoutEnvironment implements GameEnvironment {
+public class BreakoutEnvironment extends Environment implements GameEnvironment {
 	private TargetWall brickWall;
 	private Paddle paddle;
 	private Ball ball;
@@ -111,7 +111,7 @@ public class BreakoutEnvironment implements GameEnvironment {
 		return lives;
 	}
 	
-	public Paddle getPaddle() {
+	public UserControl getController() {
 		return paddle;
 	}
 	
