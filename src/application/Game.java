@@ -33,7 +33,7 @@ public class Game {
 	/* Game Constructor
 	 * Sets up initial game environment and main screen
 	 */
-	public Game(Group root, int windowWidth, int windowHeight) {
+	public Game(Group root, int windowWidth, int windowHeight, String gameType) {
 		this.score = new Score();
 		this.windowHeight = windowHeight;
 		this.windowWidth = windowWidth;
