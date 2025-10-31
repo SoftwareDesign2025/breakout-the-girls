@@ -27,7 +27,7 @@ public class Game {
 	private int windowHeight;
 	private Level level;
 	private GameScreen ui;
-	private BreakoutEnvironment environment;
+	private Environment environment;
 	
 	
 	/* Game Constructor
@@ -40,7 +40,11 @@ public class Game {
 		this.level = determineLevel(windowWidth, windowHeight);
 		this.ui = new GameScreen(root, windowWidth, windowHeight);
 		this.scoreUi = new ScoreUI(root, windowWidth, windowHeight);
-		this.environment = new BreakoutEnvironment(level, root, ui, windowWidth, windowHeight, score);
+		if (gameType.equals("Breakout")) {
+			this.environment = new BreakoutEnvironment(level, root, ui, windowWidth, windowHeight, score);
+		} else if (gameType.equals("Galaga")) {
+			this.environment = new GalagaEnvironment(root, ui, windowWidth, windowHeight, score);
+		}
 		
 		implementMainScreen(root, windowWidth, windowHeight);
 	}
@@ -251,8 +255,8 @@ public class Game {
 		return lives;
 	}
 	
-	public Paddle getPaddle() {
-		return environment.getPaddle();
+	public UserControl getController() {
+		return environment.getController();
 	}
 	
 	public TargetWall getBrickWall() {

@@ -49,9 +49,9 @@ public class Main extends Application {
         			}
         		}
         	} else if (code == KeyCode.RIGHT) {
-        		game.getPaddle().startMovingRight();
+        		game.getController().startMovingRight();
         	} else if (code == KeyCode.LEFT) {
-        		game.getPaddle().startMovingLeft();
+        		game.getController().startMovingLeft();
         	}
         	
         	//easter eggs
@@ -67,9 +67,9 @@ public class Main extends Application {
         scene.setOnKeyReleased(event -> {
             Game game = manager.getGame();
             if (event.getCode() == KeyCode.RIGHT) {
-                game.getPaddle().stopMovingRight();
+                game.getController().stopMovingRight();
             } else if (event.getCode() == KeyCode.LEFT) {
-                game.getPaddle().stopMovingLeft();
+                game.getController().stopMovingLeft();
             }
         });
 
@@ -79,7 +79,7 @@ public class Main extends Application {
             public void handle(long now) {
                 Game game = manager.getGame();
                 if (game != null) {
-                    game.getPaddle().update();
+                    game.getController().update();
                     game.step();
                 }
             }
