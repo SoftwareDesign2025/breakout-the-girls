@@ -33,7 +33,7 @@ public class Main extends Application {
 
         	if (code == KeyCode.SPACE) {
         		if (!game.getIsRunning()) { 
-        			if (game.getLives() == 3 || game.getBrickWall().getBrickWall().isEmpty()) {
+        			if (game.getLives() == 3 || game.getBrickWall().getWall().isEmpty()) {
         				game.startRound();
         			} else {
         				game.startAfterLifeLost();
