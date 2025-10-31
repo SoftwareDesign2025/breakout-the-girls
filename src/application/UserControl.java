@@ -5,6 +5,7 @@ package application;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 public class UserControl {
 	
@@ -42,7 +43,7 @@ public class UserControl {
 	/* Method getPaddle
 	 * get the paddle object
 	 */
-	public Rectangle getController() {
+	public Shape getController() {
 		return controller;
 	}
 	

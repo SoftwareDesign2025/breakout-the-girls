@@ -14,7 +14,7 @@ public abstract class Level {
     protected int extraLifeOccurrences;
     protected int extendPaddleOccurrences;
     protected final int MAX_BRICK_POINT_VALUE = 25;
-    protected BrickWall brickWall;
+    protected TargetWall brickWall;
     
 
     public Level(int windowWidth, int windowHeight) {
@@ -22,33 +22,33 @@ public abstract class Level {
         this.windowHeight = windowHeight;
     }
 
-    public BrickWall createBrickWall() {
-	    this.brickWall = new BrickWall(windowWidth, windowHeight);
+    public TargetWall createBrickWall() {
+	    this.brickWall = new TargetWall(windowWidth, windowHeight);
 	    createSpecificBrickWall(this.brickWall);
 	    return this.brickWall;
     }
     
-    public abstract void createSpecificBrickWall(BrickWall wall);
+    public abstract void createSpecificBrickWall(TargetWall wall);
 
     public ArrayList<PowerUp> generatePowerUps() {
 		return new ArrayList<>();
 	}
     
-    public PowerUp determineSpawn(Brick brick) {
-        int brickValue = brick.getBrickPoint();
+    public PowerUp determineSpawn(Target target) {
+        int brickValue = target.getTargetPoint();
 
         ArrayList<Integer> extraLifeValues = generateMultiples(extraLifeOccurrences);
         ArrayList<Integer> longPaddleValues = generateMultiples(extendPaddleOccurrences);
 
         if (longPaddleValues.contains(brickValue)) {
             return new LongPaddle(
-                brick.getX() + brick.getBrickWidth()/2,
-                brick.getY() + brick.getBrickHeight()/2
+                target.getX() + target.getTargetWidth()/2,
+                target.getY() + target.getTargetHeight()/2
             );
         } else if (extraLifeValues.contains(brickValue)) {
             return new ExtraLife(
-                brick.getX() + brick.getBrickWidth()/2,
-                brick.getY() + brick.getBrickHeight()/2
+                target.getX() + target.getTargetWidth()/2,
+                target.getY() + target.getTargetHeight()/2
             );
         }
 
