@@ -22,6 +22,7 @@ public class Game {
 
 	private MainScreen mainScreen; 
 	private Score score;
+	private ScoreUI scoreUi;
 	private int windowWidth;
 	private int windowHeight;
 	private Level level;
@@ -33,11 +34,12 @@ public class Game {
 	 * Sets up initial game environment and main screen
 	 */
 	public Game(Group root, int windowWidth, int windowHeight) {
+		this.score = new Score();
 		this.windowHeight = windowHeight;
 		this.windowWidth = windowWidth;
 		this.level = determineLevel(windowWidth, windowHeight);
 		this.ui = new GameScreen(root, windowWidth, windowHeight);
-		score = new Score();
+		this.scoreUi = new ScoreUI(root, windowWidth, windowHeight);
 		this.environment = new BreakoutEnvironment(level, root, ui, windowWidth, windowHeight, score);
 		
 		implementMainScreen(root, windowWidth, windowHeight);
@@ -108,6 +110,7 @@ public class Game {
 		isRunning = false;
 		isWaitingForNextRound = false;
 		ui.endGameMessage(win, score);
+		scoreUi.hide();
 	}
 
 
@@ -132,6 +135,8 @@ public class Game {
 			ui.clearText();
 			environment.resetEnvironment();
 			environment.launchProjectile();
+			scoreUi.show();
+			scoreUi.updateScore(score.getCurrentScore());
 			isRunning = true;
 		}
 	}
@@ -143,6 +148,8 @@ public class Game {
 		ui.clearText();
 		environment.resetEnvironment();
 		environment.launchProjectile();
+		scoreUi.show();
+		scoreUi.updateScore(score.getCurrentScore());
 		isRunning = true;
 	}
 	
@@ -159,6 +166,7 @@ public class Game {
 	    } 
 	    
 	    isRunning = false;
+	    scoreUi.hide();
 
 	    if (win) { roundsWon ++; }
 	    roundsCompleted ++;
@@ -185,6 +193,8 @@ public class Game {
 	 */
 	public void startAfterLifeLost() {
 		environment.launchProjectile();
+		scoreUi.show();
+		scoreUi.updateScore(score.getCurrentScore());
 		isRunning = true;
 	}
 	
@@ -212,6 +222,7 @@ public class Game {
 		}
 		environment.moveProjectile(ELAPSED_TIME);
 		environment.checkAllCollisions();
+		scoreUi.updateScore(score.getCurrentScore());
 		handleBallLost();
 		
 		boolean isRoundEnded = environment.isWallEmpty();
