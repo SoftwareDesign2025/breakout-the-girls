@@ -3,6 +3,7 @@
 // Johnathan Meeks
 package application;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javafx.scene.Group;
@@ -19,8 +20,8 @@ public class Game {
 	private int roundsCompleted = 0;
 	private int roundsWon = 0;
 	private static final double ROUND_END_DISPLAY_SECONDS = 5.0;
-	private double movingWallTimer = 0.0;
-	private static final double MOVING_WALL_INTERVAL = 2.0; 
+	private double bugDropTimer = 0.0;
+	private static final double DROP_BUG_INTERVAL = 5; 
 
 	private MainScreen mainScreen; 
 	private Score score;
@@ -214,10 +215,21 @@ public class Game {
 	}
 	
 	public void step() {
-		movingWallTimer += ELAPSED_TIME;
-		if (movingWallTimer >= MOVING_WALL_INTERVAL) {
-			movingWallTimer = 0.0;
-			Target removedBug = environment.removeBug();
+		bugDropTimer += ELAPSED_TIME;
+		if (bugDropTimer >= DROP_BUG_INTERVAL) {
+		    bugDropTimer = 0.0;
+		    environment.triggerBugDrop(); 
+		}
+		
+		ArrayList<Target> bugsOutOfBounds = environment.moveDroppedBug(ELAPSED_TIME);
+		if (!bugsOutOfBounds.isEmpty()) {
+		    lives -= bugsOutOfBounds.size();
+		    
+		    if (lives <= 0) {
+		        gameOver = true;
+		        endRound(false);
+		        return;
+		    }
 		}
 		
 		// 5-second countdown in between round ==> next round

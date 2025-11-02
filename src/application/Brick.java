@@ -37,6 +37,11 @@ public class Brick extends Target {
 		target.setX(xCoordinate);
 		target.setY(yCoordinate);
 	}
+
+	@Override
+	public boolean bugOutOfBounds(int windowHeight) {
+		return false;
+	}
 	
 	
 }

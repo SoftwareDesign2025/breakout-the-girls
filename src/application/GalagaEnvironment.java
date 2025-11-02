@@ -1,6 +1,8 @@
 package application;
 
 
+import java.util.ArrayList;
+
 import javafx.scene.Group;
 
 public class GalagaEnvironment extends Environment implements GameEnvironment {
@@ -66,7 +68,7 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
 	public void moveProjectile(double elapsedTime) {
 		bullet.move(elapsedTime);
 	}
-
+	
 
 
 	public boolean isWallEmpty() {
@@ -99,7 +101,12 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
 		return aircraft;
 	}
 	
-	public Target removeBug() {
-		return bugWall.moveBug();
+	public void triggerBugDrop() {
+	    bugWall.startBugDrop();
+	}
+
+	public ArrayList<Target> moveDroppedBug(double elapsedTime) {
+		ArrayList<Target> bugsOutOfBounds = bugWall.moveDroppedBug(elapsedTime);
+	    return bugsOutOfBounds;
 	}
 }

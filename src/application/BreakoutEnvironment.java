@@ -119,7 +119,5 @@ public class BreakoutEnvironment extends Environment implements GameEnvironment 
 		return brickWall;
 	}
 	
-	public Target removeBug() {
-		return null;
-	}
+	public void triggerBugDrop() {};
 }
