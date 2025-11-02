@@ -22,7 +22,7 @@ public class TargetWall {
 	private int windowWidth;
 	private int windowHeight;
 	private Target emptyBrick = new Brick();
-
+	private ArrayList<Target> fallingBugs = new ArrayList<>();
 	
 	/* Constructor
 	 * Determines number of columns of bricks by dividing the width of the window 
@@ -119,13 +119,27 @@ public class TargetWall {
 		}
 	}
 	
-	public Target moveBug() {
-		int randomBug = random.nextInt(targetWall.size());
-		Target bugToRemove = targetWall.get(randomBug);
-		bugToRemove.moveBugDown();
-		return bugToRemove;
+	
+	public void startBugDrop() {
+		if (!targetWall.isEmpty()) {
+	        int randomBug = random.nextInt(targetWall.size());
+	        Target bug = targetWall.remove(randomBug);
+	        bug.drop();
+	        fallingBugs.add(bug);
+	    }
 	}
 	
+	public ArrayList<Target> moveDroppedBug(double elapsedTime) {
+		ArrayList<Target> bugsToRemove = new ArrayList<>();
+	    for (Target bug : fallingBugs) {
+	        bug.move(elapsedTime);
+	        if (bug.bugOutOfBounds(windowHeight)) {
+	            bugsToRemove.add(bug);
+	        }
+	    }
+	    fallingBugs.removeAll(bugsToRemove);
+	    return bugsToRemove;
+	}
 
 	
 

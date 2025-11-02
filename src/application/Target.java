@@ -69,4 +69,10 @@ public abstract class Target {
 	public double getY() { 
 		return yCoordinate; 
 	}
+	
+	public void drop() {}
+	
+	public void move(double elapsedTime) {}
+	
+	public abstract boolean bugOutOfBounds (int windowHeight);
 }

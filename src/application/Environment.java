@@ -1,5 +1,7 @@
 package application;
 
+import java.util.ArrayList;
+
 public abstract class Environment {
 	
 	public abstract int increaseLives();
@@ -24,5 +26,9 @@ public abstract class Environment {
 	
 	public abstract TargetWall getWall();
 	
-	public abstract Target removeBug();
+	public ArrayList<Target> moveDroppedBug(double elapsedTime) {
+	    return new ArrayList<>();
+	}
+	
+	public abstract void triggerBugDrop();
 }
