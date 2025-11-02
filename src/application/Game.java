@@ -19,6 +19,8 @@ public class Game {
 	private int roundsCompleted = 0;
 	private int roundsWon = 0;
 	private static final double ROUND_END_DISPLAY_SECONDS = 5.0;
+	private double movingWallTimer = 0.0;
+	private static final double MOVING_WALL_INTERVAL = 2.0; 
 
 	private MainScreen mainScreen; 
 	private Score score;
@@ -61,11 +63,10 @@ public class Game {
 	 * or if they get to continue.
 	 */
 	private void handleBallLost() {
-		if (environment.isBallLost()) {
+		if (environment.handleLifeLost()) {
 	        lives--;
 	        
 	        if (lives > 0) {
-	            // Reset the ball for the next round
 	            environment.resetBallPosition();
 	            isRunning = false; // pause until space is pressed again
 	        } 
@@ -213,6 +214,12 @@ public class Game {
 	}
 	
 	public void step() {
+		movingWallTimer += ELAPSED_TIME;
+		if (movingWallTimer >= MOVING_WALL_INTERVAL) {
+			movingWallTimer = 0.0;
+			Target removedBug = environment.removeBug();
+		}
+		
 		// 5-second countdown in between round ==> next round
 		if (isWaitingForNextRound) {
 			roundOverDelayTime -= ELAPSED_TIME; 

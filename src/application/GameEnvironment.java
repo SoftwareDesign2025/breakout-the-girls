@@ -6,7 +6,6 @@ public interface GameEnvironment {
 	
 	public void resetEnvironment();
 	
-	public void checkAllCollisions();
 	
 	public void launchProjectile();
 	

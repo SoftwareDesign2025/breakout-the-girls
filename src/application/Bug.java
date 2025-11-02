@@ -6,9 +6,17 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class Bug extends Target {
+	
+	public Bug (double xCoordinate, double yCoordinate) {
+		super(xCoordinate, yCoordinate);
+	}
+	
+	public Bug() {}
+	
+	
 
 	@Override
-	public void createTarget(int bugHeight, int bugWidth) {
+	public void createTarget(double bugHeight, double bugWidth) {
 		targetHeight = bugHeight;
 		targetWidth = bugWidth;
 		target = new Rectangle(bugWidth, bugHeight);	
@@ -18,5 +26,5 @@ public class Bug extends Target {
 		target.setX(xCoordinate);
 		target.setY(yCoordinate);
 	}
-
+	
 }

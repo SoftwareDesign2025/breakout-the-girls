@@ -43,6 +43,21 @@ public class Collisions {
 		}
 		return false;
 	}
+	
+	public void bulletBugCollision( Bullet bullet, ArrayList<Target> targets, Score score) {
+		for (int i = targets.size()-1; i>= 0; i--) {
+			Target target = targets.get(i);
+			Shape bulletBugIntersection = Shape.intersect(bullet.getProjectile(), target.getTarget());
+			if (bulletBugIntersection.getBoundsInLocal().getWidth() != -1) {
+				target.destroyTarget();
+				score.addPoints(target.getTargetPoint());
+				targets.remove(i);
+				
+				// add method from bullet to erase bullet
+				
+			}
+		}
+	}
 
 	public void ballTargetCollision(Group root, ArrayList<Target> targets, Ball ball, Level level, ArrayList<PowerUp> powerUps, Score score) {
 		for (int i = targets.size() - 1; i >= 0; i--) {

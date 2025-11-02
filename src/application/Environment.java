@@ -4,7 +4,7 @@ public abstract class Environment {
 	
 	public abstract int increaseLives();
 	
-	public abstract boolean isBallLost();
+	public abstract boolean handleLifeLost();
 
 	public abstract void resetBallPosition();
 	
@@ -23,4 +23,6 @@ public abstract class Environment {
 	public abstract UserControl getController();
 	
 	public abstract TargetWall getWall();
+	
+	public abstract Target removeBug();
 }
