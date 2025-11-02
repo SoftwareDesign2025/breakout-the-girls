@@ -94,7 +94,7 @@ public class BreakoutEnvironment extends Environment implements GameEnvironment 
 	    ball.move(elapsedTime);
 	}
 
-	public boolean isBallLost() {
+	public boolean handleLifeLost() {
 	    return ball.checkIfRoundLost();
 	}
 
@@ -117,5 +117,9 @@ public class BreakoutEnvironment extends Environment implements GameEnvironment 
 	
 	public TargetWall getWall() {
 		return brickWall;
+	}
+	
+	public Target removeBug() {
+		return null;
 	}
 }

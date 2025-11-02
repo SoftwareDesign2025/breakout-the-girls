@@ -8,8 +8,8 @@ import javafx.scene.shape.Shape;
 
 public abstract class Target {
 
-	protected int targetHeight;
-	protected int targetWidth;
+	protected double targetHeight;
+	protected double targetWidth;
 	protected final int MAX_TARGET_POINT_VALUE = 25;
 
 	// Location of target on screen:
@@ -28,7 +28,7 @@ public abstract class Target {
 	
 	public Target() {}
 
-	public abstract void createTarget(int brickHeight, int brickWidth);
+	public abstract void createTarget(double brickHeight, double brickWidth);
 	
 	public Shape getTarget() {
 		return target;
@@ -39,6 +39,12 @@ public abstract class Target {
 		target.setFill(Color.TRANSPARENT);
 		target.setStroke(Color.TRANSPARENT);
 	}
+	
+	public void moveBugDown() {
+		yCoordinate += 15;
+		target.setY(yCoordinate);
+	}
+
 
 	// Gets the point value assigned to the brick if it was destroyed and returns it.
 	public int getTargetPoint () {
@@ -47,12 +53,12 @@ public abstract class Target {
 
 
 	// Returns the width of the brick.
-	public int getTargetWidth() {
+	public double getTargetWidth() {
 		return targetWidth;
 	}
 
 	// Returns the height of the brick.
-	public int getTargetHeight() {
+	public double getTargetHeight() {
 		return targetHeight;
 	}
 

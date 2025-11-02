@@ -32,7 +32,8 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
 	public void initializeObjects () {
 		aircraft = new Aircraft();
 		bullet = new Bullet();
-		bugWall.createTargetWall();
+		bugWall = new TargetWall(windowWidth, windowHeight);
+		bugWall.createBugWall();
 
 		aircraft.createController(windowWidth, windowHeight);
 		bullet.createProjectile(windowWidth, windowHeight);
@@ -50,9 +51,12 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
 	}
 
 
-
 	public void checkAllCollisions() {
-		collisions.aircraftBugCollision(aircraft, bugWall);
+		collisions.bulletBugCollision(bullet, bugWall.getWall(), score);
+	}
+	
+	public boolean handleLifeLost() {
+		return collisions.aircraftBugCollision(aircraft, bugWall);
 	}
 
 	public void launchProjectile() {
@@ -86,10 +90,6 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
 		return -1;
 	}
 
-	@Override
-	public boolean isBallLost() {
-		return false;
-	}
 
 	@Override
 	public void resetBallPosition() {		
@@ -97,5 +97,9 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
 
 	public UserControl getController() {
 		return aircraft;
+	}
+	
+	public Target removeBug() {
+		return bugWall.moveBug();
 	}
 }
