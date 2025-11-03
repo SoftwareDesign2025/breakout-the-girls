@@ -17,6 +17,9 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
 	private int windowHeight;
 	private Collisions collisions;
 	private int lives = 3;
+	private ArrayList<Bullet> bullets = new ArrayList<>();
+	private UserControl controller;
+
 
 
 	public GalagaEnvironment(Group root, GameScreen ui, int windowWidth, int windowHeight, Score score) {
@@ -109,4 +112,33 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
 		ArrayList<Target> bugsOutOfBounds = bugWall.moveDroppedBug(elapsedTime);
 	    return bugsOutOfBounds;
 	}
+	//Katherine Hoadley
+    // Shoot a new bullet from the aircraft
+    public void shootBullet() {
+        Bullet bullet = new Bullet();
+        bullet.createProjectile(windowWidth, windowHeight);
+
+        bullet.getProjectile().setCenterX(aircraft.getController().getTranslateX() + controller.getWidth() / 2);
+        bullet.getProjectile().setCenterY(aircraft.getController().getTranslateY());
+
+        bullet.launchProjectile();
+        bullets.add(bullet);
+        root.getChildren().add(bullet.getProjectile());
+    }
+    
+    //Katherine Hoadley
+    //Moves the bullet then deletes it once it is off screen
+    public void moveProjectiles(double elapsedTime) {
+        for (Bullet bullet : bullets) {
+            bullet.move(elapsedTime);
+        }
+
+        // Optionally remove bullets off screen
+        for (int i = bullets.size() - 1; i >= 0; i--) {
+            if (bullets.get(i).getProjectile().getCenterY() < 0) {
+                root.getChildren().remove(bullets.get(i).getProjectile());
+                bullets.remove(i);
+            }
+        }    
+    }
 }
