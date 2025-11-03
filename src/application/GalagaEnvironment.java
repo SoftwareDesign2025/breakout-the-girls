@@ -54,7 +54,7 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
 
 	public void checkAllCollisions() {
 	    for (Bullet bullet : bullets) {
-	        collisions.bulletBugCollision(bullet, bugWall.getWall(), score);
+	    	collisions.bulletBugCollision(bullet, bugWall, score);
 	    }
 	}
 	
