@@ -152,5 +152,8 @@ public class TargetWall {
 	public ArrayList<Target> getWall () {
 		return targetWall;
 	}
-
+	
+	public ArrayList<Target> getFallingBugs() {
+	    return fallingBugs;
+	}
 }

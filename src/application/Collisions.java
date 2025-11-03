@@ -44,19 +44,32 @@ public class Collisions {
 		return false;
 	}
 	
-	public void bulletBugCollision( Bullet bullet, ArrayList<Target> targets, Score score) {
-		for (int i = targets.size()-1; i>= 0; i--) {
-			Target target = targets.get(i);
-			Shape bulletBugIntersection = Shape.intersect(bullet.getProjectile(), target.getTarget());
-			if (bulletBugIntersection.getBoundsInLocal().getWidth() != -1) {
-				target.destroyTarget();
-				score.addPoints(target.getTargetPoint());
-				targets.remove(i);
-				
-				// add method from bullet to erase bullet
-				
-			}
-		}
+	public void bulletBugCollision(Bullet bullet, TargetWall targetWall, Score score) {
+	    // Collide with stationary bugs
+	    ArrayList<Target> wallTargets = targetWall.getWall();
+	    for (int i = wallTargets.size() - 1; i >= 0; i--) {
+	        Target target = wallTargets.get(i);
+	        Shape intersection = Shape.intersect(bullet.getProjectile(), target.getTarget());
+	        if (intersection.getBoundsInLocal().getWidth() != -1) {
+	            target.destroyTarget();
+	            score.addPoints(target.getTargetPoint());
+	            wallTargets.remove(i);
+	            break; // bullet stops after hitting one target
+	        }
+	    }
+
+	    // Collide with falling bugs
+	    ArrayList<Target> fallingBugs = targetWall.getFallingBugs();
+	    for (int i = fallingBugs.size() - 1; i >= 0; i--) {
+	        Target bug = fallingBugs.get(i);
+	        Shape intersection = Shape.intersect(bullet.getProjectile(), bug.getTarget());
+	        if (intersection.getBoundsInLocal().getWidth() != -1) {
+	            bug.destroyTarget();
+	            score.addPoints(bug.getTargetPoint());
+	            fallingBugs.remove(i);
+	            break; // bullet stops after hitting one target
+	        }
+	    }
 	}
 
 	public void ballTargetCollision(Group root, ArrayList<Target> targets, Ball ball, Level level, ArrayList<PowerUp> powerUps, Score score) {
