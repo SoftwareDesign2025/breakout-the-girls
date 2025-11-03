@@ -243,8 +243,11 @@ public class Game {
 		if (!isRunning) {
 			return;
 		}
-		environment.moveProjectile(ELAPSED_TIME);
-		environment.checkAllCollisions();
+		if (environment instanceof GalagaEnvironment galagaEnv) {
+		    galagaEnv.moveProjectiles(ELAPSED_TIME);
+		} else {
+		    environment.moveProjectile(ELAPSED_TIME);
+		}		environment.checkAllCollisions();
 		scoreUi.updateScore(score.getCurrentScore());
 		handleBallLost();
 		
@@ -272,6 +275,10 @@ public class Game {
 	
 	public int getLives() {
 		return lives;
+	}
+	
+	public Environment getEnvironment() {
+		return environment;
 	}
 	
 	public UserControl getController() {

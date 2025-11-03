@@ -4,12 +4,12 @@ package application;
 import java.util.ArrayList;
 
 import javafx.scene.Group;
+import javafx.scene.shape.Rectangle;
 
 public class GalagaEnvironment extends Environment implements GameEnvironment {
 
 	private TargetWall bugWall;
 	private Aircraft aircraft;
-	private Bullet bullet;
 	private Score score;
 	private Group root;
 	private GameScreen ui;
@@ -23,28 +23,24 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
 
 
 	public GalagaEnvironment(Group root, GameScreen ui, int windowWidth, int windowHeight, Score score) {
-		this.root = root;
-		this.windowHeight = windowHeight;
-		this.windowWidth = windowWidth;
-		this.score = new Score();
-		this.ui = new GameScreen(root, windowWidth, windowHeight);
-		this.collisions = new Collisions();
-		this.score = score;
+	    this.root = root;
+	    this.windowHeight = windowHeight;
+	    this.windowWidth = windowWidth;
+	    this.ui = ui;
+	    this.score = score;
+	    this.collisions = new Collisions();
 
-		initializeObjects();
+	    initializeObjects();
 	}
 
 	public void initializeObjects () {
 		aircraft = new Aircraft();
-		bullet = new Bullet();
 		bugWall = new TargetWall(windowWidth, windowHeight);
 		bugWall.createBugWall();
 
 		aircraft.createController(windowWidth, windowHeight);
-		bullet.createProjectile(windowWidth, windowHeight);
 
 		root.getChildren().add(aircraft.getController());
-		root.getChildren().add(bullet.getProjectile());
 		for (Target bug : bugWall.getWall()) {
 			root.getChildren().add(bug.getTarget());
 		}
@@ -57,7 +53,9 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
 
 
 	public void checkAllCollisions() {
-		collisions.bulletBugCollision(bullet, bugWall.getWall(), score);
+	    for (Bullet bullet : bullets) {
+	        collisions.bulletBugCollision(bullet, bugWall.getWall(), score);
+	    }
 	}
 	
 	public boolean handleLifeLost() {
@@ -65,11 +63,11 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
 	}
 
 	public void launchProjectile() {
-		bullet.launchProjectile();
+	    shootBullet();
 	}
 
 	public void moveProjectile(double elapsedTime) {
-		bullet.move(elapsedTime);
+	    moveProjectiles(elapsedTime);
 	}
 	
 
@@ -114,17 +112,21 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
 	}
 	//Katherine Hoadley
     // Shoot a new bullet from the aircraft
-    public void shootBullet() {
-        Bullet bullet = new Bullet();
-        bullet.createProjectile(windowWidth, windowHeight);
+	public void shootBullet() {
+	    Bullet bullet = new Bullet();
+	    bullet.createProjectile(windowWidth, windowHeight);
 
-        bullet.getProjectile().setCenterX(aircraft.getController().getTranslateX() + controller.getWidth() / 2);
-        bullet.getProjectile().setCenterY(aircraft.getController().getTranslateY());
+	    double shipX = ((Rectangle) aircraft.getController()).getX();
+	    double shipY = ((Rectangle) aircraft.getController()).getY();
+	    double shipWidth = ((Rectangle) aircraft.getController()).getWidth();
 
-        bullet.launchProjectile();
-        bullets.add(bullet);
-        root.getChildren().add(bullet.getProjectile());
-    }
+	    bullet.getProjectile().setCenterX(shipX + shipWidth / 2);
+	    bullet.getProjectile().setCenterY(shipY);
+
+	    bullet.launchProjectile();
+	    bullets.add(bullet);
+	    root.getChildren().add(bullet.getProjectile());
+	}
     
     //Katherine Hoadley
     //Moves the bullet then deletes it once it is off screen
