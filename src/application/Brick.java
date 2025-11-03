@@ -27,7 +27,7 @@ public class Brick extends Target {
 	
 	
 	// Creates the brick, adds a black border, and sets the location of the brick on screen.
-	public void createTarget(int brickHeight, int brickWidth) {
+	public void createTarget(double brickHeight, double brickWidth) {
 		targetHeight = brickHeight;
 		targetWidth = brickWidth;
 		target = new Rectangle(brickWidth, brickHeight);				
@@ -36,6 +36,11 @@ public class Brick extends Target {
 		
 		target.setX(xCoordinate);
 		target.setY(yCoordinate);
+	}
+
+	@Override
+	public boolean bugOutOfBounds(int windowHeight) {
+		return false;
 	}
 	
 	
