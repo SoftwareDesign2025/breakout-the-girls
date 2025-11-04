@@ -41,13 +41,20 @@ public class Main extends Application {
             Game game = manager.getGame();
         	
             if (code == KeyCode.SPACE) {
-        		if (!game.getIsRunning()) { 
-        			if (game.getLives() == 3 || game.getBrickWall().getWall().isEmpty()) {
-        				game.startRound();
-        			} else {
-        				game.startAfterLifeLost();
-        			}
-        		}
+                // If the game isn't running, start it
+                if (!game.getIsRunning()) { 
+                    if (game.getLives() == 3 || game.getBrickWall().getWall().isEmpty()) {
+                        game.startRound();
+                    } else {
+                        game.startAfterLifeLost();
+                    }
+                } else {
+                    // If game is running, shoot a bullet
+                    if (game.getEnvironment() instanceof GalagaEnvironment galagaEnv) 
+                    {
+                        galagaEnv.shootBullet();
+                    }
+                }
         	} else if (code == KeyCode.RIGHT) {
         		game.getController().startMovingRight();
         	} else if (code == KeyCode.LEFT) {
