@@ -13,8 +13,7 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
 	private Score score;
 	private Group root;
 	private GameScreen ui;
-	private int windowWidth;
-	private int windowHeight;
+	private WindowDimensions window;
 	private Collisions collisions;
 	private int lives = 3;
 	private ArrayList<Bullet> bullets = new ArrayList<>();
@@ -22,10 +21,9 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
 
 
 
-	public GalagaEnvironment(Group root, GameScreen ui, int windowWidth, int windowHeight, Score score) {
+	public GalagaEnvironment(Group root, GameScreen ui, Score score, WindowDimensions window) {
 	    this.root = root;
-	    this.windowHeight = windowHeight;
-	    this.windowWidth = windowWidth;
+	    this.window = window;
 	    this.ui = ui;
 	    this.score = score;
 	    this.collisions = new Collisions();
@@ -35,10 +33,10 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
 
 	public void initializeObjects () {
 		aircraft = new Aircraft();
-		bugWall = new TargetWall(windowWidth, windowHeight);
+		bugWall = new TargetWall(window);
 		bugWall.createBugWall();
 
-		aircraft.createController(windowWidth, windowHeight);
+		aircraft.createController(window);
 
 		root.getChildren().add(aircraft.getController());
 		for (Target bug : bugWall.getWall()) {
@@ -114,7 +112,7 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
     // Shoot a new bullet from the aircraft
 	public void shootBullet() {
 	    Bullet bullet = new Bullet();
-	    bullet.createProjectile(windowWidth, windowHeight);
+	    bullet.createProjectile(window);
 
 	    double shipX = ((Rectangle) aircraft.getController()).getX();
 	    double shipY = ((Rectangle) aircraft.getController()).getY();

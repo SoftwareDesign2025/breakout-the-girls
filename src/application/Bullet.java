@@ -4,12 +4,14 @@ import javafx.scene.paint.Color;
 
 public class Bullet extends Projectile {
     private final double RADIUS = 5;
+	private final double SCREEN_HEIGHT_RATIO = 0.8;
+
 
     @Override
-    public void createProjectile(int windowWidth, int windowHeight) {
+    public void createProjectile(WindowDimensions window) {
         projectile = new javafx.scene.shape.Circle();
-        double xCoordinate = windowWidth / 2;
-        double yCoordinate = windowHeight * 0.8;
+        double xCoordinate = window.getWindowWidth() / 2;
+        double yCoordinate = window.getWindowHeight() * SCREEN_HEIGHT_RATIO;
 
         projectile.setCenterX(xCoordinate);
         projectile.setCenterY(yCoordinate);

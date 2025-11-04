@@ -9,8 +9,8 @@ public class LevelOne extends Level {
 	private final int EXTEND_PADDLE_OCCURRENCES = 0;
 	
 	
-	public LevelOne (int windowWidth, int windowHeight) {
-		super(windowWidth, windowHeight);
+	public LevelOne (WindowDimensions window) {
+		super(window);
 		this.extraLifeOccurrences = EXTRA_LIFE_OCCURRENCES;
         this.extendPaddleOccurrences = EXTEND_PADDLE_OCCURRENCES;
 	}

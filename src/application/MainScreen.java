@@ -19,8 +19,8 @@ public class MainScreen extends Screen {
 	private Button startButton;
 
 	
-	public MainScreen(Group root, int windowWidth, int windowHeight, String gameTitle) {
-		super(root, windowWidth, windowHeight);
+	public MainScreen(Group root, WindowDimensions window, String gameTitle) {
+		super(root, window);
 		initializeElements();
 		this.gameTitle = gameTitle.toUpperCase();
 		initializeElements();
@@ -35,7 +35,7 @@ public class MainScreen extends Screen {
 		initializeStartButton();
 
 		startButton.layoutBoundsProperty().addListener((obs, oldVal, newVal) -> {
-			startButton.setLayoutX((windowWidth - newVal.getWidth()) / 2);
+			startButton.setLayoutX((window.getWindowWidth() - newVal.getWidth()) / 2);
 		});
 	}
 	
@@ -45,14 +45,14 @@ public class MainScreen extends Screen {
 		titleText.setFont(new Font(TITLE_FONT_SIZE));
 		titleText.setFill(TEXT_COLOR);
 		titleText.setX(getCenteredX(titleText));
-		titleText.setY(windowHeight / 3.0);
+		titleText.setY(window.getWindowHeight() / 3.0);
 	}
 
 	private void initializeStartButton() {
 		startButton = new Button(START_BUTTON_TEXT);
 		startButton.setFont(new Font(BUTTON_FONT_SIZE));
-		startButton.setLayoutX((windowWidth - startButton.getWidth()) / 2);
-		startButton.setLayoutY(windowHeight / 1.8);
+		startButton.setLayoutX((window.getWindowWidth() - startButton.getWidth()) / 2);
+		startButton.setLayoutY(window.getWindowHeight() / 1.8);
 	}
 	
 	public Button getStartButton() {
