@@ -24,6 +24,7 @@ public class Game {
 	private static final double DROP_BUG_INTERVAL = 5; 
 
 	private MainScreen mainScreen; 
+	private String gameTitle;
 	private Score score;
 	private ScoreUI scoreUi;
 	private int windowWidth;
@@ -37,6 +38,7 @@ public class Game {
 	 * Sets up initial game environment and main screen
 	 */
 	public Game(Group root, int windowWidth, int windowHeight, String gameType) {
+		this.gameTitle = gameType;
 		this.score = new Score();
 		this.windowHeight = windowHeight;
 		this.windowWidth = windowWidth;
@@ -88,7 +90,7 @@ public class Game {
 	 * create screen that allows the user to start the game
 	 */
 	private void implementMainScreen(Group root, int windowWidth, int windowHeight) {
-		mainScreen = new MainScreen(root, windowWidth, windowHeight);
+		mainScreen = new MainScreen(root, windowWidth, windowHeight, gameTitle);
 		mainScreen.getStartButton().setOnAction(event -> {
 			startGame();
 		});
@@ -143,6 +145,7 @@ public class Game {
 			environment.launchProjectile();
 			scoreUi.show();
 			scoreUi.updateScore(score.getCurrentScore());
+			scoreUi.updateLives(lives);
 			isRunning = true;
 		}
 	}
@@ -156,6 +159,7 @@ public class Game {
 		environment.launchProjectile();
 		scoreUi.show();
 		scoreUi.updateScore(score.getCurrentScore());
+		scoreUi.updateLives(lives);
 		isRunning = true;
 	}
 	
@@ -249,6 +253,7 @@ public class Game {
 		    environment.moveProjectile(ELAPSED_TIME);
 		}		environment.checkAllCollisions();
 		scoreUi.updateScore(score.getCurrentScore());
+		scoreUi.updateLives(lives);
 		handleBallLost();
 		
 		boolean isRoundEnded = environment.isWallEmpty();
