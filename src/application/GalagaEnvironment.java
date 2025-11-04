@@ -129,14 +129,16 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
 	}
     
     //Katherine Hoadley
-    //Moves the bullet then deletes it once it is off screen
     public void moveProjectiles(double elapsedTime) {
         for (Bullet bullet : bullets) {
             bullet.move(elapsedTime);
         }
+        removeBullet();
 
-        // Optionally remove bullets off screen
-        for (int i = bullets.size() - 1; i >= 0; i--) {
+    }
+    //Katherine Hoadley
+    public void removeBullet() {
+    	for (int i = bullets.size() - 1; i >= 0; i--) {
             if (bullets.get(i).getProjectile().getCenterY() < 0) {
                 root.getChildren().remove(bullets.get(i).getProjectile());
                 bullets.remove(i);
