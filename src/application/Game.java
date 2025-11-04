@@ -3,6 +3,7 @@
 // Johnathan Meeks
 package application;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javafx.scene.Group;
@@ -19,6 +20,8 @@ public class Game {
 	private int roundsCompleted = 0;
 	private int roundsWon = 0;
 	private static final double ROUND_END_DISPLAY_SECONDS = 5.0;
+	private double bugDropTimer = 0.0;
+	private static final double DROP_BUG_INTERVAL = 5; 
 
 	private MainScreen mainScreen; 
 	private Score score;
@@ -27,20 +30,24 @@ public class Game {
 	private int windowHeight;
 	private Level level;
 	private GameScreen ui;
-	private BreakoutEnvironment environment;
+	private Environment environment;
 	
 	
 	/* Game Constructor
 	 * Sets up initial game environment and main screen
 	 */
-	public Game(Group root, int windowWidth, int windowHeight) {
+	public Game(Group root, int windowWidth, int windowHeight, String gameType) {
 		this.score = new Score();
 		this.windowHeight = windowHeight;
 		this.windowWidth = windowWidth;
 		this.level = determineLevel(windowWidth, windowHeight);
 		this.ui = new GameScreen(root, windowWidth, windowHeight);
 		this.scoreUi = new ScoreUI(root, windowWidth, windowHeight);
-		this.environment = new BreakoutEnvironment(level, root, ui, windowWidth, windowHeight, score);
+		if (gameType.equals("Breakout")) {
+			this.environment = new BreakoutEnvironment(level, root, ui, windowWidth, windowHeight, score);
+		} else if (gameType.equals("Galaga")) {
+			this.environment = new GalagaEnvironment(root, ui, windowWidth, windowHeight, score);
+		}
 		
 		implementMainScreen(root, windowWidth, windowHeight);
 	}
@@ -57,11 +64,10 @@ public class Game {
 	 * or if they get to continue.
 	 */
 	private void handleBallLost() {
-		if (environment.isBallLost()) {
+		if (environment.handleLifeLost()) {
 	        lives--;
 	        
 	        if (lives > 0) {
-	            // Reset the ball for the next round
 	            environment.resetBallPosition();
 	            isRunning = false; // pause until space is pressed again
 	        } 
@@ -209,6 +215,23 @@ public class Game {
 	}
 	
 	public void step() {
+		bugDropTimer += ELAPSED_TIME;
+		if (bugDropTimer >= DROP_BUG_INTERVAL) {
+		    bugDropTimer = 0.0;
+		    environment.triggerBugDrop(); 
+		}
+		
+		ArrayList<Target> bugsOutOfBounds = environment.moveDroppedBug(ELAPSED_TIME);
+		if (!bugsOutOfBounds.isEmpty()) {
+		    lives -= bugsOutOfBounds.size();
+		    
+		    if (lives <= 0) {
+		        gameOver = true;
+		        endRound(false);
+		        return;
+		    }
+		}
+		
 		// 5-second countdown in between round ==> next round
 		if (isWaitingForNextRound) {
 			roundOverDelayTime -= ELAPSED_TIME; 
@@ -220,8 +243,11 @@ public class Game {
 		if (!isRunning) {
 			return;
 		}
-		environment.moveProjectile(ELAPSED_TIME);
-		environment.checkAllCollisions();
+		if (environment instanceof GalagaEnvironment galagaEnv) {
+		    galagaEnv.moveProjectiles(ELAPSED_TIME);
+		} else {
+		    environment.moveProjectile(ELAPSED_TIME);
+		}		environment.checkAllCollisions();
 		scoreUi.updateScore(score.getCurrentScore());
 		handleBallLost();
 		
@@ -251,8 +277,12 @@ public class Game {
 		return lives;
 	}
 	
-	public Paddle getPaddle() {
-		return environment.getPaddle();
+	public Environment getEnvironment() {
+		return environment;
+	}
+	
+	public UserControl getController() {
+		return environment.getController();
 	}
 	
 	public TargetWall getBrickWall() {

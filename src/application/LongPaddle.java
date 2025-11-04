@@ -26,7 +26,7 @@ public class LongPaddle extends PowerUp{
 	//after it is applied.
 	@Override
 	public void activatePowerUp(BreakoutEnvironment environment) {
-        Paddle paddle = environment.getPaddle();
+        Paddle paddle = (Paddle) environment.getController();
         paddle.increasePaddleWidth();
         setActive(false);
 	}

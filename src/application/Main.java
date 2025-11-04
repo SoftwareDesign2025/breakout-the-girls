@@ -15,34 +15,50 @@ import javafx.animation.AnimationTimer;
 
 public class Main extends Application {
 	
-
 	// This method sets up the JavaFX stage, creates the game environment,
 	// defines keyboard controls for gameplay, and starts the main animation loop.
     @Override
     public void start(Stage stage) {
         Group root = new Group();
-        Game game = new Game(root, 800, 600);
+        GameManager manager = new GameManager(root);
         
         Scene scene = new Scene(root, 800, 600);
-        stage.setTitle("Breakout");
+        stage.setTitle("Arcade");
         stage.setScene(scene);
         stage.show();
         
         scene.setOnKeyPressed(event -> {
         	KeyCode code = event.getCode();
+        	
+            if (code == KeyCode.A) {
+                manager.loadGame("Breakout");
 
-        	if (code == KeyCode.SPACE) {
-        		if (!game.getIsRunning()) { 
-        			if (game.getLives() == 3 || game.getBrickWall().getWall().isEmpty()) {
-        				game.startRound();
-        			} else {
-        				game.startAfterLifeLost();
-        			}
-        		}
+            } else if (code == KeyCode.B) {
+                manager.loadGame("Galaga");
+
+            }
+            
+            Game game = manager.getGame();
+        	
+            if (code == KeyCode.SPACE) {
+                // If the game isn't running, start it
+                if (!game.getIsRunning()) { 
+                    if (game.getLives() == 3 || game.getBrickWall().getWall().isEmpty()) {
+                        game.startRound();
+                    } else {
+                        game.startAfterLifeLost();
+                    }
+                } else {
+                    // If game is running, shoot a bullet
+                    if (game.getEnvironment() instanceof GalagaEnvironment galagaEnv) 
+                    {
+                        galagaEnv.shootBullet();
+                    }
+                }
         	} else if (code == KeyCode.RIGHT) {
-        		game.getPaddle().startMovingRight();
+        		game.getController().startMovingRight();
         	} else if (code == KeyCode.LEFT) {
-        		game.getPaddle().startMovingLeft();
+        		game.getController().startMovingLeft();
         	}
         	
         	//easter eggs
@@ -52,13 +68,15 @@ public class Main extends Application {
         	else if(code ==KeyCode.W) {
         		game.skipToLevel(3);
         	}
+
         });
         
         scene.setOnKeyReleased(event -> {
+            Game game = manager.getGame();
             if (event.getCode() == KeyCode.RIGHT) {
-                game.getPaddle().stopMovingRight();
+                game.getController().stopMovingRight();
             } else if (event.getCode() == KeyCode.LEFT) {
-                game.getPaddle().stopMovingLeft();
+                game.getController().stopMovingLeft();
             }
         });
 
@@ -66,9 +84,11 @@ public class Main extends Application {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-            		game.getPaddle().update();
-                game.step();
-                
+                Game game = manager.getGame();
+                if (game != null) {
+                    game.getController().update();
+                    game.step();
+                }
             }
         };
         timer.start();

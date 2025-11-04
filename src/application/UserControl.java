@@ -90,6 +90,10 @@ public class UserControl {
 	    if (movingLeft) moveControllerHorizontally(false);
 	}
 	
+	public int getWidth() {
+		return controllerWidth;
+	}
+	
 	
 	
 	
