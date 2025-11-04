@@ -11,6 +11,7 @@ public abstract class Target {
 	protected double targetHeight;
 	protected double targetWidth;
 	protected final int MAX_TARGET_POINT_VALUE = 25;
+	protected final int DISTANCE_DOWN = 15;
 
 	// Location of target on screen:
 	protected double xCoordinate;
@@ -41,7 +42,7 @@ public abstract class Target {
 	}
 	
 	public void moveBugDown() {
-		yCoordinate += 15;
+		yCoordinate += DISTANCE_DOWN;
 		target.setY(yCoordinate);
 	}
 

@@ -9,21 +9,19 @@ import java.util.ArrayList;
 
 public abstract class Level {
 
-	protected int windowWidth;
-    protected int windowHeight;
+	protected WindowDimensions window;
     protected int extraLifeOccurrences;
     protected int extendPaddleOccurrences;
     protected final int MAX_BRICK_POINT_VALUE = 25;
     protected TargetWall brickWall;
     
 
-    public Level(int windowWidth, int windowHeight) {
-        this.windowWidth = windowWidth;
-        this.windowHeight = windowHeight;
+    public Level(WindowDimensions window) {
+        this.window = window;
     }
 
     public TargetWall createBrickWall() {
-	    this.brickWall = new TargetWall(windowWidth, windowHeight);
+	    this.brickWall = new TargetWall(window);
 	    createSpecificBrickWall(this.brickWall);
 	    return this.brickWall;
     }
