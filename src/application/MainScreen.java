@@ -12,15 +12,17 @@ import javafx.scene.text.Text;
 public class MainScreen extends Screen {
 	private static final int TITLE_FONT_SIZE = 70;
 	private static final int BUTTON_FONT_SIZE = 30;
-	private static final String GAME_TITLE = "BREAKOUT";
 	private static final String START_BUTTON_TEXT = "START";
 
+	private String gameTitle;
 	private Text titleText;
 	private Button startButton;
 
 	
-	public MainScreen(Group root, int windowWidth, int windowHeight) {
+	public MainScreen(Group root, int windowWidth, int windowHeight, String gameTitle) {
 		super(root, windowWidth, windowHeight);
+		initializeElements();
+		this.gameTitle = gameTitle.toUpperCase();
 		initializeElements();
 		this.display();
 	}
@@ -38,8 +40,8 @@ public class MainScreen extends Screen {
 	}
 	
 	
-	private void initializeTitleText() {
-		titleText = new Text(GAME_TITLE);
+	private void initializeTitleText() {		
+		titleText = new Text(gameTitle);
 		titleText.setFont(new Font(TITLE_FONT_SIZE));
 		titleText.setFill(TEXT_COLOR);
 		titleText.setX(getCenteredX(titleText));

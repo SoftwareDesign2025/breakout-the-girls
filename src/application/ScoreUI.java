@@ -13,6 +13,7 @@ public class ScoreUI {
     
     private Group root;
     private Text scoreText;
+    private Text livesText; 
     private int windowWidth;
     private int windowHeight;
     
@@ -31,11 +32,17 @@ public class ScoreUI {
         scoreText = new Text();
         scoreText.setFont(new Font(FONT_SIZE));
         scoreText.setFill(TEXT_COLOR);
+        
+        livesText = new Text();  // Add this
+        livesText.setFont(new Font(FONT_SIZE));
+        livesText.setFill(TEXT_COLOR);
+        
         updatePosition();
     }
     
     private void updatePosition() {
         scoreText.setY(windowHeight - MARGIN);
+        livesText.setY(windowHeight - MARGIN - 30);
     }
     
     
@@ -44,14 +51,24 @@ public class ScoreUI {
         scoreText.setX(windowWidth - scoreText.getLayoutBounds().getWidth() - MARGIN);
     }
     
+    public void updateLives(int lives) {
+        livesText.setText("Lives: " + lives);
+        livesText.setX(windowWidth - livesText.getLayoutBounds().getWidth() - MARGIN);
+    }
+    
     public void show() {
         if (!root.getChildren().contains(scoreText)) {
             root.getChildren().add(scoreText);
         }
+        if (!root.getChildren().contains(livesText)) {
+            root.getChildren().add(livesText);
+        }
         scoreText.toFront();
+        livesText.toFront();
     }
-    
+
     public void hide() {
         root.getChildren().remove(scoreText);
+        root.getChildren().remove(livesText);
     }
 }
