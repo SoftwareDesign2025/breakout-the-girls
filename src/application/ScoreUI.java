@@ -8,7 +8,7 @@ import javafx.scene.text.Text;
 
 public class ScoreUI {
     private static final int FONT_SIZE = 24;
-    private static final Color TEXT_COLOR = Color.BLACK;
+    private static final Color TEXT_COLOR = Color.GRAY;
     private static final int MARGIN = 15; 
     
     private Group root;
