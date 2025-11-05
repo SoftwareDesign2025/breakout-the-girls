@@ -6,8 +6,13 @@ UML Design Breakout: https://lucid.app/lucidchart/bdea905d-9132-4e10-97ef-65eaea
 
 # IMPORTANT: You must download bug.png and aircraft.png from the repo and manually import into eclipse in src/application to run.
 
+There's a 5 second timer between levels. Once you win a level, wait 5 seconds and the next level will generate. 
+
 Press A for level 1 in breakout
+
 Press A for level 1 in galaga
+
 Press Q for level 2 in both galaga or breakout
+
 Press W for level 3 in both galaga or breakout
 
