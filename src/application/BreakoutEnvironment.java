@@ -12,7 +12,7 @@ import javafx.scene.Group;
 //
 //import javafx.scene.Group;
 //
-public class BreakoutEnvironment extends Environment implements GameEnvironment {
+public class BreakoutEnvironment extends Environment{
 	
 	// Constants
 	private final int OBSTACLE_WIDTH = 160;
@@ -31,7 +31,7 @@ public class BreakoutEnvironment extends Environment implements GameEnvironment 
 	private GameScreen ui;
 	private Level level;
 	private WindowDimensions window;
-	private Collisions collisions;
+	private CollisionHandler collisions;
 	private int lives = 3;
 
 	

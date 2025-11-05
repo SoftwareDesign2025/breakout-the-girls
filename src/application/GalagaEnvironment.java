@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
 
-public class GalagaEnvironment extends Environment implements GameEnvironment {
+public class GalagaEnvironment extends Environment{
 
 	// Game objects
 	private TargetWall bugWall;
@@ -20,7 +20,7 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
 	private Score score;
 	private Group root;
 	private WindowDimensions window;
-	private Collisions collisions;
+	private CollisionHandler collisions;
 	private int lives = 3;
 
 
