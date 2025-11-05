@@ -16,7 +16,7 @@ public class Bullet extends Projectile {
         projectile.setCenterX(xCoordinate);
         projectile.setCenterY(yCoordinate);
         projectile.setRadius(RADIUS); // use Bullet's radius
-        projectile.setFill(Color.BLACK);
+        projectile.setFill(Color.SILVER);
 
         ballVelocity = new javafx.geometry.Point2D(0, 0);
     }
