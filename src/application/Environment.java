@@ -8,7 +8,7 @@ public abstract class Environment {
 	
 	public abstract boolean handleLifeLost();
 
-	public abstract void resetBallPosition();
+	public void resetBallPosition() {}
 	
 	public abstract int resetEnvironmentForNextLevel(Level level);
 	
@@ -20,15 +20,21 @@ public abstract class Environment {
 	
 	public abstract void checkAllCollisions();
 	
+	public void moveProjectiles(double elapsedTime) {}
+	
 	public abstract boolean isWallEmpty();
 	
-	public abstract UserControl getController();
+	public UserControl getController() {
+		return new UserControl();
+	}
 	
-	public abstract TargetWall getWall();
+	public TargetWall getWall() {
+		return new TargetWall();
+	}
 	
 	public ArrayList<Target> moveDroppedBug(double elapsedTime) {
 	    return new ArrayList<>();
 	}
 	
-	public abstract void triggerBugDrop();
+	public void triggerBugDrop() {}
 }

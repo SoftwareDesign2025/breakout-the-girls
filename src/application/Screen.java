@@ -26,14 +26,12 @@ public abstract class Screen {
 	
 	protected Group root;
 	protected Rectangle backgroundOverlay;
-	protected int windowWidth;
-	protected int windowHeight; 
+	protected WindowDimensions window;
 	
 	
-	public Screen(Group root, int windowWidth, int windowHeight) {
+	public Screen(Group root, WindowDimensions window) {
 		this.root = root;
-		this.windowWidth = windowWidth;
-		this.windowHeight = windowHeight;	
+		this.window = window;	
 	}
 	
 	
@@ -56,7 +54,7 @@ public abstract class Screen {
 	
 	protected void configureOverlay(Color color) {
 	    if (backgroundOverlay == null) {
-	        backgroundOverlay = new Rectangle(0, 0, windowWidth, windowHeight);
+	        backgroundOverlay = new Rectangle(0, 0, window.getWindowWidth(), window.getWindowHeight());
 	        backgroundOverlay.setFill(color);
 	        
 	        if (!root.getChildren().contains(backgroundOverlay)) {
@@ -64,8 +62,8 @@ public abstract class Screen {
 	        }
 	    } 
 	    else {
-	        backgroundOverlay.setWidth(windowWidth);
-	        backgroundOverlay.setHeight(windowHeight);
+	        backgroundOverlay.setWidth(window.getWindowWidth());
+	        backgroundOverlay.setHeight(window.getWindowHeight());
 	        backgroundOverlay.setFill(color);
 	        
 	        if (!root.getChildren().contains(backgroundOverlay)) {
@@ -107,7 +105,7 @@ public abstract class Screen {
 	 * Calculates the X position to center text horizontally.
 	 */
 	protected double getCenteredX(Text text) {
-		return (windowWidth - text.getLayoutBounds().getWidth()) / 2;
+		return (window.getWindowWidth() - text.getLayoutBounds().getWidth()) / 2;
 	}
 	
 	/**

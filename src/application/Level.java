@@ -7,23 +7,22 @@ package application;
 
 import java.util.ArrayList;
 
+
 public abstract class Level {
 
-	protected int windowWidth;
-    protected int windowHeight;
+	protected WindowDimensions window;
     protected int extraLifeOccurrences;
     protected int extendPaddleOccurrences;
     protected final int MAX_BRICK_POINT_VALUE = 25;
     protected TargetWall brickWall;
     
 
-    public Level(int windowWidth, int windowHeight) {
-        this.windowWidth = windowWidth;
-        this.windowHeight = windowHeight;
+    public Level(WindowDimensions window) {
+        this.window = window;
     }
 
     public TargetWall createBrickWall() {
-	    this.brickWall = new TargetWall(windowWidth, windowHeight);
+	    this.brickWall = new TargetWall(window);
 	    createSpecificBrickWall(this.brickWall);
 	    return this.brickWall;
     }
@@ -36,23 +35,26 @@ public abstract class Level {
     
     public PowerUp determineSpawn(Target target) {
         int brickValue = target.getTargetPoint();
+        double x = getCenterX(target);
+        double y = getCenterY(target);
 
         ArrayList<Integer> extraLifeValues = generateMultiples(extraLifeOccurrences);
         ArrayList<Integer> longPaddleValues = generateMultiples(extendPaddleOccurrences);
 
         if (longPaddleValues.contains(brickValue)) {
-            return new LongPaddle(
-                target.getX() + target.getTargetWidth()/2,
-                target.getY() + target.getTargetHeight()/2
-            );
+            return new LongPaddle(x, y);
         } else if (extraLifeValues.contains(brickValue)) {
-            return new ExtraLife(
-                target.getX() + target.getTargetWidth()/2,
-                target.getY() + target.getTargetHeight()/2
-            );
+            return new ExtraLife(x, y);
         }
-
         return null;
+    }
+    
+    private double getCenterX(Target target) {
+        return target.getX() + target.getTargetWidth() / 2;
+    }
+
+    private double getCenterY(Target target) {
+        return target.getY() + target.getTargetHeight() / 2;
     }
 
     private ArrayList<Integer> generateMultiples(int step) {
@@ -64,6 +66,5 @@ public abstract class Level {
         return values;
     }
     
- 
     public abstract Obstacle createObstacle();
 }

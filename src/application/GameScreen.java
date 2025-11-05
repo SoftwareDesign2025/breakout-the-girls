@@ -27,8 +27,8 @@ public class GameScreen extends Screen {
 	private Text titleText = new Text();
 
 	
-	public GameScreen(Group root, int windowWidth, int windowHeight) {
-		super(root, windowWidth, windowHeight);
+	public GameScreen(Group root, WindowDimensions window) {
+		super(root, window);
 
 		root.getChildren().add(titleText);
 		root.getChildren().add(scoreText);
@@ -62,9 +62,9 @@ public class GameScreen extends Screen {
 		String scoreTextValue = FINAL_SCORE_STRING + score.getCurrentScore();
 		String titleString = checkWinState(win, WIN_MESSAGE, LOSE_MESSAGE);
 
-		configureText(titleText, titleString, getCenteredX(titleText), windowHeight / TITLE_Y_POSITION_FACTOR, 
+		configureText(titleText, titleString, getCenteredX(titleText), window.getWindowHeight() / TITLE_Y_POSITION_FACTOR, 
 				new Font(TITLE_FONT_SIZE), TEXT_COLOR);
-		configureText(scoreText, scoreTextValue, getCenteredX(scoreText), windowHeight / SCORE_Y_POSITION_FACTOR, 
+		configureText(scoreText, scoreTextValue, getCenteredX(scoreText), window.getWindowHeight() / SCORE_Y_POSITION_FACTOR, 
 				new Font(SCORE_FONT_SIZE), TEXT_COLOR);
 	}
 	
@@ -75,7 +75,7 @@ public class GameScreen extends Screen {
 		String roundLost = "YOU LOST THE ROUND";
 		String message = checkWinState(win, roundWon, roundLost);
 		
-		configureText(titleText, message, getCenteredX(titleText), windowHeight / TITLE_Y_POSITION_FACTOR, 
+		configureText(titleText, message, getCenteredX(titleText), window.getWindowHeight() / TITLE_Y_POSITION_FACTOR, 
 				new Font(TITLE_FONT_SIZE), TEXT_COLOR);
 		
 		titleText.toFront();
@@ -83,8 +83,8 @@ public class GameScreen extends Screen {
 	}
 	
 	public void gameWonMessage(Score score) {
-		titleText.setX(windowWidth/2.0);
-		titleText.setY(windowHeight/2.0);
+		titleText.setX(window.getWindowWidth()/2.0);
+		titleText.setY(window.getWindowHeight()/2.0);
 		titleText.setFont(new Font(30)); // magic values above and herefix
 		titleText.setText("YOU WON ALL THE ROUNDS!: Final Score" + score.getCurrentScore());
 	}

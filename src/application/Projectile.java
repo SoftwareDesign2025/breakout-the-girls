@@ -9,8 +9,9 @@ import javafx.scene.shape.Circle;
 
 public class Projectile {
 	
-	protected final double RADIUS = 10;
-	protected final double SPEED = 300;
+	protected final int RADIUS = 10;
+	protected final int SPEED = 300;
+	protected final double SCREEN_HEIGHT_RATIO = 0.8;
 	
     // Fields:
 	protected Circle projectile;
@@ -53,10 +54,10 @@ public class Projectile {
      * Set the size of the ball and the color to black.
      * Start the ball in a static position for the beginning of the game.
      */
-	public void createProjectile(int windowWidth, int windowHeight) {
+	public void createProjectile(WindowDimensions window) {
 		projectile = new Circle();		
-		double xCoordinate = windowWidth/2;
-		double yCoordinate = windowHeight * 0.8;
+		double xCoordinate = window.getWindowWidth()/2;
+		double yCoordinate = window.getWindowHeight() * SCREEN_HEIGHT_RATIO;
 		
 		projectile.setCenterX(xCoordinate);
 		projectile.setCenterY(yCoordinate);

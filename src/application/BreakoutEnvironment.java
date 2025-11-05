@@ -12,6 +12,9 @@ import javafx.scene.Group;
 //import javafx.scene.Group;
 //
 public class BreakoutEnvironment extends Environment implements GameEnvironment {
+	private final int OBSTACLE_WIDTH = 160;
+	private final int MAX_LIVES = 3;
+	
 	private TargetWall brickWall;
 	private Paddle paddle;
 	private Ball ball;
@@ -21,37 +24,35 @@ public class BreakoutEnvironment extends Environment implements GameEnvironment 
 	private Group root;
 	private GameScreen ui;
 	private Level level;
-	private int windowWidth;
-	private int windowHeight;
+	private WindowDimensions window;
 	private Collisions collisions;
 	private int lives = 3;
+	
 
 	
-	public BreakoutEnvironment(Level level, Group root, GameScreen ui, int windowWidth, int windowHeight, Score score) {
+	public BreakoutEnvironment(Level level, Group root, GameScreen ui, Score score, WindowDimensions window) {
 		this.root = root;
-		this.windowHeight = windowHeight;
-		this.windowWidth = windowWidth;
+		this.window = window;
 		this.level = level;
-		this.score = new Score();
 		this.powerUps = new ArrayList<>();
-		this.ui = new GameScreen(root, windowWidth, windowHeight);
+		this.ui = ui;
 		this.collisions = new Collisions();
 		this.score = score;
 		
-		initializeObjects();
+		setUpGameObjects();
 	}
 	
-	public void initializeObjects () {
+	public void setUpGameObjects () {
 		paddle = new Paddle();
 		ball = new Ball();
 		brickWall = level.createBrickWall();
 		obstacle = level.createObstacle();
 		
-		paddle.createController(windowWidth, windowHeight);
-		ball.createProjectile(windowWidth, windowHeight);
+		paddle.createController(window);
+		ball.createProjectile(window);
 		
 		if (obstacle != null) {
-			obstacle.createObstacle(windowWidth, windowHeight, 160);
+			obstacle.createObstacle(window, OBSTACLE_WIDTH);
 			root.getChildren().add(obstacle.getObstacle());
 		}
 		root.getChildren().add(paddle.getController());
@@ -63,27 +64,27 @@ public class BreakoutEnvironment extends Environment implements GameEnvironment 
 	
 	public void resetEnvironment() {
 		root.getChildren().clear();
-		initializeObjects();
+		setUpGameObjects();
 	}
 	
 	
 	public int resetEnvironmentForNextLevel(Level nextLevel) {
         root.getChildren().clear();
         //ui.resetText();        
-        int lives = 3;
+        int lives = MAX_LIVES;
         level = nextLevel;
-        initializeObjects();
+        setUpGameObjects();
         ui.clearText(); 
         
         return lives;
 	}
 	
 	public void checkAllCollisions() {
-		ball.outOfBoundsCollision(windowWidth, windowHeight);
+		ball.outOfBoundsCollision(window);
 		collisions.ballPaddleCollision(paddle,ball);
 		collisions.ballTargetCollision(root, brickWall.getWall(), ball, level, powerUps, score);
 		collisions.ballObstacleCollision(obstacle, ball);
-		collisions.paddlePowerUpCollision(this, powerUps, paddle, root, windowHeight);
+		collisions.paddlePowerUpCollision(this, powerUps, paddle, root, window.getWindowHeight());
 	}
 	
 	public void launchProjectile() {
@@ -99,7 +100,7 @@ public class BreakoutEnvironment extends Environment implements GameEnvironment 
 	}
 
 	public void resetBallPosition() {
-	    ball.resetBallPosition(windowWidth, windowHeight);
+	    ball.resetBallPosition(window);
 	}
 	
 	public boolean isWallEmpty() {
@@ -119,5 +120,7 @@ public class BreakoutEnvironment extends Environment implements GameEnvironment 
 		return brickWall;
 	}
 	
-	public void triggerBugDrop() {};
+	public void moveProjectiles(double elapsedTime) {
+		moveProjectile(elapsedTime);
+	}
 }

@@ -11,6 +11,7 @@ public abstract class Target {
 	protected double targetHeight;
 	protected double targetWidth;
 	protected final int MAX_TARGET_POINT_VALUE = 25;
+	protected final int DISTANCE_DOWN = 15;
 
 	// Location of target on screen:
 	protected double xCoordinate;
@@ -28,7 +29,14 @@ public abstract class Target {
 	
 	public Target() {}
 
-	public abstract void createTarget(double brickHeight, double brickWidth);
+	public void createTarget(double brickHeight, double brickWidth) {
+		targetHeight = brickHeight;
+		targetWidth = brickWidth;
+		target = new Rectangle(brickWidth, brickHeight);				
+		target.setStroke(Color.BLACK);
+		target.setX(xCoordinate);
+		target.setY(yCoordinate);
+	}
 	
 	public Shape getTarget() {
 		return target;
@@ -41,7 +49,7 @@ public abstract class Target {
 	}
 	
 	public void moveBugDown() {
-		yCoordinate += 15;
+		yCoordinate += DISTANCE_DOWN;
 		target.setY(yCoordinate);
 	}
 
@@ -70,9 +78,11 @@ public abstract class Target {
 		return yCoordinate; 
 	}
 	
-	public void drop() {}
+	public void startFalling() {}
 	
-	public void move(double elapsedTime) {}
+	public void updatePosition(double elapsedTime) {}
 	
-	public abstract boolean bugOutOfBounds (int windowHeight);
+	public boolean bugOutOfBounds (int windowHeight) {
+		return false;
+	}
 }
