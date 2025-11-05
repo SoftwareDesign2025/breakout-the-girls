@@ -2,14 +2,11 @@
 // Creates and handles an object representing the paddle.
 package application;
 
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 public class UserControl {
 	
-	protected final Paint CONTROLLER_COLOR = Color.DEEPPINK;
 	protected final int CONTROLLER_HEIGHT = 20;
 	protected int controllerWidth = 70;
 	protected final int CONTROLLER_SPEED = 10; 
@@ -37,9 +34,7 @@ public class UserControl {
 		
 		controller.setX(xCoordinate);
 		controller.setY(yCoordinate);
-		
-		controller.setFill(CONTROLLER_COLOR);
-		
+				
 	}
 	
 	/* Method getPaddle

@@ -32,9 +32,9 @@ public class Bug extends Target {
 	@Override
 	public void createTarget(double bugHeight, double bugWidth) {
 		super.createTarget(bugHeight, bugWidth);
-//		Image image = new Image("/Images/bug.png");
-//		target.setFill(new ImagePattern(image));
-		target.setFill(Color.BLUEVIOLET);
+		Image image = new Image(getClass().getResource("bug.png").toExternalForm());
+		target.setFill(new ImagePattern(image));
+		target.setStroke(null);
 	}
 	
 	/**
