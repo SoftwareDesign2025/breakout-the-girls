@@ -94,9 +94,14 @@ public class BreakoutEnvironment extends Environment implements GameEnvironment 
 	public void moveProjectile(double elapsedTime) {
 	    ball.move(elapsedTime);
 	}
-
+	
+	// johnathan -- updated because Game had separate lives variable which caused things to be out of sync
 	public boolean handleLifeLost() {
-	    return ball.checkIfRoundLost();
+	    if (ball.checkIfRoundLost()) {
+	        lives--;  // Add this
+	        return true;
+	    }
+	    return false;
 	}
 
 	public void resetBallPosition() {
@@ -122,5 +127,10 @@ public class BreakoutEnvironment extends Environment implements GameEnvironment 
 	
 	public void moveProjectiles(double elapsedTime) {
 		moveProjectile(elapsedTime);
+	}
+	
+	// johnathan -- updated because Game had separate lives variable which caused things to be out of sync
+	public int getLives() {
+	    return lives;
 	}
 }

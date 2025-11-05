@@ -69,20 +69,19 @@ public class Game {
 	 * or if they get to continue.
 	 */
 	private void handleBallLost() {
-		if (environment.handleLifeLost()) {
-	        lives--;
+	    if (environment.handleLifeLost()) {
+	        lives = environment.getLives(); 
 	        
 	        if (lives > 0) {
 	            environment.resetBallPosition();
-	            isRunning = false; // pause until space is pressed again
+	            isRunning = false;
 	        } 
 	        else {
-	        		gameOver = true;
+	            gameOver = true;
 	            endRound(false);
 	        }
 	    }
 	}
-	
 	private void waitForNextRound() { 
 		isWaitingForNextRound = false;
 		resetEnvironmentForNextLevel();
@@ -148,7 +147,7 @@ public class Game {
 			environment.launchProjectile();
 			scoreUi.show();
 			scoreUi.updateScore(score.getCurrentScore());
-			scoreUi.updateLives(lives);
+			scoreUi.updateLives(environment.getLives());
 			isRunning = true;
 		}
 	}
@@ -162,7 +161,7 @@ public class Game {
 		environment.launchProjectile();
 		scoreUi.show();
 		scoreUi.updateScore(score.getCurrentScore());
-		scoreUi.updateLives(lives);
+		scoreUi.updateLives(environment.getLives());
 		isRunning = true;
 	}
 	
@@ -253,7 +252,7 @@ public class Game {
 		environment.moveProjectiles(ELAPSED_TIME);
 		environment.checkAllCollisions();
 		scoreUi.updateScore(score.getCurrentScore());
-		scoreUi.updateLives(lives);
+		scoreUi.updateLives(environment.getLives());
 		handleBallLost();
 		
 		if(environment.isWallEmpty()) {
