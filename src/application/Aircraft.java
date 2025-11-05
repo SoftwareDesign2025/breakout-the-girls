@@ -9,7 +9,8 @@ public class Aircraft extends UserControl{
 	protected final int CONTROLLER_WIDTH = 30;
 
 	public Aircraft() {
-		controller = new Rectangle(CONTROLLER_WIDTH, CONTROLLER_HEIGHT);
+		controllerWidth = CONTROLLER_WIDTH;
+		controller = new Rectangle(controllerWidth, CONTROLLER_HEIGHT);
 	}
 
 

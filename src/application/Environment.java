@@ -20,6 +20,8 @@ public abstract class Environment {
 	
 	public abstract void checkAllCollisions();
 	
+	public void moveProjectiles(double elapsedTime) {}
+	
 	public abstract boolean isWallEmpty();
 	
 	public UserControl getController() {

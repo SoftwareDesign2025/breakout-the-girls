@@ -97,6 +97,10 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
 		ArrayList<Target> bugsOutOfBounds = bugWall.updateFallingBugs(elapsedTime);
 	    return bugsOutOfBounds;
 	}
+	
+	public UserControl getController() {
+		return aircraft;
+	}
 	//Katherine Hoadley
     // Shoot a new bullet from the aircraft
 	public void shootBullet() {
