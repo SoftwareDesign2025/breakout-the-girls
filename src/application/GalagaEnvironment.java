@@ -33,6 +33,7 @@ public class GalagaEnvironment extends Environment{
 	    this.score = score;
 	    this.collisions = new Collisions();
 	    this.ui = ui;
+	    
 
 	    setUpGameObjects();
 	    addGamePiecesToScene();
@@ -58,6 +59,10 @@ public class GalagaEnvironment extends Environment{
 	 * visible when playing game. 
 	 */
 	private void addGamePiecesToScene() {
+	    Rectangle background = new Rectangle(window.getWindowWidth(), window.getWindowHeight());
+	    background.setFill(javafx.scene.paint.Color.BLACK);
+	    root.getChildren().add(background);
+	    
 		root.getChildren().add(aircraft.getController());
 		for (Target bug : bugWall.getWall()) {
 			root.getChildren().add(bug.getTarget());
