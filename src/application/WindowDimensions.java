@@ -1,3 +1,6 @@
+// Author: Anna Rakes
+// Create Window object that holds dimensions of window together. 
+
 package application;
 
 public class WindowDimensions {
