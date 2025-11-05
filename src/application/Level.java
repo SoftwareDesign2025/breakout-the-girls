@@ -105,5 +105,7 @@ public abstract class Level {
         return values;
     }
     
+    public abstract void createBugWall(TargetWall wall) ;
+    
     public abstract Obstacle createObstacle();
 }

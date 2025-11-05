@@ -22,13 +22,17 @@ public class GalagaEnvironment extends Environment{
 	private WindowDimensions window;
 	private CollisionHandler collisions;
 	private int lives = 3;
+	private Level level;
+	private GameScreen ui;
 
 
-	public GalagaEnvironment(Group root, GameScreen ui, Score score, WindowDimensions window) {
+	public GalagaEnvironment(Level level, Group root, GameScreen ui, Score score, WindowDimensions window) {
 	    this.root = root;
+	    this.level = level;
 	    this.window = window;
 	    this.score = score;
 	    this.collisions = new Collisions();
+	    this.ui = ui;
 
 	    setUpGameObjects();
 	    addGamePiecesToScene();
@@ -42,7 +46,8 @@ public class GalagaEnvironment extends Environment{
 	public void setUpGameObjects () {
 		aircraft = new Aircraft();
 		bugWall = new TargetWall(window);
-		bugWall.createBugWall();
+//		bugWall.createBugWall();
+		level.createBugWall(bugWall);
 		aircraft.createController(window);
 	}
 	
@@ -69,6 +74,16 @@ public class GalagaEnvironment extends Environment{
 		root.getChildren().clear();
 		setUpGameObjects();
 		addGamePiecesToScene();
+	}
+	
+	public int resetEnvironmentForNextLevel(Level nextLevel) {
+	    root.getChildren().clear();
+	    this.lives = 3; 
+	    this.level = nextLevel;
+	    setUpGameObjects();
+	    addGamePiecesToScene();
+	    ui.clearText();
+	    return lives;
 	}
 
 
