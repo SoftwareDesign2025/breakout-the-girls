@@ -138,7 +138,7 @@ public class TargetWall {
 	
 	
 	public void initiateBugDrop() {
-		if (!targetWall.isEmpty()) {
+		if (!targetWall.isEmpty() && fallingBugs.isEmpty()) {
 	        int randomBug = random.nextInt(targetWall.size());
 	        Target bug = targetWall.remove(randomBug);
 	        bug.startFalling();
