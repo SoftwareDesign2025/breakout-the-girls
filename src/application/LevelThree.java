@@ -34,5 +34,11 @@ public class LevelThree extends Level {
 		obstacle.createObstacle(window, OBSTACLE_WIDTH);
 		return obstacle;
 	}
+	
+	
+	@Override
+	public void createBugWall(TargetWall wall) {
+	    wall.buildHardBugWall();
+	}
 
 }
