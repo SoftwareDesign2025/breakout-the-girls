@@ -27,8 +27,8 @@ public class BreakoutEnvironment extends Environment implements GameEnvironment 
 	private WindowDimensions window;
 	private Collisions collisions;
 	private int lives = 3;
-	
 
+	
 	
 	public BreakoutEnvironment(Level level, Group root, GameScreen ui, Score score, WindowDimensions window) {
 		this.root = root;

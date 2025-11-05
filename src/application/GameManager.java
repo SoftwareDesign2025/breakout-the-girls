@@ -13,6 +13,7 @@ public class GameManager {
         this.window = new WindowDimensions();
         this.titleScreen = new TitleScreen(root, window);
     }
+    
 
     public Game getGame() {
         return currentGame;

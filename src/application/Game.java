@@ -24,7 +24,7 @@ public class Game {
 	private static final double ROUND_END_DISPLAY_SECONDS = 5.0;
 	private double bugDropTimer = 0.0;
 	private static final double DROP_BUG_INTERVAL = 5; 
-
+	
 	private MainScreen mainScreen; 
 	private String gameTitle;
 	private Score score;

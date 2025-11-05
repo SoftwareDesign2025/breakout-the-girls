@@ -23,6 +23,7 @@ public class TitleScreen extends Screen {
     }
     
     
+    
     private void initializeElements() {
         configureOverlay(OVERLAY_COLOR);
         

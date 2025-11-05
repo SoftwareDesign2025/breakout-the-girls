@@ -29,6 +29,7 @@ public abstract class Environment {
 	public UserControl getController() {
 		return new UserControl();
 	}
+
 	
 	public TargetWall getWall() {
 		return new TargetWall();

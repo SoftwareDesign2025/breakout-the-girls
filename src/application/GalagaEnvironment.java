@@ -27,7 +27,7 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
 
 	    setUpGameObjects();
 	}
-
+	
 	public void setUpGameObjects () {
 		aircraft = new Aircraft();
 		bugWall = new TargetWall(window);
