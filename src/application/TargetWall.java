@@ -34,6 +34,8 @@ public class TargetWall {
 	private Target emptyBrick = new Brick();
 	private ArrayList<Target> fallingBugs = new ArrayList<>();
 	
+	public TargetWall() {}
+	
 	/* Constructor
 	 * Determines number of columns of bricks by dividing the width of the window 
 	 * by the width of an individual brick.
@@ -52,7 +54,7 @@ public class TargetWall {
 	 */
 
 	
-	public void populateGrid(int outerLoop, int innerLoop, boolean createHardWall, boolean randomHeights) {
+	private void populateGrid(int outerLoop, int innerLoop, boolean createHardWall, boolean randomHeights) {
 		for (int j = 0; j<outerLoop; j++) {
 			int rows = innerLoop;
 			if (randomHeights) {

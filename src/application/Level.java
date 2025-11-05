@@ -7,6 +7,7 @@ package application;
 
 import java.util.ArrayList;
 
+
 public abstract class Level {
 
 	protected WindowDimensions window;
@@ -34,23 +35,26 @@ public abstract class Level {
     
     public PowerUp determineSpawn(Target target) {
         int brickValue = target.getTargetPoint();
+        double x = getCenterX(target);
+        double y = getCenterY(target);
 
         ArrayList<Integer> extraLifeValues = generateMultiples(extraLifeOccurrences);
         ArrayList<Integer> longPaddleValues = generateMultiples(extendPaddleOccurrences);
 
         if (longPaddleValues.contains(brickValue)) {
-            return new LongPaddle(
-                target.getX() + target.getTargetWidth()/2,
-                target.getY() + target.getTargetHeight()/2
-            );
+            return new LongPaddle(x, y);
         } else if (extraLifeValues.contains(brickValue)) {
-            return new ExtraLife(
-                target.getX() + target.getTargetWidth()/2,
-                target.getY() + target.getTargetHeight()/2
-            );
+            return new ExtraLife(x, y);
         }
-
         return null;
+    }
+    
+    private double getCenterX(Target target) {
+        return target.getX() + target.getTargetWidth() / 2;
+    }
+
+    private double getCenterY(Target target) {
+        return target.getY() + target.getTargetHeight() / 2;
     }
 
     private ArrayList<Integer> generateMultiples(int step) {
@@ -62,6 +66,5 @@ public abstract class Level {
         return values;
     }
     
- 
     public abstract Obstacle createObstacle();
 }
