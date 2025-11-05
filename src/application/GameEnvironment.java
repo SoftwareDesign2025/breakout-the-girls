@@ -9,7 +9,7 @@ public interface GameEnvironment {
 	
 	public void launchProjectile();
 	
-	public void moveProjectile(double elapsedTime);
+	public void moveProjectiles(double elapsedTime);
 	
 	public boolean isWallEmpty();
 	
