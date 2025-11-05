@@ -12,19 +12,16 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
 	private Aircraft aircraft;
 	private Score score;
 	private Group root;
-	private GameScreen ui;
 	private WindowDimensions window;
 	private Collisions collisions;
 	private int lives = 3;
 	private ArrayList<Bullet> bullets = new ArrayList<>();
-	private UserControl controller;
 
 
 
 	public GalagaEnvironment(Group root, GameScreen ui, Score score, WindowDimensions window) {
 	    this.root = root;
 	    this.window = window;
-	    this.ui = ui;
 	    this.score = score;
 	    this.collisions = new Collisions();
 
@@ -85,22 +82,12 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
 		return lives;
 	}
 
-	public Aircraft getAircraft() {
-		return aircraft;
-	}
 
-	public TargetWall getWall() {
-		return bugWall;
-	}
 	
 	public int resetEnvironmentForNextLevel(Level leve) {
 		return -1;
 	}
 
-
-	public UserControl getController() {
-		return aircraft;
-	}
 	
 	public void triggerBugDrop() {
 	    bugWall.initiateBugDrop();

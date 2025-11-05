@@ -22,9 +22,13 @@ public abstract class Environment {
 	
 	public abstract boolean isWallEmpty();
 	
-	public abstract UserControl getController();
+	public UserControl getController() {
+		return new UserControl();
+	}
 	
-	public abstract TargetWall getWall();
+	public TargetWall getWall() {
+		return new TargetWall();
+	}
 	
 	public ArrayList<Target> moveDroppedBug(double elapsedTime) {
 	    return new ArrayList<>();
