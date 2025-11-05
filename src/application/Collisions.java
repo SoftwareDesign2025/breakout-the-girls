@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import javafx.scene.Group;
 import javafx.scene.shape.Shape;
 
-public class Collisions {
+public class Collisions implements CollisionHandler {
 	
 	/**
 	 * method detectCollision
