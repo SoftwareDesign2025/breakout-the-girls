@@ -10,7 +10,7 @@ There's a 5 second timer between levels. Once you win a level, wait 5 seconds an
 
 Press A for level 1 in breakout
 
-Press A for level 1 in galaga
+Press B for level 1 in galaga
 
 Press Q for level 2 in both galaga or breakout
 
