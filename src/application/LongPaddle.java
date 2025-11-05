@@ -1,4 +1,4 @@
-//Katherine Hoadley i
+//Katherine Hoadley
 package application;
 
 import javafx.scene.paint.Color;

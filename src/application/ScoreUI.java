@@ -14,14 +14,12 @@ public class ScoreUI {
     private Group root;
     private Text scoreText;
     private Text livesText; 
-    private int windowWidth;
-    private int windowHeight;
+    private WindowDimensions window;
     
     
-    public ScoreUI(Group root, int windowWidth, int windowHeight) {
+    public ScoreUI(Group root, WindowDimensions window) {
         this.root = root;
-        this.windowWidth = windowWidth;
-        this.windowHeight = windowHeight;
+        this.window = window;
         
         initializeScoreText();
         updateScore(0);
@@ -41,19 +39,19 @@ public class ScoreUI {
     }
     
     private void updatePosition() {
-        scoreText.setY(windowHeight - MARGIN);
-        livesText.setY(windowHeight - MARGIN - 30);
+        scoreText.setY(window.getWindowHeight() - MARGIN);
+        livesText.setY(window.getWindowHeight() - MARGIN - 30);
     }
     
     
     public void updateScore(int score) {
         scoreText.setText("Score: " + score);
-        scoreText.setX(windowWidth - scoreText.getLayoutBounds().getWidth() - MARGIN);
+        scoreText.setX(window.getWindowWidth() - scoreText.getLayoutBounds().getWidth() - MARGIN);
     }
     
     public void updateLives(int lives) {
         livesText.setText("Lives: " + lives);
-        livesText.setX(windowWidth - livesText.getLayoutBounds().getWidth() - MARGIN);
+        livesText.setX(window.getWindowWidth() - livesText.getLayoutBounds().getWidth() - MARGIN);
     }
     
     public void show() {

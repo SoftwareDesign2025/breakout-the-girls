@@ -1,47 +1,36 @@
-// Anna Rakes i
-// Create an individual brick object with its point value and determine if it was hit or not.
+// Author: Anna Rakes
+// Create an individual brick object
 package application;
 
 
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
 
 public class Brick extends Target {
 
-
-	// Fields
+	// Field
 	private Paint brickColor;
-	
-	
 
 	/* Constructor: Takes in parameters of brick location and color.
-	 * Also assigns it a random point value between 1 and 25.
+	 * Calls its super constructor and assigns the brickColor field to given color. 
 	 */
 	public Brick(Paint brickColor, double xCoordinate, double yCoordinate) {
 		super(xCoordinate, yCoordinate);
 		this.brickColor = brickColor;
 	}
 	
+	// Empty Constructor
 	public Brick() {}
 	
 	
-	// Creates the brick, adds a black border, and sets the location of the brick on screen.
-	public void createTarget(double brickHeight, double brickWidth) {
-		targetHeight = brickHeight;
-		targetWidth = brickWidth;
-		target = new Rectangle(brickWidth, brickHeight);				
-		target.setFill(brickColor);
-		target.setStroke(Color.BLACK);
-		
-		target.setX(xCoordinate);
-		target.setY(yCoordinate);
-	}
-
+	/**
+	 * method CreateTarget
+	 * Creates the brick based on super method, but sets the color of the brick to the defined
+	 * brick color. 
+	 */
 	@Override
-	public boolean bugOutOfBounds(int windowHeight) {
-		return false;
+	public void createTarget(double brickHeight, double brickWidth) {	
+		super.createTarget(brickHeight, brickWidth);
+		target.setFill(brickColor);
 	}
-	
 	
 }
