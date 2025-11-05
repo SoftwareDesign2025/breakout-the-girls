@@ -27,7 +27,7 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
 
 	    setUpGameObjects();
 	}
-
+	
 	public void setUpGameObjects () {
 		aircraft = new Aircraft();
 		bugWall = new TargetWall(window);
@@ -59,8 +59,13 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
 	    }
 	}
 	
+	// johnathan -- updated because Game had separate lives variable which caused things to be out of sync
 	public boolean handleLifeLost() {
-		return collisions.aircraftBugCollision(aircraft, bugWall);
+	    if (collisions.aircraftBugCollision(aircraft, bugWall)) {
+	        lives--;
+	        return true;
+	    }
+	    return false;
 	}
 
 	public void launchProjectile() {
@@ -81,7 +86,10 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
 		lives += 1;
 		return lives;
 	}
-
+	
+	public int getLives() {
+	    return lives;
+	}
 
 	
 	public int resetEnvironmentForNextLevel(Level leve) {
@@ -93,8 +101,13 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
 	    bugWall.initiateBugDrop();
 	}
 
+	// johnathan -- updated because Game had separate lives variable which caused things to be out of sync
+	// so addded if statement to decrement lives 
 	public ArrayList<Target> moveDroppedBug(double elapsedTime) {
-		ArrayList<Target> bugsOutOfBounds = bugWall.updateFallingBugs(elapsedTime);
+	    ArrayList<Target> bugsOutOfBounds = bugWall.updateFallingBugs(elapsedTime);
+	    if (!bugsOutOfBounds.isEmpty()) {
+	        lives -= bugsOutOfBounds.size(); 
+	    }
 	    return bugsOutOfBounds;
 	}
 	
