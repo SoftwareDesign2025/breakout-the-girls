@@ -14,8 +14,7 @@ public class Ball extends Projectile {
 	
 	/**
 	 * method: outOfBoundsCollision
-	 * @param screenWidth
-	 * @param screenHeight
+	 * @param window
 	 * Handles if the ball goes beyond the screen. If the ball goes below the bottom edge, the
 	 * round is lost. 
 	 */
@@ -62,23 +61,16 @@ public class Ball extends Projectile {
 	}
 	
 	
-	/* Changes the ball's velocity from 0 at the start of the game
-	 * to the defined speed when launchBall() is called.
+	/**
+	 * method resetBallPosition
+	 * @param window
+	 * Resets the balls by setting it to its original position (centered in the window)
+	 * with a velocity of 0 (unmoving). roundLost set to false to signal a new round.
 	 */
-	
 	public void resetBallPosition(WindowDimensions window) {
 	    projectile.setCenterX(window.getWindowWidth() / 2.0);
 	    projectile.setCenterY(window.getWindowHeight() * SCREEN_HEIGHT_RATIO);
 	    ballVelocity = new Point2D(0, 0);
-	    roundLost = false; // Reset this flag!
+	    roundLost = false; 
 	}
-
-
-
-	
-	
-	
-
-
-
 }

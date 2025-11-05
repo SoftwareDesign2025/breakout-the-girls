@@ -1,3 +1,4 @@
+// Author: Anna Rakes
 // Obstacle Class
 
 package application;

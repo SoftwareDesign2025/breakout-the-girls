@@ -1,3 +1,6 @@
+// Author: Anna Rakes
+// Abstract class for all game environments
+
 package application;
 
 import java.util.ArrayList;
@@ -10,17 +13,17 @@ public abstract class Environment {
 
 	public void resetBallPosition() {}
 	
-	public abstract int resetEnvironmentForNextLevel(Level level);
+	public int resetEnvironmentForNextLevel(Level level) {
+		return -1;
+	}
 	
 	public abstract void resetEnvironment();
 	
 	public abstract void launchProjectile();
 	
-	public abstract void moveProjectile(double elapsedTime);
+	public abstract void moveProjectiles(double elapsedTime);
 	
 	public abstract void checkAllCollisions();
-	
-	public void moveProjectiles(double elapsedTime) {}
 	
 	public abstract int getLives();
 	
@@ -30,7 +33,6 @@ public abstract class Environment {
 		return new UserControl();
 	}
 
-	
 	public TargetWall getWall() {
 		return new TargetWall();
 	}

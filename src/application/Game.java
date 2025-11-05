@@ -58,7 +58,9 @@ public class Game {
 	}
 	
 	
-	
+	/* method increaseLives
+	 * call environment to increase number of lives.
+	 */
 	public void increaseLives() {
 		environment.increaseLives();
 	}
@@ -82,6 +84,11 @@ public class Game {
 	        }
 	    }
 	}
+	
+	/* method waitForNextRound
+	 * buffer between rounds, once you're no longer waiting for the next round,
+	 * reset the environment and start the next level.
+	 */
 	private void waitForNextRound() { 
 		isWaitingForNextRound = false;
 		resetEnvironmentForNextLevel();
@@ -133,6 +140,7 @@ public class Game {
 	private void resetEnvironmentForNextLevel() {
 		level = determineLevel();
 		lives = environment.resetEnvironmentForNextLevel(level);
+		scoreUi.updateLives(environment.getLives());
 	}
 
 	/* method startGame
@@ -157,7 +165,7 @@ public class Game {
 	 */
 	public void startRound() {
 		ui.clearText();
-		environment.resetEnvironment();
+//		environment.resetEnvironment();
 		environment.launchProjectile();
 		scoreUi.show();
 		scoreUi.updateScore(score.getCurrentScore());
@@ -220,13 +228,36 @@ public class Game {
 		}
 	}
 	
+	/* method step
+	 * Advances the game flow by one state.
+	 * Manages when bugs drop and lives lost from bugs falling off screen.
+	 * Handles transitions between rounds
+	 * Updates score and lives
+	 * Ends round when wall is cleared. 
+	 */
 	public void step() {
-		bugDropTimer += ELAPSED_TIME;
-		if (bugDropTimer >= DROP_BUG_INTERVAL) {
-		    bugDropTimer = 0.0;
-		    environment.triggerBugDrop(); 
+		bugDropTimer();
+		if(handleFallingBugs()) {
+			return;
 		}
-		
+		if (handleRoundTransition()) {
+			return;
+		}
+		if (!isRunning) {
+			return;
+		}
+		updateGameState();
+		if(environment.isWallEmpty()) {
+			endRound(true);
+		}
+	}
+	
+	/* method handleFallingBugs
+	 * if a bug falls out of bounds, decrement the lives by the number of bugs fallen
+	 * out of bounds. If that results in lives being less than 0, then the game is over.
+	 * Return false if no bugs are out of bounds. 
+	 */
+	private boolean handleFallingBugs() {
 		ArrayList<Target> bugsOutOfBounds = environment.moveDroppedBug(ELAPSED_TIME);
 		if (!bugsOutOfBounds.isEmpty()) {
 		    lives -= bugsOutOfBounds.size();
@@ -234,30 +265,48 @@ public class Game {
 		    if (lives <= 0) {
 		        gameOver = true;
 		        endRound(false);
-		        return;
+		        return true;
 		    }
 		}
-		
+		return false;
+	}
+	
+	/* method bugDropTimer
+	 * control when bugs are dropped. 
+	 */
+	private void bugDropTimer() {
+		bugDropTimer += ELAPSED_TIME;
+	    if (bugDropTimer >= DROP_BUG_INTERVAL) {
+	        bugDropTimer = 0.0;
+	        environment.triggerBugDrop();
+	    }
+	}
+	
+	/* method handleRoundTransition
+	 * create a 5 second buffer between rounds
+	 */
+	private boolean handleRoundTransition() {
 		// 5-second countdown in between round ==> next round
 		if (isWaitingForNextRound) {
 			roundOverDelayTime -= ELAPSED_TIME; 
 			if (roundOverDelayTime <= 0) {
 				waitForNextRound(); 
 			}
-			return; 
+			return true;
 		}
-		if (!isRunning) {
-			return;
-		}
+		return false;
+	}
+	
+	/* method updateGameState
+	 * Executes game actions
+	 * Move bullets, check for collisions, update the score, and update lives.
+	 */
+	private void updateGameState() {
 		environment.moveProjectiles(ELAPSED_TIME);
 		environment.checkAllCollisions();
 		scoreUi.updateScore(score.getCurrentScore());
 		scoreUi.updateLives(environment.getLives());
 		handleBallLost();
-		
-		if(environment.isWallEmpty()) {
-			endRound(true);
-		}
 	}
 	
 	
