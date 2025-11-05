@@ -13,5 +13,6 @@ public interface GameEnvironment {
 	
 	public boolean isWallEmpty();
 	
+	
 	public int increaseLives();	
 }

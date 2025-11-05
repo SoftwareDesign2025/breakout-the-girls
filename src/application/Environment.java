@@ -22,11 +22,14 @@ public abstract class Environment {
 	
 	public void moveProjectiles(double elapsedTime) {}
 	
+	public abstract int getLives();
+	
 	public abstract boolean isWallEmpty();
 	
 	public UserControl getController() {
 		return new UserControl();
 	}
+
 	
 	public TargetWall getWall() {
 		return new TargetWall();
