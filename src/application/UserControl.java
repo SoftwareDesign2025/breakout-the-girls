@@ -22,14 +22,16 @@ public class UserControl {
 	protected boolean movingLeft;
 
 	
+	public UserControl() {
+		controller = new Rectangle(controllerWidth, CONTROLLER_HEIGHT);
+
+	}
 	/* Method createPaddleShape
 	 * Create attributes for the paddle, such as size and color.
 	 */
 	public void createController(WindowDimensions window) {
 		this.windowWidth = window.getWindowWidth();
-		
-		controller = new Rectangle(controllerWidth, CONTROLLER_HEIGHT);
-		
+				
 		xCoordinate = window.getWindowWidth()/2 - (controllerWidth/2.0);
 		yCoordinate = window.getWindowHeight() * 0.9 - CONTROLLER_HEIGHT;
 		

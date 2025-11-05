@@ -3,9 +3,7 @@
 package application;
 
 
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
 
 public class Brick extends Target {
 
@@ -27,21 +25,10 @@ public class Brick extends Target {
 	
 	
 	// Creates the brick, adds a black border, and sets the location of the brick on screen.
-	public void createTarget(double brickHeight, double brickWidth) {
-		targetHeight = brickHeight;
-		targetWidth = brickWidth;
-		target = new Rectangle(brickWidth, brickHeight);				
-		target.setFill(brickColor);
-		target.setStroke(Color.BLACK);
-		
-		target.setX(xCoordinate);
-		target.setY(yCoordinate);
-	}
-
 	@Override
-	public boolean bugOutOfBounds(int windowHeight) {
-		return false;
+	public void createTarget(double brickHeight, double brickWidth) {	
+		super.createTarget(brickHeight, brickWidth);
+		target.setFill(brickColor);
 	}
-	
 	
 }

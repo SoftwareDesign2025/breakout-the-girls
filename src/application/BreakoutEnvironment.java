@@ -39,10 +39,10 @@ public class BreakoutEnvironment extends Environment implements GameEnvironment 
 		this.collisions = new Collisions();
 		this.score = score;
 		
-		initializeObjects();
+		setUpGameObjects();
 	}
 	
-	public void initializeObjects () {
+	public void setUpGameObjects () {
 		paddle = new Paddle();
 		ball = new Ball();
 		brickWall = level.createBrickWall();
@@ -64,7 +64,7 @@ public class BreakoutEnvironment extends Environment implements GameEnvironment 
 	
 	public void resetEnvironment() {
 		root.getChildren().clear();
-		initializeObjects();
+		setUpGameObjects();
 	}
 	
 	
@@ -73,7 +73,7 @@ public class BreakoutEnvironment extends Environment implements GameEnvironment 
         //ui.resetText();        
         int lives = MAX_LIVES;
         level = nextLevel;
-        initializeObjects();
+        setUpGameObjects();
         ui.clearText(); 
         
         return lives;
@@ -119,6 +119,4 @@ public class BreakoutEnvironment extends Environment implements GameEnvironment 
 	public TargetWall getWall() {
 		return brickWall;
 	}
-	
-	public void triggerBugDrop() {};
 }
