@@ -2,12 +2,23 @@
 // Creates and handles an object representing the paddle.
 package application;
 
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 public class Paddle extends UserControl {
 
 	// how much to increase the paddle size by when a powerup is hit.
 	private final int PADDLE_SIZE_INCREASE = 10;
+	protected final Paint CONTROLLER_COLOR = Color.DEEPPINK;
 	
+	/**
+     * Constructor - create the paddle and set its color
+     */
+    public Paddle() {
+    	super();
+        controller.setFill(CONTROLLER_COLOR); 
+        controller.setStroke(null);          
+    }
 	
 	/**
 	 * method increasePaddleWidth
