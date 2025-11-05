@@ -119,4 +119,8 @@ public class BreakoutEnvironment extends Environment implements GameEnvironment 
 	public TargetWall getWall() {
 		return brickWall;
 	}
+	
+	public void moveProjectiles(double elapsedTime) {
+		moveProjectile(elapsedTime);
+	}
 }

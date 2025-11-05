@@ -48,12 +48,11 @@ public class Game {
 		this.level = determineLevel();
 		this.scoreUi = new ScoreUI(root, window);
 		
-		
-		if (gameType.equals("Breakout")) {
-			this.environment = new BreakoutEnvironment(level, root, ui, score, window);
-		} else if (gameType.equals("Galaga")) {
-			this.environment = new GalagaEnvironment(root, ui, score, window);
-		}
+		HashMap<String, Environment> gameEnvironments = new HashMap<>();
+	    gameEnvironments.put("Breakout", new BreakoutEnvironment(level, root, ui, score, window));
+	    gameEnvironments.put("Galaga", new GalagaEnvironment(root, ui, score, window));
+
+	    this.environment = gameEnvironments.get(gameType);
 		
 		implementMainScreen(root);
 	}
@@ -251,17 +250,13 @@ public class Game {
 		if (!isRunning) {
 			return;
 		}
-		if (environment instanceof GalagaEnvironment galagaEnv) {
-		    galagaEnv.moveProjectiles(ELAPSED_TIME);
-		} else {
-		    environment.moveProjectile(ELAPSED_TIME);
-		}		environment.checkAllCollisions();
+		environment.moveProjectiles(ELAPSED_TIME);
+		environment.checkAllCollisions();
 		scoreUi.updateScore(score.getCurrentScore());
 		scoreUi.updateLives(lives);
 		handleBallLost();
 		
-		boolean isRoundEnded = environment.isWallEmpty();
-		if (isRoundEnded) {
+		if(environment.isWallEmpty()) {
 			endRound(true);
 		}
 	}

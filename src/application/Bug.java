@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 public class Bug extends Target {
 	
 	private Point2D bugVelocity;
-	private final double SPEED = 200;
+	private final double SPEED = 100;
 
 	
 	public Bug (double xCoordinate, double yCoordinate) {
