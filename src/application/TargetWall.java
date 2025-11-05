@@ -52,7 +52,7 @@ public class TargetWall {
 	 */
 
 	
-	public void combine(int outerLoop, int innerLoop, boolean createHardWall, boolean randomHeights) {
+	public void populateGrid(int outerLoop, int innerLoop, boolean createHardWall, boolean randomHeights) {
 		for (int j = 0; j<outerLoop; j++) {
 			int rows = innerLoop;
 			if (randomHeights) {
@@ -61,42 +61,40 @@ public class TargetWall {
 			for (int i = 0; i<rows; i++) {
 				if (createHardWall) {
 					if (j % 2 == 0) {
-						buildWall(j,i);
+						placeBricks(j,i);
 					}
 				} else {
-					buildWall(j,i);
+					placeBricks(j,i);
 				}
 			}
 		}
 	}
 	
-	private void buildWall(int row, int column) {
+	private void initializeLayout(int brickHeight, int brickWidth, int rowCount, boolean createHardWall, boolean randomHeights) {
+	    emptyBrick.createTarget(brickHeight, brickWidth);
+	    int numberOfColumns = (int) (window.getWindowWidth() / emptyBrick.getTargetWidth());
+	    populateGrid(numberOfColumns, rowCount, createHardWall, randomHeights);
+	}
+	public void buildEasyWall() {
+	    int rows = (int) ((window.getWindowHeight() / WALL_HEIGHT_RATIO) / GENERIC_BRICK_HEIGHT);
+	    initializeLayout(GENERIC_BRICK_HEIGHT, GENERIC_BRICK_WIDTH, rows, false, false);
+	}
+
+	public void buildIntermediateWall() {
+	    initializeLayout(GENERIC_BRICK_HEIGHT, GENERIC_BRICK_WIDTH, MAX_NUMBER_OF_ROWS, false, true);
+	}
+
+	public void buildHardWall() {
+	    int rows = (int) (((window.getWindowHeight() / WALL_HEIGHT_RATIO) / HARD_BRICK_HEIGHT) * TARGET_MULTIPLIER);
+	    initializeLayout(HARD_BRICK_HEIGHT, HARD_BRICK_WIDTH, rows, true, false);
+	}
+	
+	private void placeBricks(int row, int column) {
 		double xCoordinate = row * emptyBrick.getTargetWidth();
         double yCoordinate = column * emptyBrick.getTargetHeight();
 		Brick target = new Brick(generateRandomBrickColor(), xCoordinate, yCoordinate);
 		target.createTarget(GENERIC_BRICK_HEIGHT, GENERIC_BRICK_WIDTH);  // 40,100
 		targetWall.add(target);
-	}
-	
-	public void createTargetWall() {
-		emptyBrick.createTarget(GENERIC_BRICK_HEIGHT,GENERIC_BRICK_WIDTH); // 40,100
-		int numberOfColumns = (int) (window.getWindowWidth()/emptyBrick.getTargetWidth());
-		int numberOfRows = (int) ((window.getWindowHeight()/WALL_HEIGHT_RATIO)/emptyBrick.getTargetHeight());
-		combine(numberOfColumns, numberOfRows, false, false);
-	}
-	
-	public void createIntermediateTargetWall() {
-		emptyBrick.createTarget(GENERIC_BRICK_HEIGHT, GENERIC_BRICK_WIDTH); // 40,100
-		int numberOfColumns = (int) (window.getWindowWidth()/emptyBrick.getTargetWidth());
-		int maxNumberOfRows = MAX_NUMBER_OF_ROWS;
-		combine(numberOfColumns, maxNumberOfRows, false, true);
-	}
-	
-	public void createHardTargetWall() {
-		emptyBrick.createTarget(HARD_BRICK_HEIGHT, HARD_BRICK_WIDTH);
-		int numberOfColumns = (int) (window.getWindowWidth()/emptyBrick.getTargetWidth());
-		int numberOfRows = (int) (((window.getWindowHeight()/WALL_HEIGHT_RATIO) / emptyBrick.getTargetHeight())*TARGET_MULTIPLIER);
-		combine(numberOfColumns, numberOfRows, true, false);
 	}
 	
 	public void createBugWall() {
@@ -111,37 +109,45 @@ public class TargetWall {
 		    int maxRows = BUG_MAX_ROWS;
 
 		    for (int row = 0; row < maxRows; row++) {
-		    	if (row <= maxRows / 2) {
-		    	    bugsInRow = row * 2 + 1;
-		    	} else {
-		    	    bugsInRow = (maxRows - row - 1) * 2 + 1;
-		    	}
-		        double startX = center - (bugsInRow / 2.0) * bugWidth;
-		        double y = row * bugHeight;
-
-		        for (int i = 0; i < bugsInRow; i++) {
-		            double x = startX + i * bugWidth;
-		            Bug bug = new Bug(x,y);
-		            bug.createTarget(bugHeight, bugWidth);
-		            targetWall.add(bug);
+		    		bugsInRow = calculateRowSize(row, maxRows);
+		        placeRowOfBugs(row, bugsInRow, bugWidth, bugHeight, center);
 		    }
 		}
+	
+	private int calculateRowSize(int row, int maxRows) {
+		if (row <= maxRows / 2) {
+	        return row * 2 + 1;
+	    } else {
+	        return (maxRows - row - 1) * 2 + 1;
+	    }
+	}
+	
+	private void placeRowOfBugs (int row, int bugsInRow, double bugWidth, double bugHeight, int center) {
+		double startX = center - (bugsInRow / 2.0) * bugWidth;
+        double y = row * bugHeight;
+
+        for (int i = 0; i < bugsInRow; i++) {
+            double x = startX + i * bugWidth;
+            Bug bug = new Bug(x,y);
+            bug.createTarget(bugHeight, bugWidth);
+            targetWall.add(bug);
+        }
 	}
 	
 	
-	public void startBugDrop() {
+	public void initiateBugDrop() {
 		if (!targetWall.isEmpty()) {
 	        int randomBug = random.nextInt(targetWall.size());
 	        Target bug = targetWall.remove(randomBug);
-	        bug.drop();
+	        bug.startFalling();
 	        fallingBugs.add(bug);
 	    }
 	}
 	
-	public ArrayList<Target> moveDroppedBug(double elapsedTime) {
+	public ArrayList<Target> updateFallingBugs(double elapsedTime) {
 		ArrayList<Target> bugsToRemove = new ArrayList<>();
 	    for (Target bug : fallingBugs) {
-	        bug.move(elapsedTime);
+	        bug.updatePosition(elapsedTime);
 	        if (bug.bugOutOfBounds(window.getWindowHeight())) {
 	            bugsToRemove.add(bug);
 	        }

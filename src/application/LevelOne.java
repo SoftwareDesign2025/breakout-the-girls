@@ -17,7 +17,7 @@ public class LevelOne extends Level {
 	
 	@Override
 	public void createSpecificBrickWall (TargetWall wall) {
-		brickWall.createTargetWall();
+		brickWall.buildEasyWall();
 	}
 
 

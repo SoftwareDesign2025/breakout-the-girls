@@ -8,7 +8,7 @@ public abstract class Environment {
 	
 	public abstract boolean handleLifeLost();
 
-	public abstract void resetBallPosition();
+	public void resetBallPosition() {}
 	
 	public abstract int resetEnvironmentForNextLevel(Level level);
 	
@@ -30,5 +30,5 @@ public abstract class Environment {
 	    return new ArrayList<>();
 	}
 	
-	public abstract void triggerBugDrop();
+	public void triggerBugDrop() {}
 }

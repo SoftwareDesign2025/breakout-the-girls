@@ -28,10 +28,10 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
 	    this.score = score;
 	    this.collisions = new Collisions();
 
-	    initializeObjects();
+	    setUpGameObjects();
 	}
 
-	public void initializeObjects () {
+	public void setUpGameObjects () {
 		aircraft = new Aircraft();
 		bugWall = new TargetWall(window);
 		bugWall.createBugWall();
@@ -46,13 +46,19 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
 
 	public void resetEnvironment() {
 		root.getChildren().clear();
-		initializeObjects();
+		setUpGameObjects();
 	}
 
 
 	public void checkAllCollisions() {
-	    for (Bullet bullet : bullets) {
-	    	collisions.bulletBugCollision(bullet, bugWall, score);
+		for (int i = bullets.size() - 1; i >= 0; i--) {
+	        Bullet bullet = bullets.get(i);
+	        if (collisions.bulletBugCollision(bullet, bugWall, score)) {
+	            root.getChildren().remove(bullet.getProjectile());
+	            bullets.remove(i);
+
+	            bugWall.initiateBugDrop();
+	        }
 	    }
 	}
 	
@@ -92,20 +98,16 @@ public class GalagaEnvironment extends Environment implements GameEnvironment {
 	}
 
 
-	@Override
-	public void resetBallPosition() {		
-	}
-
 	public UserControl getController() {
 		return aircraft;
 	}
 	
 	public void triggerBugDrop() {
-	    bugWall.startBugDrop();
+	    bugWall.initiateBugDrop();
 	}
 
 	public ArrayList<Target> moveDroppedBug(double elapsedTime) {
-		ArrayList<Target> bugsOutOfBounds = bugWall.moveDroppedBug(elapsedTime);
+		ArrayList<Target> bugsOutOfBounds = bugWall.updateFallingBugs(elapsedTime);
 	    return bugsOutOfBounds;
 	}
 	//Katherine Hoadley

@@ -2,7 +2,7 @@ package application;
 
 public interface GameEnvironment {
 
-	public void initializeObjects ();
+	public void setUpGameObjects ();
 	
 	public void resetEnvironment();
 	

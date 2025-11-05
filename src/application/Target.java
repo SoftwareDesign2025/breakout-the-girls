@@ -29,7 +29,14 @@ public abstract class Target {
 	
 	public Target() {}
 
-	public abstract void createTarget(double brickHeight, double brickWidth);
+	public void createTarget(double brickHeight, double brickWidth) {
+		targetHeight = brickHeight;
+		targetWidth = brickWidth;
+		target = new Rectangle(brickWidth, brickHeight);				
+		target.setStroke(Color.BLACK);
+		target.setX(xCoordinate);
+		target.setY(yCoordinate);
+	}
 	
 	public Shape getTarget() {
 		return target;
@@ -71,9 +78,11 @@ public abstract class Target {
 		return yCoordinate; 
 	}
 	
-	public void drop() {}
+	public void startFalling() {}
 	
-	public void move(double elapsedTime) {}
+	public void updatePosition(double elapsedTime) {}
 	
-	public abstract boolean bugOutOfBounds (int windowHeight);
+	public boolean bugOutOfBounds (int windowHeight) {
+		return false;
+	}
 }
