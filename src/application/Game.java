@@ -50,7 +50,7 @@ public class Game {
 		
 		HashMap<String, Environment> gameEnvironments = new HashMap<>();
 	    gameEnvironments.put("Breakout", new BreakoutEnvironment(level, root, ui, score, window));
-	    gameEnvironments.put("Galaga", new GalagaEnvironment(root, ui, score, window));
+	    gameEnvironments.put("Galaga", new GalagaEnvironment(level, root, ui, score, window));
 
 	    this.environment = gameEnvironments.get(gameType);
 		

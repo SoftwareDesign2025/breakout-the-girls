@@ -153,22 +153,30 @@ public class TargetWall {
 	 * Calculates the number of bugs per row based on the row index and total rows.
 	 * Centers each row of bugs and places them on screen.
 	 */
-	public void createBugWall() {
-		    Bug emptyBug = new Bug();
-		    emptyBug.createTarget(BUG_HEIGHT, BUG_WIDTH);
-		    int bugsInRow;
+	public void createBugWallWithRows(int maxRows) {
+	    Bug emptyBug = new Bug();
+	    emptyBug.createTarget(BUG_HEIGHT, BUG_WIDTH);
+	    double bugWidth = emptyBug.getTargetWidth();
+	    double bugHeight = emptyBug.getTargetHeight();
+	    int center = window.getWindowWidth() / 2;
 
-		    double bugWidth = emptyBug.getTargetWidth();
-		    double bugHeight = emptyBug.getTargetHeight();
+	    for (int row = 0; row < maxRows; row++) {
+	        int bugsInRow = calculateRowSize(row, maxRows);
+	        placeRowOfBugs(row, bugsInRow, bugWidth, bugHeight, center);
+	    }
+	}
+	
+	public void buildEasyBugWall() {
+	    createBugWallWithRows(6); 
+	}
 
-		    int center = window.getWindowWidth() / 2;
-		    int maxRows = BUG_MAX_ROWS;
+	public void buildIntermediateBugWall() {
+	    createBugWallWithRows(9); 
+	}
 
-		    for (int row = 0; row < maxRows; row++) {
-		    		bugsInRow = calculateRowSize(row, maxRows);
-		        placeRowOfBugs(row, bugsInRow, bugWidth, bugHeight, center);
-		    }
-		}
+	public void buildHardBugWall() {
+	    createBugWallWithRows(12);
+	}
 	
 	/**
 	 * method calculateRowSize

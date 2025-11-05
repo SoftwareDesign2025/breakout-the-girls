@@ -33,5 +33,10 @@ public class LevelOne extends Level {
 	public Obstacle createObstacle() {
 		return null;
 	}
+	
+	@Override
+	public void createBugWall(TargetWall wall) {
+	    wall.buildEasyBugWall(); 
+	}
 
 }
