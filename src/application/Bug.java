@@ -4,7 +4,9 @@
 package application;
 
 import javafx.geometry.Point2D;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 
 public class Bug extends Target {
 	
@@ -30,6 +32,8 @@ public class Bug extends Target {
 	@Override
 	public void createTarget(double bugHeight, double bugWidth) {
 		super.createTarget(bugHeight, bugWidth);
+//		Image image = new Image("/Images/bug.png");
+//		target.setFill(new ImagePattern(image));
 		target.setFill(Color.BLUEVIOLET);
 	}
 	
